@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Start_Scene.unity
     guid: 00bfc0a1c2866493c969a500db7471a3
   - enabled: 1
-    path: Assets/Scenes/Demo_Beach.unity
+    path: Assets/Scenes/Mafia_Scene.unity
     guid: 50ff7e558840840b4a48cb8debb13467
   - enabled: 1
     path: Assets/Scenes/Game_Scene.unity
