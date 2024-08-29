@@ -9,9 +9,15 @@ public class MafiaSceneUIManager : MonoBehaviour
     public Button backToVillageButton;
     public Button chatButton;
 
-    public RectTransform chatBackground;
+    [Space(20)]
+    public Button createRoomButton;
+    public Button quitCreateButton;
 
-    private bool isOpen = false;
+    [Space(20)]
+    public Button findRoomButton;
+    public Button quitFindButton;
+
+    // private bool isOpen = false;
 
     private void Start()
     {
@@ -26,7 +32,6 @@ public class MafiaSceneUIManager : MonoBehaviour
 
     public void chatButtonClick()
     {
-        isOpen = !isOpen;
-        chatBackground.gameObject.SetActive(isOpen);
+
     }
 }
