@@ -24,9 +24,10 @@ public class GameSceneUIManager : MonoBehaviour
     public Button closeSettingButton;
     public RectTransform settingPanel;
 
-    public Button creditButton;
-    public Button closeCreditButton;
-    public RectTransform creditPanel;
+    public Button gameEndButton;
+    public Button stayButton;
+    public Button endButton;
+    public RectTransform gameEndPanel;
 
     private bool isOpen = false;
 
@@ -37,11 +38,12 @@ public class GameSceneUIManager : MonoBehaviour
         shopButton.onClick.AddListener(shopButtonClick);
         cashButton.onClick.AddListener(cashButtonClick);
         settingButton.onClick.AddListener(settingButtonClick);
-        creditButton.onClick.AddListener(creditButtonClick);
+        gameEndButton.onClick.AddListener(gameEndButtonClick);
         closeShopButton.onClick.AddListener(closeShopButtonClick);
         closeCashButton.onClick.AddListener(closeCashButtonClick);
         closeSettingButton.onClick.AddListener(closeSettingButtonClick);
-        closeCreditButton.onClick.AddListener(closeCreditButtonClick);
+        stayButton.onClick.AddListener(stayButtonClick);
+        endButton.onClick.AddListener(endButtonClick);
     }
 
     public void menuButtonClick()
@@ -71,9 +73,9 @@ public class GameSceneUIManager : MonoBehaviour
         menuUI.gameObject.SetActive(false);
     }
 
-    public void creditButtonClick()
+    public void gameEndButtonClick()
     {
-        creditPanel.gameObject.SetActive(true);
+        gameEndPanel.gameObject.SetActive(true);
         menuUI.gameObject.SetActive(false);
     }
 
@@ -93,9 +95,14 @@ public class GameSceneUIManager : MonoBehaviour
         menuUI.gameObject.SetActive(true);
     }
 
-    public void closeCreditButtonClick()
+    public void stayButtonClick()
     {
-        creditPanel.gameObject.SetActive(false);
+        gameEndPanel.gameObject.SetActive(false);
         menuUI.gameObject.SetActive(true);
+    }
+
+    public void endButtonClick()
+    {
+        // 게임 종료
     }
 }
