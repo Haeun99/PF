@@ -33,75 +33,48 @@ public class GameSceneUIManager : MonoBehaviour
 
     private void Start()
     {
-        menuButton.onClick.AddListener(menuButtonClick);
-        mafiaButton.onClick.AddListener(mafiaButtonClick);
-        shopButton.onClick.AddListener(shopButtonClick);
-        cashButton.onClick.AddListener(cashButtonClick);
-        settingButton.onClick.AddListener(settingButtonClick);
-        gameEndButton.onClick.AddListener(gameEndButtonClick);
-        closeShopButton.onClick.AddListener(closeShopButtonClick);
-        closeCashButton.onClick.AddListener(closeCashButtonClick);
-        closeSettingButton.onClick.AddListener(closeSettingButtonClick);
-        stayButton.onClick.AddListener(stayButtonClick);
-        endButton.onClick.AddListener(endButtonClick);
+        menuButton.onClick.AddListener(ToggleMenu);
+        mafiaButton.onClick.AddListener(() => SceneManager.LoadScene("Mafia_Scene"));
+        shopButton.onClick.AddListener(() => OpenPanel(shopPanel));
+        cashButton.onClick.AddListener(() => OpenPanel(cashPanel));
+        settingButton.onClick.AddListener(() => OpenPanelWithMenuClose(settingPanel));
+        gameEndButton.onClick.AddListener(() => OpenPanelWithMenuClose(gameEndPanel));
+        closeShopButton.onClick.AddListener(() => ClosePanel(shopPanel));
+        closeCashButton.onClick.AddListener(() => ClosePanel(cashPanel));
+        closeSettingButton.onClick.AddListener(() => ClosePanelAndOpenMenu(settingPanel));
+        stayButton.onClick.AddListener(() => ClosePanelAndOpenMenu(gameEndPanel));
+        endButton.onClick.AddListener(EndGame);
     }
 
-    public void menuButtonClick()
+    private void ToggleMenu()
     {
         isOpen = !isOpen;
         menuList.gameObject.SetActive(isOpen);
     }
 
-    public void mafiaButtonClick()
+    private void OpenPanel(RectTransform panel)
     {
-        SceneManager.LoadScene("Mafia_Scene");
+        panel.gameObject.SetActive(true);
     }
 
-    public void shopButtonClick()
+    private void ClosePanel(RectTransform panel)
     {
-        shopPanel.gameObject.SetActive(true);
+        panel.gameObject.SetActive(false);
     }
 
-    public void cashButtonClick()
+    private void OpenPanelWithMenuClose(RectTransform panel)
     {
-        cashPanel.gameObject.SetActive(true);
-    }
-
-    public void settingButtonClick()
-    {
-        settingPanel.gameObject.SetActive(true);
+        OpenPanel(panel);
         menuUI.gameObject.SetActive(false);
     }
 
-    public void gameEndButtonClick()
+    private void ClosePanelAndOpenMenu(RectTransform panel)
     {
-        gameEndPanel.gameObject.SetActive(true);
-        menuUI.gameObject.SetActive(false);
-    }
-
-    public void closeShopButtonClick()
-    {
-        shopPanel.gameObject.SetActive(false);
-    }
-
-    public void closeCashButtonClick()
-    {
-        cashPanel.gameObject.SetActive(false);
-    }
-
-    public void closeSettingButtonClick()
-    {
-        settingPanel.gameObject.SetActive(false);
+        ClosePanel(panel);
         menuUI.gameObject.SetActive(true);
     }
 
-    public void stayButtonClick()
-    {
-        gameEndPanel.gameObject.SetActive(false);
-        menuUI.gameObject.SetActive(true);
-    }
-
-    public void endButtonClick()
+    private void EndGame()
     {
         // 게임 종료
     }

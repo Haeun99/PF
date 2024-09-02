@@ -11,12 +11,26 @@ public class MafiaSceneUIManager : MonoBehaviour
     [Space(20)]
     public Button createRoomButton;
     public Button quitCreateButton;
-    public RectTransform creatRoomPanel;
+    public RectTransform createRoomPanel;
 
     [Space(20)]
     public Button findRoomButton;
     public Button quitFindButton;
     public RectTransform findRoomPanel;
+
+    [Space(20)]
+    public Button createButton;
+    public Button createQuitButton;
+    public RectTransform lobbyPanel;
+
+    [Space(20)]
+    public Button roomEnterButton;
+    public Button codeButton;
+    public RectTransform passwordPopup;
+    public RectTransform inviteCodePopup;
+    public Button inviteCodeConfirmButton;
+    public Button quitPasswordButton;
+    public Button quitCodeButton;
 
     [Space(20)]
     public Button chatButton;
@@ -25,54 +39,56 @@ public class MafiaSceneUIManager : MonoBehaviour
 
     private void Start()
     {
-        backToVillageButton.onClick.AddListener(BTVButtonClick);
-        chatButton.onClick.AddListener(chatButtonClick);
-        createRoomButton.onClick.AddListener(createRoomButtonClick);
-        findRoomButton.onClick.AddListener(findRoomButtonClick);
-        quitCreateButton.onClick.AddListener(quitCreateButtonClick);
-        quitFindButton.onClick.AddListener(quitFindButtonClick);
+        backToVillageButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
+        chatButton.onClick.AddListener(ToggleChatPanel);
+        createRoomButton.onClick.AddListener(() => TogglePanel(createRoomPanel));
+        findRoomButton.onClick.AddListener(() => TogglePanel(findRoomPanel));
+        quitCreateButton.onClick.AddListener(() => ClosePanel(createRoomPanel));
+        quitFindButton.onClick.AddListener(() => ClosePanel(findRoomPanel));
+        createButton.onClick.AddListener(() => ToStartGamePanel(lobbyPanel));
+        createQuitButton.onClick.AddListener(() => ClosePanel(createRoomPanel));
+        roomEnterButton.onClick.AddListener(() => ToStartGamePanel(lobbyPanel));
+        codeButton.onClick.AddListener(() => TogglePanel(inviteCodePopup));
+        inviteCodeConfirmButton.onClick.AddListener(() => ToStartGamePanel(lobbyPanel));
+        quitPasswordButton.onClick.AddListener(() => ClosePanel(passwordPopup));
+        quitCodeButton.onClick.AddListener(() => ClosePanel(inviteCodePopup));
     }
 
-    public void BTVButtonClick()
-    {
-        SceneManager.LoadScene("Game_Scene");
-    }
-
-    public void chatButtonClick()
+    private void ToggleChatPanel()
     {
         isOpen = !isOpen;
         chatPanel.gameObject.SetActive(isOpen);
     }
 
-    public void createRoomButtonClick()
+    private void TogglePanel(RectTransform panel)
     {
-        creatRoomPanel.gameObject.SetActive(true);
-        backToVillageButton.gameObject.SetActive(false);
-        createRoomButton.gameObject.SetActive(false);
-        findRoomButton.gameObject.SetActive(false);
+        panel.gameObject.SetActive(true);
+        SetMainButtonsActive(false);
     }
 
-    public void findRoomButtonClick()
+    private void ClosePanel(RectTransform panel)
     {
-        findRoomPanel.gameObject.SetActive(true);
-        backToVillageButton.gameObject.SetActive(false);
-        createRoomButton.gameObject.SetActive(false);
-        findRoomButton.gameObject.SetActive(false);
+        panel.gameObject.SetActive(false);
+        SetMainButtonsActive(true);
     }
 
-    public void quitCreateButtonClick()
+    private void ToStartGamePanel(RectTransform panel)
     {
-        creatRoomPanel.gameObject.SetActive(false);
-        backToVillageButton.gameObject.SetActive(true);
-        createRoomButton.gameObject.SetActive(true);
-        findRoomButton.gameObject.SetActive(true);
+        panel.gameObject.SetActive(true);
+        SetPopupActive();
     }
 
-    public void quitFindButtonClick()
+    private void SetMainButtonsActive(bool isActive)
     {
-        findRoomPanel.gameObject.SetActive(false);
-        backToVillageButton.gameObject.SetActive(true);
-        createRoomButton.gameObject.SetActive(true);
-        findRoomButton.gameObject.SetActive(true);
+        backToVillageButton.gameObject.SetActive(isActive);
+        createRoomButton.gameObject.SetActive(isActive);
+        findRoomButton.gameObject.SetActive(isActive);
+    }
+
+    private void SetPopupActive()
+    {
+        createRoomPanel.gameObject.SetActive(false);
+        passwordPopup.gameObject.SetActive(false);
+        inviteCodePopup.gameObject.SetActive(false);
     }
 }

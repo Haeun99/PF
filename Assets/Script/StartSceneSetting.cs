@@ -25,61 +25,49 @@ public class StartSceneSetting : MonoBehaviour
 
     private void Start()
     {
-        startButton.onClick.AddListener(startButtonClick);
-        settingButton.onClick.AddListener(settingButtonClick);
-        backButton.onClick.AddListener(backButtonClick);
-        logInButton.onClick.AddListener(logInButtonClick);
-        logInConfirmButton.onClick.AddListener(logInConfirmButtonClick);
-        signUpButton.onClick.AddListener(signUpButtonClick);
-        signUpConfirmButton.onClick.AddListener(signUpConfirmButtonClick);
+        startButton.onClick.AddListener(() => LoadScene("Game_Scene"));
+        settingButton.onClick.AddListener(() => ToggleMainMenu(false));
+        backButton.onClick.AddListener(() => ToggleMainMenu(true));
+        logInButton.onClick.AddListener(() => OpenPanel(logInPanel));
+        logInConfirmButton.onClick.AddListener(ConfirmLogIn);
+        signUpButton.onClick.AddListener(() => OpenPanel(signUpPanel));
+        signUpConfirmButton.onClick.AddListener(ConfirmSignUp);
     }
 
-    public void startButtonClick()
+    private void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene("Game_Scene");
+        SceneManager.LoadScene(sceneName);
     }
 
-    public void settingButtonClick()
+    private void ToggleMainMenu(bool isActive)
     {
-        startButton.gameObject.SetActive(false);
-        settingButton.gameObject.SetActive(false);
-        background.gameObject.SetActive(true);
+        startButton.gameObject.SetActive(isActive);
+        settingButton.gameObject.SetActive(isActive);
+        background.gameObject.SetActive(!isActive);
     }
 
-    public void backButtonClick()
-    {
-        background.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(true);
-        settingButton.gameObject.SetActive(true);
-    }
-
-    public void logInButtonClick()
+    private void OpenPanel(RectTransform panel)
     {
         logInButton.gameObject.SetActive(false);
         signUpButton.gameObject.SetActive(false);
-        logInPanel.gameObject.SetActive(true);
+        panel.gameObject.SetActive(true);
     }
 
-    public void logInConfirmButtonClick()
+    private void ClosePanel(RectTransform panel)
     {
-        // 로그인 기능 넣어야지ㅣㅣㅣㅣㅣㅣㅣㅣㅣ
-        logInPanel.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(true);
-        settingButton.gameObject.SetActive(true);
+        panel.gameObject.SetActive(false);
+        ToggleMainMenu(true);
     }
 
-    public void signUpButtonClick()
+    private void ConfirmLogIn()
     {
-        logInButton.gameObject.SetActive(false);
-        signUpButton.gameObject.SetActive(false);
-        signUpPanel.gameObject.SetActive(true);
+        // 로그인 기능 추가
+        ClosePanel(logInPanel);
     }
 
-    public void signUpConfirmButtonClick()
+    private void ConfirmSignUp()
     {
-        // 회원가입 기능 넣기ㅣㅣㅣㅣㅣ
-        signUpPanel.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(true);
-        settingButton.gameObject.SetActive(true);
+        // 회원가입 기능 추가
+        ClosePanel(signUpPanel);
     }
 }
