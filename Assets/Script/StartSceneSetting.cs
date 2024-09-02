@@ -13,7 +13,9 @@ public class StartSceneSetting : MonoBehaviour
     public Button signUpButton;
     public RectTransform signUpPanel;
     public Button signUpConfirmButton;
-    public GameObject signUpError;
+    public GameObject idOverlap;
+    public GameObject nicknameOverlap;
+    public GameObject bothOverlap;
 
     [Space(20)]
     public Button startButton;
