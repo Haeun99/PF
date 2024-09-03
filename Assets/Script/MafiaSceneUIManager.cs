@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class MafiaSceneUIManager : MonoBehaviour
 {
     public Button backToVillageButton;
+    public RectTransform settingPanel;
+    public Button bgmButton;
+    public Button soundButton;
 
     [Space(20)]
     public Button createRoomButton;
@@ -40,7 +43,7 @@ public class MafiaSceneUIManager : MonoBehaviour
     private void Start()
     {
         backToVillageButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
-        chatButton.onClick.AddListener(ToggleChatPanel);
+        chatButton.onClick.AddListener(() => RepeatTogglePanel(chatPanel));
         createRoomButton.onClick.AddListener(() => TogglePanel(createRoomPanel));
         findRoomButton.onClick.AddListener(() => TogglePanel(findRoomPanel));
         quitCreateButton.onClick.AddListener(() => ClosePanel(createRoomPanel));
@@ -54,10 +57,19 @@ public class MafiaSceneUIManager : MonoBehaviour
         quitCodeButton.onClick.AddListener(() => ClosePanel(inviteCodePopup));
     }
 
-    private void ToggleChatPanel()
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isOpen = !isOpen;
+            settingPanel.gameObject.SetActive(isOpen);
+        }
+    }
+
+    private void RepeatTogglePanel(RectTransform panel)
     {
         isOpen = !isOpen;
-        chatPanel.gameObject.SetActive(isOpen);
+        panel.gameObject.SetActive(isOpen);
     }
 
     private void TogglePanel(RectTransform panel)
