@@ -25,7 +25,7 @@ public class StartSceneSetting : MonoBehaviour
 
     private void Start()
     {
-        startButton.onClick.AddListener(() => LoadScene("Game_Scene"));
+        startButton.onClick.AddListener(() => LoadScene("CutScene"));
         settingButton.onClick.AddListener(() => ToggleMainMenu(false));
         backButton.onClick.AddListener(() => ToggleMainMenu(true));
         logInButton.onClick.AddListener(() => OpenPanel(logInPanel));
