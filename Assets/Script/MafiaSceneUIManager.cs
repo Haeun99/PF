@@ -7,9 +7,6 @@ using UnityEngine.SceneManagement;
 public class MafiaSceneUIManager : MonoBehaviour
 {
     public Button backToVillageButton;
-    public RectTransform settingPanel;
-    public Button bgmButton;
-    public Button soundButton;
 
     [Space(20)]
     public Button createRoomButton;
@@ -25,6 +22,7 @@ public class MafiaSceneUIManager : MonoBehaviour
     public Button createButton;
     public Button createQuitButton;
     public RectTransform lobbyPanel;
+    public Button quitButton;
 
     [Space(20)]
     public Button roomEnterButton;
@@ -35,15 +33,9 @@ public class MafiaSceneUIManager : MonoBehaviour
     public Button quitPasswordButton;
     public Button quitCodeButton;
 
-    [Space(20)]
-    public Button chatButton;
-    public RectTransform chatPanel;
-    private bool isOpen = false;
-
     private void Start()
     {
         backToVillageButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
-        chatButton.onClick.AddListener(() => RepeatTogglePanel(chatPanel));
         createRoomButton.onClick.AddListener(() => TogglePanel(createRoomPanel));
         findRoomButton.onClick.AddListener(() => TogglePanel(findRoomPanel));
         quitCreateButton.onClick.AddListener(() => ClosePanel(createRoomPanel));
@@ -55,21 +47,7 @@ public class MafiaSceneUIManager : MonoBehaviour
         inviteCodeConfirmButton.onClick.AddListener(() => ToStartGamePanel(lobbyPanel));
         quitPasswordButton.onClick.AddListener(() => ClosePanel(passwordPopup));
         quitCodeButton.onClick.AddListener(() => ClosePanel(inviteCodePopup));
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isOpen = !isOpen;
-            settingPanel.gameObject.SetActive(isOpen);
-        }
-    }
-
-    private void RepeatTogglePanel(RectTransform panel)
-    {
-        isOpen = !isOpen;
-        panel.gameObject.SetActive(isOpen);
+        quitButton.onClick.AddListener(() => ClosePanel(lobbyPanel));
     }
 
     private void TogglePanel(RectTransform panel)
