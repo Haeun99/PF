@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f2c9112f5ab99d54f9c4be8669d21334
+guid: 1cd030d1daf71134aad6db48d405dacf
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Digging
+      name: Cheering
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 145
+      lastFrame: 57
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
