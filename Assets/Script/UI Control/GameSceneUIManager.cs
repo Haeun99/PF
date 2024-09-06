@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class GameSceneUIManager : MonoBehaviour
 {
@@ -46,6 +47,14 @@ public class GameSceneUIManager : MonoBehaviour
         endButton.onClick.AddListener(EndGame);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            gameEndPanel.gameObject.SetActive(true);
+        }
+    }
+
     private void ToggleMenu()
     {
         isOpen = !isOpen;
@@ -76,6 +85,10 @@ public class GameSceneUIManager : MonoBehaviour
 
     private void EndGame()
     {
-        // 게임 종료
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
     }
 }

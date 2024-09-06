@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "494139982655",
+    "firebase_url": "https://treatortrick-8ded4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "treatortrick-8ded4",
+    "storage_bucket": "treatortrick-8ded4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494139982655:android:9ed3e7c80bbbf166ad098a",
+        "android_client_info": {
+          "package_name": "com.amugeona.appname"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwLPD7Xc3SQdSvZXXDzcylmuAcVRachh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

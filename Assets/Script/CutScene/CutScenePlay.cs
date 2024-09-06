@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CutScenePlay : MonoBehaviour
 {
@@ -30,21 +31,21 @@ public class CutScenePlay : MonoBehaviour
         BBlack.gameObject.SetActive(true);
         gangster.SetActive(true);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         subtitles[0].gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         train.SetActive(true);
         subtitles[0].gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         for (int i = 1; i < 7; i++)
         {
             subtitles[i].gameObject.SetActive(true);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.8f);
 
             subtitles[i].gameObject.SetActive(false);
-            yield return new WaitForSeconds(1.1f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         subtitles[7].gameObject.SetActive(true);
@@ -66,11 +67,15 @@ public class CutScenePlay : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
+        yield return new WaitForSeconds(0.5f);
         subtitles[8].gameObject.SetActive(false);
         gangster1.SetActive(true);
         mafia1.SetActive(true);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.2f);
         subtitles[9].gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("Game_Scene");
     }
 }
