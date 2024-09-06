@@ -9,11 +9,9 @@ public class StartSceneSetting : MonoBehaviour
 {
     public Button logInButton;
     public RectTransform logInPanel;
-    public Button logInConfirmButton;
     public GameObject logInError;
     public Button signUpButton;
     public RectTransform signUpPanel;
-    public Button signUpConfirmButton;
     public GameObject idOverlap;
     public GameObject nicknameOverlap;
     public GameObject bothOverlap;
@@ -32,28 +30,26 @@ public class StartSceneSetting : MonoBehaviour
     public Button stayButton;
     public Button exitButton;
 
-    private void Start()
-    {
-        startButton.onClick.AddListener(() => LoadScene("CutScene"));
-        settingButton.onClick.AddListener(() => ToggleMainMenu(false));
-        backButton.onClick.AddListener(() => ToggleMainMenu(true));
-        logInButton.onClick.AddListener(() => OpenPanel(logInPanel));
-        logInConfirmButton.onClick.AddListener(ConfirmLogIn);
-        signUpButton.onClick.AddListener(() => OpenPanel(signUpPanel));
-        signUpConfirmButton.onClick.AddListener(ConfirmSignUp);
-        logInCancelButton.onClick.AddListener(() => CancelPanel(logInPanel));
-        signUpCancelButton.onClick.AddListener(() => CancelPanel(signUpPanel));
-        gameEndButton.onClick.AddListener(EndGame);
-        stayButton.onClick.AddListener(() => PanelClose(gameEndPanel));
-        exitButton.onClick.AddListener(() => PanelOpen(gameEndPanel));
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             PanelOpen(gameEndPanel);
         }
+    }
+
+    private void Start()
+    {
+        startButton.onClick.AddListener(() => LoadScene("CutScene"));
+        settingButton.onClick.AddListener(() => ToggleMainMenu(false));
+        backButton.onClick.AddListener(() => ToggleMainMenu(true));
+        logInButton.onClick.AddListener(() => OpenPanel(logInPanel));
+        signUpButton.onClick.AddListener(() => OpenPanel(signUpPanel));
+        logInCancelButton.onClick.AddListener(() => CancelPanel(logInPanel));
+        signUpCancelButton.onClick.AddListener(() => CancelPanel(signUpPanel));
+        gameEndButton.onClick.AddListener(EndGame);
+        stayButton.onClick.AddListener(() => PanelClose(gameEndPanel));
+        exitButton.onClick.AddListener(() => PanelOpen(gameEndPanel));
     }
 
     private void LoadScene(string sceneName)
@@ -98,18 +94,6 @@ public class StartSceneSetting : MonoBehaviour
         logInButton.gameObject.SetActive(true);
         signUpButton.gameObject.SetActive(true);
         panel.gameObject.SetActive(false);
-    }
-
-    private void ConfirmLogIn()
-    {
-        // 로그인 기능 추가
-        ClosePanel(logInPanel);
-    }
-
-    private void ConfirmSignUp()
-    {
-        // 회원가입 기능 추가
-        ClosePanel(signUpPanel);
     }
 
     private void EndGame()

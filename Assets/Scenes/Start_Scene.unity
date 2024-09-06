@@ -2878,7 +2878,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &672488515
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3891,11 +3891,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   logInButton: {fileID: 1364070991}
   logInPanel: {fileID: 1677644293}
-  logInConfirmButton: {fileID: 1598746589}
   logInError: {fileID: 1451335486}
   signUpButton: {fileID: 1580080861}
   signUpPanel: {fileID: 672488515}
-  signUpConfirmButton: {fileID: 270150888}
   idOverlap: {fileID: 574634680}
   nicknameOverlap: {fileID: 751292332}
   bothOverlap: {fileID: 942894354}
@@ -5082,7 +5080,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ID
+  m_text: e-mail
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 57d70d1731f89ba478600461e778ae37, type: 2}
   m_sharedMaterial: {fileID: -2927670454412505231, guid: 57d70d1731f89ba478600461e778ae37, type: 2}
@@ -5628,14 +5626,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 7
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -8968,7 +8966,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ID
+  m_text: e-mail
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 57d70d1731f89ba478600461e778ae37, type: 2}
   m_sharedMaterial: {fileID: -2927670454412505231, guid: 57d70d1731f89ba478600461e778ae37, type: 2}
@@ -10895,14 +10893,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 7
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0

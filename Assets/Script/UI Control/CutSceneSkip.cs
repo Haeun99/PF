@@ -10,12 +10,6 @@ public class CutSceneSkip : MonoBehaviour
     public Button skipButton;
     public Button noButton;
 
-    private void Start()
-    {
-        skipButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
-        noButton.onClick.AddListener(KeepPlayingCutScene);
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -23,6 +17,12 @@ public class CutSceneSkip : MonoBehaviour
             Time.timeScale = 0;
             skipPopup.gameObject.SetActive(true);
         }
+    }
+
+    private void Start()
+    {
+        skipButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
+        noButton.onClick.AddListener(KeepPlayingCutScene);
     }
 
     private void KeepPlayingCutScene()

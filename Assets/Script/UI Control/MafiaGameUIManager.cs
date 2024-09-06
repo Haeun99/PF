@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -23,6 +24,15 @@ public class MafiaGameUIManager : MonoBehaviour
     public Button masterSettingFinButton;
     public Button playerSettingCheckButton;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isOpen = !isOpen;
+            settingPanel.gameObject.SetActive(isOpen);
+        }
+    }
+
     private void Start()
     {
         quitGameButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
@@ -40,15 +50,6 @@ public class MafiaGameUIManager : MonoBehaviour
         //{
         //    roomSettingButton.onClick.AddListener(() => OpenPanel(playerRoomSettingPanel));
         //}
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isOpen = !isOpen;
-            settingPanel.gameObject.SetActive(isOpen);
-        }
     }
 
     private void RepeatTogglePanel(RectTransform panel)
