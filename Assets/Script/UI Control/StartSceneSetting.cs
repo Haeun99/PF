@@ -120,7 +120,6 @@ public class StartSceneSetting : MonoBehaviour
         DatabaseManager.Instance.signupPWInput.text = "";
         DatabaseManager.Instance.signupIDError.gameObject.SetActive(false);
         DatabaseManager.Instance.signupNNError.gameObject.SetActive(false);
-        DatabaseManager.Instance.signupOverlapError.gameObject.SetActive(false);
         DatabaseManager.Instance.signupSuccess.gameObject.SetActive(false);
     }
 

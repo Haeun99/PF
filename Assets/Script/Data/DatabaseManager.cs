@@ -26,7 +26,6 @@ public class DatabaseManager : MonoBehaviour
     public TMP_InputField signupPWInput;
     public TextMeshProUGUI signupIDError;
     public TextMeshProUGUI signupNNError;
-    public TextMeshProUGUI signupOverlapError;
     public TextMeshProUGUI signupSuccess;
 
     void Awake()
@@ -96,6 +95,7 @@ public class DatabaseManager : MonoBehaviour
             if (snapshot.Exists)
             {
                 signupNNError.gameObject.SetActive(true);
+                signupIDError.gameObject.SetActive(false);
                 return;
             }
 
@@ -120,6 +120,7 @@ public class DatabaseManager : MonoBehaviour
             if (ex.Message.Contains("The email address is already in use"))
             {
                 signupIDError.gameObject.SetActive(true);
+                signupNNError.gameObject.SetActive(false);
             }
         }
     }
