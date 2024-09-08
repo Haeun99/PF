@@ -104,8 +104,8 @@ public class StartSceneSetting : MonoBehaviour
         signUpButton.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
 
-        DatabaseManager.Instance.loginEmailInput.text = "";
-        DatabaseManager.Instance.loginPWInput.text = "";
+        DatabaseManager.Instance.loginEmailInput.text = string.Empty;
+        DatabaseManager.Instance.loginPWInput.text = string.Empty;
         DatabaseManager.Instance.loginError.gameObject.SetActive(false);
     }
 
@@ -115,9 +115,9 @@ public class StartSceneSetting : MonoBehaviour
         signUpButton.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
 
-        DatabaseManager.Instance.signupEmailInput.text = "";
-        DatabaseManager.Instance.signupNNInput.text = "";
-        DatabaseManager.Instance.signupPWInput.text = "";
+        DatabaseManager.Instance.signupEmailInput.text = string.Empty;
+        DatabaseManager.Instance.signupNNInput.text = string.Empty;
+        DatabaseManager.Instance.signupPWInput.text = string.Empty;
         DatabaseManager.Instance.signupIDError.gameObject.SetActive(false);
         DatabaseManager.Instance.signupNNError.gameObject.SetActive(false);
         DatabaseManager.Instance.signupSuccess.gameObject.SetActive(false);
