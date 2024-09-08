@@ -32,12 +32,9 @@ public class GameSceneUIManager : MonoBehaviour
 
     private bool isOpen = false;
 
-    private void Update()
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            gameEndPanel.gameObject.SetActive(true);
-        }
+        Time.timeScale = 1;
     }
 
     private void Start()
@@ -53,6 +50,14 @@ public class GameSceneUIManager : MonoBehaviour
         closeSettingButton.onClick.AddListener(() => ClosePanelAndOpenMenu(settingPanel));
         stayButton.onClick.AddListener(() => ClosePanelAndOpenMenu(gameEndPanel));
         endButton.onClick.AddListener(EndGame);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            gameEndPanel.gameObject.SetActive(true);
+        }
     }
 
     private void ToggleMenu()

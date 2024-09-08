@@ -7,6 +7,8 @@ using UnityEditor;
 
 public class StartSceneSetting : MonoBehaviour
 {
+    public static StartSceneSetting Instance { get; private set; }
+
     public Button logInButton;
     public RectTransform logInPanel;
     public GameObject logInError;
@@ -17,6 +19,8 @@ public class StartSceneSetting : MonoBehaviour
     public GameObject bothOverlap;
     public Button logInCancelButton;
     public Button signUpCancelButton;
+    public Button loginConfirmButton;
+    public Button signUpConfirmButton;
 
     [Space(20)]
     public Button startButton;
@@ -30,26 +34,44 @@ public class StartSceneSetting : MonoBehaviour
     public Button stayButton;
     public Button exitButton;
 
-    private void Update()
+    void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Instance == null)
         {
-            PanelOpen(gameEndPanel);
+            Instance = this;
         }
     }
+
 
     private void Start()
     {
         startButton.onClick.AddListener(() => LoadScene("CutScene"));
         settingButton.onClick.AddListener(() => ToggleMainMenu(false));
         backButton.onClick.AddListener(() => ToggleMainMenu(true));
-        logInButton.onClick.AddListener(() => OpenPanel(logInPanel));
-        signUpButton.onClick.AddListener(() => OpenPanel(signUpPanel));
+        logInButton.onClick.AddListener(() => LoginPanel(logInPanel));
+        signUpButton.onClick.AddListener(() => SignUpPanel(signUpPanel));
         logInCancelButton.onClick.AddListener(() => CancelPanel(logInPanel));
         signUpCancelButton.onClick.AddListener(() => CancelPanel(signUpPanel));
         gameEndButton.onClick.AddListener(EndGame);
         stayButton.onClick.AddListener(() => PanelClose(gameEndPanel));
         exitButton.onClick.AddListener(() => PanelOpen(gameEndPanel));
+        loginConfirmButton.onClick.AddListener(LoginConfirm);
+        signUpConfirmButton.onClick.AddListener(SignUpConfirm);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameEndPanel != null)
+            {
+                PanelOpen(gameEndPanel);
+            }
+            else
+            {
+
+            }
+        }
     }
 
     private void LoadScene(string sceneName)
@@ -76,17 +98,30 @@ public class StartSceneSetting : MonoBehaviour
         background.gameObject.SetActive(!isActive);
     }
 
-    private void OpenPanel(RectTransform panel)
+    private void LoginPanel(RectTransform panel)
     {
         logInButton.gameObject.SetActive(false);
         signUpButton.gameObject.SetActive(false);
         panel.gameObject.SetActive(true);
+
+        DatabaseManager.Instance.loginEmailInput.text = "";
+        DatabaseManager.Instance.loginPWInput.text = "";
+        DatabaseManager.Instance.loginError.gameObject.SetActive(false);
     }
 
-    private void ClosePanel(RectTransform panel)
+    private void SignUpPanel(RectTransform panel)
     {
-        panel.gameObject.SetActive(false);
-        ToggleMainMenu(true);
+        logInButton.gameObject.SetActive(false);
+        signUpButton.gameObject.SetActive(false);
+        panel.gameObject.SetActive(true);
+
+        DatabaseManager.Instance.signupEmailInput.text = "";
+        DatabaseManager.Instance.signupNNInput.text = "";
+        DatabaseManager.Instance.signupPWInput.text = "";
+        DatabaseManager.Instance.signupIDError.gameObject.SetActive(false);
+        DatabaseManager.Instance.signupNNError.gameObject.SetActive(false);
+        DatabaseManager.Instance.signupOverlapError.gameObject.SetActive(false);
+        DatabaseManager.Instance.signupSuccess.gameObject.SetActive(false);
     }
 
     private void CancelPanel(RectTransform panel)
@@ -94,6 +129,16 @@ public class StartSceneSetting : MonoBehaviour
         logInButton.gameObject.SetActive(true);
         signUpButton.gameObject.SetActive(true);
         panel.gameObject.SetActive(false);
+    }
+
+    private void LoginConfirm()
+    {
+        DatabaseManager.Instance.Login();
+    }
+
+    private void SignUpConfirm()
+    {
+        DatabaseManager.Instance.SignUp();
     }
 
     private void EndGame()
