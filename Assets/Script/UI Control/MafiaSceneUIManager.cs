@@ -70,7 +70,8 @@ public class MafiaSceneUIManager : MonoBehaviour
 
     private void CreateGamePanel(RectTransform panel)
     {
-        // create ÇÔ¼ö °¡Á®¿È
+        CreateRoom.Instance.CreateMafiaRoom();
+
         panel.gameObject.SetActive(true);
         SetPopupActive();
     }
