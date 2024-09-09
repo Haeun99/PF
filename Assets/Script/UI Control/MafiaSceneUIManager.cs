@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class MafiaSceneUIManager : MonoBehaviour
 {
+    public static MafiaSceneUIManager Instance { get; private set; }
+
     public Button backToVillageButton;
 
     [Space(20)]
@@ -32,6 +34,11 @@ public class MafiaSceneUIManager : MonoBehaviour
     public Button inviteCodeConfirmButton;
     public Button quitPasswordButton;
     public Button quitCodeButton;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     private void Start()
     {

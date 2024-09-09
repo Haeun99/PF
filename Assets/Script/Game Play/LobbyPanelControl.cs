@@ -8,6 +8,7 @@ public class LobbyPanelControl : MonoBehaviourPunCallbacks
 {
     public Button gameStartButton;
     public Button readyButton;
+
     public override void OnJoinedRoom()
     {
         EnterLobby();

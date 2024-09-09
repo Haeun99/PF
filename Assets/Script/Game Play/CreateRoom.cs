@@ -30,7 +30,9 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        ValidateRoomName();
         maxPlayerDropdwon.onValueChanged.AddListener(delegate { SetMaxPlayerNumber(); });
+        roomNameInput.onValueChanged.AddListener(delegate { ValidateRoomName(); });
     }
 
     private void Update()
@@ -60,6 +62,13 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         roomOptions.MaxPlayers = maxPlayer;
 
         PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions, TypedLobby.Default);
+    }
+
+    private void ValidateRoomName()
+    {
+        string roomName = roomNameInput.text;
+
+        MafiaSceneUIManager.Instance.createButton.interactable = !(string.IsNullOrEmpty(roomName) || roomName.Length > 12);
     }
 
     public override void OnCreatedRoom()
