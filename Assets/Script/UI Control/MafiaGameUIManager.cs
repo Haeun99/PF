@@ -41,15 +41,15 @@ public class MafiaGameUIManager : MonoBehaviour
         masterSettingFinButton.onClick.AddListener(() => ClosePanel(masterRoomSettingPanel));
         playerSettingCheckButton.onClick.AddListener(() => ClosePanel(playerRoomSettingPanel));
 
-        //if (isMaster)
-        //{
-        //    roomSettingButton.onClick.AddListener(() => OpenPanel(masterRoomSettingPanel));
-        //}
+        if (PhotonNetwork.IsMasterClient)
+        {
+            roomSettingButton.onClick.AddListener(() => OpenPanel(masterRoomSettingPanel));
+        }
 
-        //else
-        //{
-        //    roomSettingButton.onClick.AddListener(() => OpenPanel(playerRoomSettingPanel));
-        //}
+        else
+        {
+            roomSettingButton.onClick.AddListener(() => OpenPanel(playerRoomSettingPanel));
+        }
     }
 
     private void RepeatTogglePanel(RectTransform panel)
@@ -61,7 +61,6 @@ public class MafiaGameUIManager : MonoBehaviour
 
     private void OpenPanel(RectTransform panel)
     {
-        // isMaster / !isMaster 구분할 것
         panel.gameObject.SetActive(true);
     }
 

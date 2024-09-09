@@ -15705,6 +15705,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 583651185}
   m_CullTransparentMesh: 1
+--- !u!1 &583870891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 583870892}
+  - component: {fileID: 583870893}
+  m_Layer: 0
+  m_Name: CreateRoomManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &583870892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583870891}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 953.67334, y: 420.52783, z: 202.73218}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &583870893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583870891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7df2f2bdb3e5dc4bbf942be4a1f3600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomNameInput: {fileID: 2066400071}
+  pwLabel: {fileID: 997259479}
+  roomPWInput: {fileID: 909709825}
+  maxPlayer: {fileID: 665134827}
+  privateMode: {fileID: 1651583013}
+  roomPrefab: {fileID: 4044152365513460324, guid: 2c4113d618d7a0b46923069cbe81e8d0, type: 3}
+  roomList: {fileID: 5494934240660810522}
 --- !u!1 &585173804
 GameObject:
   m_ObjectHideFlags: 0
@@ -27561,7 +27612,7 @@ GameObject:
   - component: {fileID: 1039485115}
   - component: {fileID: 1039485116}
   m_Layer: 0
-  m_Name: GameUIManger
+  m_Name: GameUIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27594,7 +27645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d237ff7c269fccd45876f89ef57ae4bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbyPanel: {fileID: 0}
+  lobbyPanel: {fileID: 1427470458}
   settingPanel: {fileID: 1519650413}
   settingCheckButton: {fileID: 203106342}
   quitGameButton: {fileID: 1485025009}

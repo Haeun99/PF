@@ -40,7 +40,7 @@ public class MafiaSceneUIManager : MonoBehaviour
         findRoomButton.onClick.AddListener(() => TogglePanel(findRoomPanel));
         quitCreateButton.onClick.AddListener(() => ClosePanel(createRoomPanel));
         quitFindButton.onClick.AddListener(() => ClosePanel(findRoomPanel));
-        createButton.onClick.AddListener(() => ToStartGamePanel(lobbyPanel));
+        createButton.onClick.AddListener(() => CreateGamePanel(lobbyPanel));
         createQuitButton.onClick.AddListener(() => ClosePanel(createRoomPanel));
         roomEnterButton.onClick.AddListener(() => ToStartGamePanel(lobbyPanel));
         codeButton.onClick.AddListener(() => TogglePanel(inviteCodePopup));
@@ -64,6 +64,13 @@ public class MafiaSceneUIManager : MonoBehaviour
 
     private void ToStartGamePanel(RectTransform panel)
     {
+        panel.gameObject.SetActive(true);
+        SetPopupActive();
+    }
+
+    private void CreateGamePanel(RectTransform panel)
+    {
+        // create ÇÔ¼ö °¡Á®¿È
         panel.gameObject.SetActive(true);
         SetPopupActive();
     }
