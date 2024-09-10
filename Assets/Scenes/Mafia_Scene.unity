@@ -37510,6 +37510,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameStartButton: {fileID: 2662732967809696318}
   readyButton: {fileID: 1805245080025414995}
+  playerPrefab: {fileID: 298906413946835654, guid: b2dc737314332e0459c1e5ee42487abb, type: 3}
+  playerList: {fileID: 1141116230}
 --- !u!1 &1430330061
 GameObject:
   m_ObjectHideFlags: 0
@@ -60348,6 +60350,8 @@ GameObject:
   - component: {fileID: 1805245080025414993}
   - component: {fileID: 1805245080025414994}
   - component: {fileID: 1805245080025414995}
+  - component: {fileID: 1805245080025414998}
+  - component: {fileID: 1805245080025414999}
   m_Layer: 5
   m_Name: Ready Button
   m_TagString: Untagged
@@ -60355,6 +60359,40 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1805245080025414998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805245080025414997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04911119003fe474bbeeb2e05da9317f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1805245080025414999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805245080025414997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2662732967809696312
 GameObject:
   m_ObjectHideFlags: 0
@@ -60367,6 +60405,8 @@ GameObject:
   - component: {fileID: 2662732967809696316}
   - component: {fileID: 2662732967809696317}
   - component: {fileID: 2662732967809696318}
+  - component: {fileID: 2662732967809696321}
+  - component: {fileID: 2662732967809696320}
   m_Layer: 5
   m_Name: Game Start Button
   m_TagString: Untagged
@@ -60477,6 +60517,40 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 145}
   m_SizeDelta: {x: 300, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2662732967809696320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662732967809696312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &2662732967809696321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662732967809696312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 386b326ffeede82469068f6e4e4b85f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2662732968449640912
 GameObject:
   m_ObjectHideFlags: 0

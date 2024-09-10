@@ -18,7 +18,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     public GameObject roomPrefab;
     public RectTransform roomList;
 
-    private byte maxPlayer;
+    private int maxPlayer;
 
     private void Awake()
     {
@@ -53,13 +53,23 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     private void SetMaxPlayerNumber()
     {
         int option = maxPlayerDropdwon.value;
-        maxPlayer = (byte)(option + 4);
+        maxPlayer = option + 4;
     }
 
     public void CreateMafiaRoom()
     {
-        RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = maxPlayer;
+        RoomOptions roomOptions = new RoomOptions
+        {
+            MaxPlayers = maxPlayer
+        };
+
+        if (privateMode.isOn)
+        {
+            roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+            {
+                { "roomPassword", roomPWInput.text }
+            };
+        }
 
         PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions, TypedLobby.Default);
     }
@@ -77,5 +87,15 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 
         Debug.Log("마스터 클라이언트 이름: " + PhotonNetwork.MasterClient.NickName);
         Debug.Log("방 최대 인원 수: " + PhotonNetwork.CurrentRoom.MaxPlayers);
+
+        bool isPrivate = privateMode.isOn;
+
+        GameObject room = Instantiate(roomPrefab, roomList);
+        RoomPanelController roomPanel = GetComponent<RoomPanelController>();
+
+        if (roomPanel != null)
+        {
+            roomPanel.RoomInformation(PhotonNetwork.CurrentRoom.Name, PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers, isPrivate);
+        }
     }
 } 

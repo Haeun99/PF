@@ -61,6 +61,8 @@ public class MafiaSceneUIManager : MonoBehaviour
     {
         panel.gameObject.SetActive(true);
         SetMainButtonsActive(false);
+
+        InitInput();
     }
 
     private void ClosePanel(RectTransform panel)
@@ -95,5 +97,15 @@ public class MafiaSceneUIManager : MonoBehaviour
         createRoomPanel.gameObject.SetActive(false);
         passwordPopup.gameObject.SetActive(false);
         inviteCodePopup.gameObject.SetActive(false);
+    }
+
+    private void InitInput()
+    {
+        CreateRoom.Instance.roomNameInput.text = string.Empty;
+        CreateRoom.Instance.roomPWInput.text = string.Empty;
+        CreateRoom.Instance.privateMode.isOn = false;
+        CreateRoom.Instance.maxPlayerDropdwon.value = 0;
+
+        // 나중에 findRoom에 넣을 것들도 여기서 초기화
     }
 }
