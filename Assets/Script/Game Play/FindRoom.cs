@@ -15,4 +15,19 @@ public class FindRoom : MonoBehaviourPunCallbacks
             Instance = this;
         }
     }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (Transform child in CreateRoom.Instance.roomList)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            if (roomInfo.RemovedFromList || roomInfo.PlayerCount == 0) continue;
+
+            CreateRoom.Instance.RoomCreate();
+        }
+    }
 }

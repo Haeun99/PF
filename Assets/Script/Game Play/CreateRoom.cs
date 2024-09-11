@@ -90,6 +90,11 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         Debug.Log("방 최대 인원 수: " + PhotonNetwork.CurrentRoom.MaxPlayers);
         Debug.Log("방 비밀번호: " + PhotonNetwork.CurrentRoom.CustomProperties["roomPassword"]);
 
+        RoomCreate();
+    }
+
+    public void RoomCreate()
+    {
         bool isPrivate = privateMode.isOn;
 
         GameObject room = Instantiate(roomPrefab, roomList);
@@ -100,4 +105,4 @@ public class CreateRoom : MonoBehaviourPunCallbacks
             roomPanel.RoomInformation(PhotonNetwork.CurrentRoom.Name, PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers, isPrivate);
         }
     }
-} 
+}
