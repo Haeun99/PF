@@ -15512,6 +15512,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47721a53b02f37046aa31f0d8868d9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomPrefab: {fileID: 4044152365513460324, guid: 2c4113d618d7a0b46923069cbe81e8d0, type: 3}
+  roomListPanel: {fileID: 5494934240660810522}
+  privateMode: {fileID: 1651583013}
 --- !u!1 &585173804
 GameObject:
   m_ObjectHideFlags: 0

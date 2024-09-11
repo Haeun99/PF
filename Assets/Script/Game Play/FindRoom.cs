@@ -8,11 +8,16 @@ public class FindRoom : MonoBehaviourPunCallbacks
 {
     public static FindRoom Instance { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
-        if (Instance != null)
+        if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -27,7 +32,7 @@ public class FindRoom : MonoBehaviourPunCallbacks
         {
             if (roomInfo.RemovedFromList || roomInfo.PlayerCount == 0) continue;
 
-            CreateRoom.Instance.RoomCreate();
+            CreateRoom.Instance.RoomCreate(roomInfo);
         }
     }
 }

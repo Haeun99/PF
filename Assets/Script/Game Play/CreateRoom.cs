@@ -25,6 +25,11 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -32,6 +37,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     {
         ValidateRoomName();
         SetMaxPlayerNumber();
+
         maxPlayerDropdwon.onValueChanged.AddListener(delegate { SetMaxPlayerNumber(); });
         roomNameInput.onValueChanged.AddListener(delegate { ValidateRoomName(); });
     }
@@ -61,16 +67,14 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     {
         RoomOptions roomOptions = new RoomOptions
         {
-            MaxPlayers = maxPlayer
-        };
-
-        if (privateMode.isOn)
-        {
-            roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+            MaxPlayers = maxPlayer,
+            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
             {
-                { "roomPassword", roomPWInput.text }
-            };
-        }
+                { "IsPrivate", privateMode.isOn },
+                { "RoomPassword", roomPWInput.text }
+            },
+            CustomRoomPropertiesForLobby = new string[] { "IsPrivate" }
+        };
 
         PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions, TypedLobby.Default);
     }
@@ -82,27 +86,16 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         MafiaSceneUIManager.Instance.createButton.interactable = !(string.IsNullOrEmpty(roomName) || roomName.Length > 12);
     }
 
-    public override void OnCreatedRoom()
+    public void RoomCreate(RoomInfo roomInfo)
     {
-        base.OnCreatedRoom();
-
-        Debug.Log("마스터 클라이언트 이름: " + PhotonNetwork.MasterClient.NickName);
-        Debug.Log("방 최대 인원 수: " + PhotonNetwork.CurrentRoom.MaxPlayers);
-        Debug.Log("방 비밀번호: " + PhotonNetwork.CurrentRoom.CustomProperties["roomPassword"]);
-
-        RoomCreate();
-    }
-
-    public void RoomCreate()
-    {
-        bool isPrivate = privateMode.isOn;
+        bool isPrivate = roomInfo.CustomProperties.ContainsKey("IsPrivate") && (bool)roomInfo.CustomProperties["IsPrivate"];
 
         GameObject room = Instantiate(roomPrefab, roomList);
         RoomPanelController roomPanel = room.GetComponent<RoomPanelController>();
 
         if (roomPanel != null)
         {
-            roomPanel.RoomInformation(PhotonNetwork.CurrentRoom.Name, PhotonNetwork.CurrentRoom.PlayerCount, PhotonNetwork.CurrentRoom.MaxPlayers, isPrivate);
+            roomPanel.RoomInformation(roomInfo.Name, roomInfo.PlayerCount, roomInfo.MaxPlayers, isPrivate);
         }
     }
 }
