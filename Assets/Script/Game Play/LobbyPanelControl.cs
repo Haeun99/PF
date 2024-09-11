@@ -12,9 +12,12 @@ public class LobbyPanelControl : MonoBehaviourPunCallbacks
     public GameObject playerPrefab;
     public RectTransform playerList;
 
-    private void Start()
+    void Start()
     {
-        UpdatePlayerList();
+        if (PhotonNetwork.InRoom)
+        {
+            UpdatePlayerList();
+        }
     }
 
     public override void OnJoinedRoom()
@@ -43,13 +46,18 @@ public class LobbyPanelControl : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnMasterClientSwitched(Photon.Realtime.Player newMasterClient)
+    public override void OnMasterClientSwitched(Player newMasterClient)
     {
         EnterLobby();
     }
 
     private void UpdatePlayerList()
     {
+        if (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.Players == null)
+        {
+            return;
+        }
+
         foreach (Transform child in playerList)
         {
             Destroy(child.gameObject);

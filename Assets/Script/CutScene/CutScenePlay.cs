@@ -16,11 +16,8 @@ public class CutScenePlay : MonoBehaviour
     public TextMeshProUGUI[] subtitles;
     public GameObject[] objects;
 
-    private Animation anim;
-
     private void Start()
     {
-        anim = GetComponent<Animation>();
         StartCoroutine(PlayCutScene());
     }
 

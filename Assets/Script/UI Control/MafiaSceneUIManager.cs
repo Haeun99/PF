@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -44,7 +45,7 @@ public class MafiaSceneUIManager : MonoBehaviour
     {
         backToVillageButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
         createRoomButton.onClick.AddListener(() => TogglePanel(createRoomPanel));
-        findRoomButton.onClick.AddListener(() => TogglePanel(findRoomPanel));
+        findRoomButton.onClick.AddListener(() => FindGame(findRoomPanel));
         quitCreateButton.onClick.AddListener(() => ClosePanel(createRoomPanel));
         quitFindButton.onClick.AddListener(() => ClosePanel(findRoomPanel));
         createButton.onClick.AddListener(() => CreateGamePanel(lobbyPanel));
@@ -54,7 +55,7 @@ public class MafiaSceneUIManager : MonoBehaviour
         inviteCodeConfirmButton.onClick.AddListener(() => ToStartGamePanel(lobbyPanel));
         quitPasswordButton.onClick.AddListener(() => ClosePanel(passwordPopup));
         quitCodeButton.onClick.AddListener(() => ClosePanel(inviteCodePopup));
-        quitButton.onClick.AddListener(() => ClosePanel(lobbyPanel));
+        quitButton.onClick.AddListener(() => GameQuit(lobbyPanel));
     }
 
     private void TogglePanel(RectTransform panel)
@@ -69,6 +70,22 @@ public class MafiaSceneUIManager : MonoBehaviour
     {
         panel.gameObject.SetActive(false);
         SetMainButtonsActive(true);
+    }
+
+    private void GameQuit(RectTransform panel)
+    {
+        panel.gameObject.SetActive(false);
+        SetMainButtonsActive(true);
+
+        PhotonNetwork.LeaveRoom();
+    }
+
+    private void FindGame(RectTransform panel)
+    {
+        panel.gameObject.SetActive(true);
+        SetMainButtonsActive(false);
+
+        PhotonNetwork.JoinLobby();
     }
 
     private void ToStartGamePanel(RectTransform panel)

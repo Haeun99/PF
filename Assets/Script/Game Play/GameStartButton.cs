@@ -18,6 +18,9 @@ public class GameStartButton : MonoBehaviourPunCallbacks
             gameStartButton.interactable = false;
             gameStartButton.onClick.AddListener(StartGame);
         }
+
+        CheckAllPlayersReady();
+        MinPlayer();
     }
 
     [PunRPC]
@@ -44,6 +47,19 @@ public class GameStartButton : MonoBehaviourPunCallbacks
         }
     }
 
+    public void MinPlayer()
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount < 5)
+        {
+            gameStartButton.interactable = false;
+        }
+
+        else
+        {
+            gameStartButton.interactable = true;
+        }
+    }
+
     private void StartGame()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -54,6 +70,17 @@ public class GameStartButton : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        base.OnPlayerLeftRoom(otherPlayer);
+
         CheckAllPlayersReady();
+        MinPlayer();
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        CheckAllPlayersReady();
+        MinPlayer();
     }
 }

@@ -15458,8 +15458,9 @@ GameObject:
   m_Component:
   - component: {fileID: 583870892}
   - component: {fileID: 583870893}
+  - component: {fileID: 583870894}
   m_Layer: 0
-  m_Name: CreateRoomManager
+  m_Name: RoomManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15499,6 +15500,18 @@ MonoBehaviour:
   privateMode: {fileID: 1651583013}
   roomPrefab: {fileID: 4044152365513460324, guid: 2c4113d618d7a0b46923069cbe81e8d0, type: 3}
   roomList: {fileID: 5494934240660810522}
+--- !u!114 &583870894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583870891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47721a53b02f37046aa31f0d8868d9eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &585173804
 GameObject:
   m_ObjectHideFlags: 0
@@ -37428,6 +37441,7 @@ GameObject:
   - component: {fileID: 1427470460}
   - component: {fileID: 1427470459}
   - component: {fileID: 1427470461}
+  - component: {fileID: 1427470462}
   m_Layer: 5
   m_Name: Lobby Panel
   m_TagString: Untagged
@@ -37512,6 +37526,28 @@ MonoBehaviour:
   readyButton: {fileID: 1805245080025414995}
   playerPrefab: {fileID: 298906413946835654, guid: b2dc737314332e0459c1e5ee42487abb, type: 3}
   playerList: {fileID: 1141116230}
+--- !u!114 &1427470462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427470457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1430330061
 GameObject:
   m_ObjectHideFlags: 0
