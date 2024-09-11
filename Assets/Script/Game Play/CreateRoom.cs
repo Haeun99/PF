@@ -37,9 +37,12 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     {
         ValidateRoomName();
         SetMaxPlayerNumber();
+        ValidatePw();
 
         maxPlayerDropdwon.onValueChanged.AddListener(delegate { SetMaxPlayerNumber(); });
         roomNameInput.onValueChanged.AddListener(delegate { ValidateRoomName(); });
+        roomPWInput.onValueChanged.AddListener(delegate { ValidatePw(); });
+        privateMode.onValueChanged.AddListener(delegate { ValidatePw(); });
     }
 
     private void Update()
@@ -84,6 +87,19 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         string roomName = roomNameInput.text;
 
         MafiaSceneUIManager.Instance.createButton.interactable = !(string.IsNullOrEmpty(roomName) || roomName.Length > 12);
+    }
+
+    private void ValidatePw()
+    {
+        if (privateMode.isOn)
+        {
+            MafiaSceneUIManager.Instance.createButton.interactable = !string.IsNullOrEmpty(roomPWInput.text);
+        }
+
+        else
+        {
+            MafiaSceneUIManager.Instance.createButton.interactable = true;
+        }
     }
 
     public void RoomCreate(RoomInfo roomInfo)

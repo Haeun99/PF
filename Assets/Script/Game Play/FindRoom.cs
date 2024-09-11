@@ -7,6 +7,7 @@ using UnityEngine;
 public class FindRoom : MonoBehaviourPunCallbacks
 {
     public static FindRoom Instance { get; private set; }
+    private RoomInfo selectedRoom;
 
     private void Awake()
     {
