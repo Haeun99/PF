@@ -76,7 +76,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
                 { "IsPrivate", privateMode.isOn },
                 { "RoomPassword", roomPWInput.text }
             },
-            CustomRoomPropertiesForLobby = new string[] { "IsPrivate" }
+            CustomRoomPropertiesForLobby = new string[] { "IsPrivate", "RoomPassword" }
         };
 
         PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions, TypedLobby.Default);
@@ -98,7 +98,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 
         else
         {
-            MafiaSceneUIManager.Instance.createButton.interactable = true;
+            ValidateRoomName();
         }
     }
 
@@ -106,12 +106,14 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     {
         bool isPrivate = roomInfo.CustomProperties.ContainsKey("IsPrivate") && (bool)roomInfo.CustomProperties["IsPrivate"];
 
-        GameObject room = Instantiate(roomPrefab, roomList);
+        GameObject room = PhotonNetwork.Instantiate(roomPrefab.name, roomList.position, Quaternion.identity);
+        room.transform.SetParent(roomList, false);
+
         RoomPanelController roomPanel = room.GetComponent<RoomPanelController>();
 
         if (roomPanel != null)
         {
-            roomPanel.RoomInformation(roomInfo.Name, roomInfo.PlayerCount, roomInfo.MaxPlayers, isPrivate);
+            roomPanel.RoomInformation(roomInfo.Name, roomInfo.PlayerCount, roomInfo.MaxPlayers, isPrivate, roomInfo);
         }
     }
 }

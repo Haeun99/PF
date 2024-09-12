@@ -10712,11 +10712,9 @@ MonoBehaviour:
   createQuitButton: {fileID: 335740381}
   lobbyPanel: {fileID: 1427470458}
   quitButton: {fileID: 223710845}
-  roomEnterButton: {fileID: 1379728681}
   codeButton: {fileID: 1465958648}
   passwordPopup: {fileID: 119684143}
   inviteCodePopup: {fileID: 309905622}
-  inviteCodeConfirmButton: {fileID: 2090268102}
   quitPasswordButton: {fileID: 798328711}
   quitCodeButton: {fileID: 1830924779}
 --- !u!1 &385588509
@@ -15512,9 +15510,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47721a53b02f37046aa31f0d8868d9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPrefab: {fileID: 4044152365513460324, guid: 2c4113d618d7a0b46923069cbe81e8d0, type: 3}
-  roomListPanel: {fileID: 5494934240660810522}
-  privateMode: {fileID: 1651583013}
+  pwInput: {fileID: 1546680047}
+  inviteCodeInput: {fileID: 774535796}
+  pwConfirmButton: {fileID: 1859506954}
+  pwError: {fileID: 2065025930}
+  inviteCodeConfirmButton: {fileID: 2090268102}
+  inviteCodeError: {fileID: 2039635818}
+  roomEnterButton: {fileID: 1379728681}
 --- !u!1 &585173804
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,11 +28,9 @@ public class MafiaSceneUIManager : MonoBehaviour
     public Button quitButton;
 
     [Space(20)]
-    public Button roomEnterButton;
     public Button codeButton;
     public RectTransform passwordPopup;
     public RectTransform inviteCodePopup;
-    public Button inviteCodeConfirmButton;
     public Button quitPasswordButton;
     public Button quitCodeButton;
 
@@ -50,9 +48,7 @@ public class MafiaSceneUIManager : MonoBehaviour
         quitFindButton.onClick.AddListener(() => ClosePanel(findRoomPanel));
         createButton.onClick.AddListener(() => CreateGamePanel(lobbyPanel));
         createQuitButton.onClick.AddListener(() => ClosePanel(createRoomPanel));
-        roomEnterButton.onClick.AddListener(() => ToStartGamePanel(lobbyPanel));
         codeButton.onClick.AddListener(() => TogglePanel(inviteCodePopup));
-        inviteCodeConfirmButton.onClick.AddListener(() => ToStartGamePanel(lobbyPanel));
         quitPasswordButton.onClick.AddListener(() => ClosePanel(passwordPopup));
         quitCodeButton.onClick.AddListener(() => ClosePanel(inviteCodePopup));
         quitButton.onClick.AddListener(() => GameQuit(lobbyPanel));
@@ -88,12 +84,6 @@ public class MafiaSceneUIManager : MonoBehaviour
         PhotonNetwork.JoinLobby();
     }
 
-    private void ToStartGamePanel(RectTransform panel)
-    {
-        panel.gameObject.SetActive(true);
-        SetPopupActive();
-    }
-
     private void CreateGamePanel(RectTransform panel)
     {
         CreateRoom.Instance.CreateMafiaRoom();
@@ -109,7 +99,7 @@ public class MafiaSceneUIManager : MonoBehaviour
         findRoomButton.gameObject.SetActive(isActive);
     }
 
-    private void SetPopupActive()
+    public void SetPopupActive()
     {
         createRoomPanel.gameObject.SetActive(false);
         passwordPopup.gameObject.SetActive(false);
@@ -122,7 +112,8 @@ public class MafiaSceneUIManager : MonoBehaviour
         CreateRoom.Instance.roomPWInput.text = string.Empty;
         CreateRoom.Instance.privateMode.isOn = false;
         CreateRoom.Instance.maxPlayerDropdwon.value = 0;
-
-        // 나중에 findRoom에 넣을 것들도 여기서 초기화
+        FindRoom.Instance.inviteCodeInput.text = string.Empty;
+        FindRoom.Instance.pwError.gameObject.SetActive(false);
+        FindRoom.Instance.inviteCodeError.gameObject.SetActive(false);
     }
 }

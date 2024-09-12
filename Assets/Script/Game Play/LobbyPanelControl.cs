@@ -32,6 +32,12 @@ public class LobbyPanelControl : MonoBehaviourPunCallbacks
         AddPlayerList(newPlayer);
     }
 
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        UpdatePlayerList();
+    }
+
     private void EnterLobby()
     {
         if (PhotonNetwork.IsMasterClient)
@@ -71,7 +77,9 @@ public class LobbyPanelControl : MonoBehaviourPunCallbacks
 
     private void AddPlayerList(Player player)
     {
-        GameObject players = Instantiate(playerPrefab, playerList);
+        GameObject players = PhotonNetwork.Instantiate(playerPrefab.name, playerList.position, Quaternion.identity);
+        players.transform.SetParent(playerList, false);
+
         PlayerPanelManager playerPanel = players.GetComponent<PlayerPanelManager>();
 
         playerPanel.SetNickname(player.NickName);
