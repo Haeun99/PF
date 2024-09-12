@@ -17,15 +17,29 @@ public class PlayerPanelManager : MonoBehaviourPunCallbacks
         playerNickname.text = nickname;
     }
 
-    public void SetCrown()
-    {
-        masterCrown.gameObject.SetActive(true);
-    }
-
     public void SetReadyCheck(bool isReady)
     {
-        readyCheck.gameObject.SetActive(isReady);
-
         readyCheck.color = isReady ? Color.green : Color.white;
+    }
+
+    public void Initialize(Player player)
+    {
+        SetNickname(player.NickName);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            masterCrown.gameObject.SetActive(true);
+        }
+
+        else
+        {
+            masterCrown.gameObject.SetActive(false);
+            readyCheck.gameObject.SetActive(true);
+        }
+
+        if (player.CustomProperties.TryGetValue("isReady", out object isReady))
+        {
+            SetReadyCheck((bool)isReady);
+        }
     }
 }

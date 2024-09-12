@@ -106,8 +106,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     {
         bool isPrivate = roomInfo.CustomProperties.ContainsKey("IsPrivate") && (bool)roomInfo.CustomProperties["IsPrivate"];
 
-        GameObject room = PhotonNetwork.Instantiate(roomPrefab.name, roomList.position, Quaternion.identity);
-        room.transform.SetParent(roomList, false);
+        GameObject room = Instantiate(roomPrefab, roomList);
 
         RoomPanelController roomPanel = room.GetComponent<RoomPanelController>();
 

@@ -9,7 +9,6 @@ public class ReadyButton : MonoBehaviourPun
 {
     private bool isReady = false;
     private Button readyButton;
-    // public Image readyCheck;
     private PhotonView photonview;
 
     private void Start()
@@ -25,7 +24,6 @@ public class ReadyButton : MonoBehaviourPun
         isReady = !isReady;
         readyButton.image.color = isReady ? Color.white : Color.gray;
         readyButton.GetComponentInChildren<Text>().text = isReady ? "준비 취소" : "준비하기";
-        // readyCheck.color = isReady ? Color.green : Color.white;
 
         photonview.RPC("SetReadyState", RpcTarget.MasterClient, PhotonNetwork.LocalPlayer.ActorNumber, isReady);
     }

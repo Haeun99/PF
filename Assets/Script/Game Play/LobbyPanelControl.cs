@@ -77,21 +77,13 @@ public class LobbyPanelControl : MonoBehaviourPunCallbacks
 
     private void AddPlayerList(Player player)
     {
-        GameObject players = PhotonNetwork.Instantiate(playerPrefab.name, playerList.position, Quaternion.identity);
-        players.transform.SetParent(playerList, false);
+        GameObject playerCard = PhotonNetwork.Instantiate(playerPrefab.name, playerList.position, Quaternion.identity);
+        playerCard.transform.SetParent(playerList, false);
 
-        PlayerPanelManager playerPanel = players.GetComponent<PlayerPanelManager>();
-
-        playerPanel.SetNickname(player.NickName);
-
-        if (PhotonNetwork.IsMasterClient)
+        PlayerPanelManager playerPanel = playerCard.GetComponent<PlayerPanelManager>();
+        if (playerPanel != null)
         {
-            playerPanel.SetCrown();
-        }
-
-        if (player.CustomProperties.TryGetValue("isReady", out object isReady))
-        {
-            playerPanel.SetReadyCheck((bool)isReady);
+            playerPanel.Initialize(player);
         }
     }
 }
