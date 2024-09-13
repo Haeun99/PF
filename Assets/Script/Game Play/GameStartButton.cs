@@ -7,12 +7,11 @@ using UnityEngine.UI;
 
 public class GameStartButton : MonoBehaviourPunCallbacks
 {
-    private Button gameStartButton;
+    public Button gameStartButton;
+    private bool allReady = true;
 
     private void Start()
     {
-        gameStartButton = GetComponent<Button>();
-
         if (PhotonNetwork.IsMasterClient)
         {
             gameStartButton.interactable = false;
@@ -26,8 +25,6 @@ public class GameStartButton : MonoBehaviourPunCallbacks
     [PunRPC]
     public void CheckAllPlayersReady()
     {
-        bool allReady = true;
-
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (!player.CustomProperties.ContainsKey("IsReady") || !(bool)player.CustomProperties["IsReady"])
@@ -35,15 +32,6 @@ public class GameStartButton : MonoBehaviourPunCallbacks
                 allReady = false;
                 break;
             }
-        }
-
-        if (allReady)
-        {
-            gameStartButton.interactable = true;
-        }
-        else
-        {
-            gameStartButton.interactable = false;
         }
     }
 

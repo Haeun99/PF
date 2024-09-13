@@ -37445,7 +37445,6 @@ GameObject:
   - component: {fileID: 1427470458}
   - component: {fileID: 1427470460}
   - component: {fileID: 1427470459}
-  - component: {fileID: 1427470461}
   - component: {fileID: 1427470462}
   m_Layer: 5
   m_Name: Lobby Panel
@@ -37515,22 +37514,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1427470457}
   m_CullTransparentMesh: 1
---- !u!114 &1427470461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427470457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa23354369b7b7940b0a2be2ca9a0362, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameStartButton: {fileID: 2662732967809696318}
-  readyButton: {fileID: 1805245080025414995}
-  playerPrefab: {fileID: 298906413946835654, guid: b2dc737314332e0459c1e5ee42487abb, type: 3}
-  playerList: {fileID: 1141116230}
 --- !u!114 &1427470462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37540,19 +37523,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1427470457}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: 11500000, guid: d850c2db670de614b88d8b202a03defc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 3
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
+  playerList: {fileID: 1141116230}
+  playerPrefab: {fileID: 298906413946835654, guid: b2dc737314332e0459c1e5ee42487abb, type: 3}
+  startButton: {fileID: 2662732967809696318}
+  readyButton: {fileID: 1805245080025414995}
 --- !u!1 &1430330061
 GameObject:
   m_ObjectHideFlags: 0
@@ -60411,6 +60388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04911119003fe474bbeeb2e05da9317f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  readyButton: {fileID: 1805245080025414995}
 --- !u!1 &2662732967809696312
 GameObject:
   m_ObjectHideFlags: 0
@@ -60546,6 +60524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386b326ffeede82469068f6e4e4b85f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameStartButton: {fileID: 2662732967809696318}
 --- !u!1 &2662732968449640912
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using TMPro;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class RoomPanelController : MonoBehaviour
 {
@@ -20,6 +21,12 @@ public class RoomPanelController : MonoBehaviour
         roomCard = GetComponent<Button>();
 
         roomCard.onClick.AddListener(() => RoomCardClick());
+    }
+
+    public void Init(RoomInfo info)
+    {
+        roomInfo = info;
+        UpdateButtonState();
     }
 
     public void RoomInformation(string roomName, int currentPlayer, int maxPlayer, bool isPrivate, RoomInfo info)
@@ -49,5 +56,14 @@ public class RoomPanelController : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void UpdateButtonState()
+    {
+        if (roomInfo == null)
+            return;
+
+        bool isFull = PhotonNetwork.CurrentRoom.PlayerCount >= roomInfo.MaxPlayers;
+        roomCard.interactable = !isFull;
     }
 }

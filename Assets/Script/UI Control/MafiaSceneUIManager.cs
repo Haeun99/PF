@@ -104,6 +104,7 @@ public class MafiaSceneUIManager : MonoBehaviour
         createRoomPanel.gameObject.SetActive(false);
         passwordPopup.gameObject.SetActive(false);
         inviteCodePopup.gameObject.SetActive(false);
+        findRoomPanel.gameObject.SetActive(false);
     }
 
     private void InitInput()

@@ -106,13 +106,15 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     {
         bool isPrivate = roomInfo.CustomProperties.ContainsKey("IsPrivate") && (bool)roomInfo.CustomProperties["IsPrivate"];
 
-        GameObject room = Instantiate(roomPrefab, roomList);
+        var room = Instantiate(roomPrefab, roomList, false);
 
         RoomPanelController roomPanel = room.GetComponent<RoomPanelController>();
 
         if (roomPanel != null)
         {
             roomPanel.RoomInformation(roomInfo.Name, roomInfo.PlayerCount, roomInfo.MaxPlayers, isPrivate, roomInfo);
+
+            roomPanel.UpdateButtonState();
         }
     }
 }

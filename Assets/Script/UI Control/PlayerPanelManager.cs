@@ -12,6 +12,13 @@ public class PlayerPanelManager : MonoBehaviourPunCallbacks
     public Image masterCrown;
     public Image readyCheck;
 
+    public Player player;
+
+    private void Start()
+    {
+        readyCheck.gameObject.SetActive(false);
+    }
+
     public void SetNickname(string nickname)
     {
         playerNickname.text = nickname;
@@ -19,7 +26,7 @@ public class PlayerPanelManager : MonoBehaviourPunCallbacks
 
     public void SetReadyCheck(bool isReady)
     {
-        readyCheck.color = isReady ? Color.green : Color.white;
+        readyCheck.gameObject.SetActive(isReady);
     }
 
     public void Initialize(Player player)
@@ -34,7 +41,6 @@ public class PlayerPanelManager : MonoBehaviourPunCallbacks
         else
         {
             masterCrown.gameObject.SetActive(false);
-            readyCheck.gameObject.SetActive(true);
         }
 
         if (player.CustomProperties.TryGetValue("isReady", out object isReady))
