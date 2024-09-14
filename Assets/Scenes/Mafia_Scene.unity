@@ -16768,6 +16768,70 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &614732782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 614732784}
+  - component: {fileID: 614732783}
+  m_Layer: 0
+  m_Name: RoomSettingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &614732783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614732782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00cec5fa5a9ab9147b3c9774eddec563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterSetting: {fileID: 1480017446}
+  dayTime: {fileID: 1294027111}
+  nightTime: {fileID: 1553410704}
+  finalAppeal: {fileID: 1323843506}
+  anonymousVote: {fileID: 1081675391}
+  mafiaCount: {fileID: 1294339454}
+  gangsterCount: {fileID: 1824871320}
+  doctorCount: {fileID: 1874887921}
+  policeCount: {fileID: 723954651}
+  stalkerCount: {fileID: 2042391459}
+  settingConfirmButton: {fileID: 1977812044}
+  dayTimeText: {fileID: 1461271935}
+  nightTimeText: {fileID: 1361562826}
+  finalAppealText: {fileID: 518634423}
+  anonymousVoteText: {fileID: 130033793}
+  mafiaCountText: {fileID: 711279318}
+  gangsterCountText: {fileID: 1904268748}
+  doctorCountText: {fileID: 1303263431}
+  policeCountText: {fileID: 585173806}
+  stalkerCountText: {fileID: 113344464}
+--- !u!4 &614732784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614732782}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 616.8884, y: 593.98737, z: 259.92108}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &615305803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19783,7 +19847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &742035163
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27158,7 +27222,6 @@ MonoBehaviour:
   roomSettingButton: {fileID: 265472580}
   masterRoomSettingPanel: {fileID: 1480017446}
   playerRoomSettingPanel: {fileID: 882308883}
-  masterSettingFinButton: {fileID: 1977812044}
   playerSettingCheckButton: {fileID: 735584771}
 --- !u!1 &1042465311
 GameObject:
@@ -37452,7 +37515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1427470458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38787,7 +38850,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1465958647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -56245,7 +56308,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2026142281
 RectTransform:
   m_ObjectHideFlags: 0
@@ -60388,7 +60451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04911119003fe474bbeeb2e05da9317f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  readyButton: {fileID: 1805245080025414995}
 --- !u!1 &2662732967809696312
 GameObject:
   m_ObjectHideFlags: 0

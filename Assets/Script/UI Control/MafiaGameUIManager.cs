@@ -21,7 +21,6 @@ public class MafiaGameUIManager : MonoBehaviour
     public Button roomSettingButton;
     public RectTransform masterRoomSettingPanel;
     public RectTransform playerRoomSettingPanel;
-    public Button masterSettingFinButton;
     public Button playerSettingCheckButton;
 
     private void Update()
@@ -38,7 +37,6 @@ public class MafiaGameUIManager : MonoBehaviour
         quitGameButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
         chatButton.onClick.AddListener(() => RepeatTogglePanel(chatPanel));
         settingCheckButton.onClick.AddListener(() => ClosePanel(settingPanel));
-        masterSettingFinButton.onClick.AddListener(() => ClosePanel(masterRoomSettingPanel));
         playerSettingCheckButton.onClick.AddListener(() => ClosePanel(playerRoomSettingPanel));
         roomSettingButton.onClick.AddListener(OpenPanel);
     }

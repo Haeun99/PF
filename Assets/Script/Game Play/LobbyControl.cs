@@ -134,6 +134,7 @@ public class LobbyControl : MonoBehaviourPunCallbacks
 
         UpdatePlayerList();
         SortPlayers();
+        RoomPanelController.Instance.UpdateButtonState();
         PhotonNetwork.JoinLobby();
     }
 
@@ -142,6 +143,7 @@ public class LobbyControl : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         UpdatePlayerList();
+        RoomPanelController.Instance.UpdateButtonState();
     }
 
     public void SortPlayers()

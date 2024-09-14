@@ -8,6 +8,8 @@ using Photon.Pun;
 
 public class RoomPanelController : MonoBehaviour
 {
+    public static RoomPanelController Instance { get; private set; }
+
     public TextMeshProUGUI roomNameText;
     public TextMeshProUGUI playerNumber;
     public Image privateRoom;
@@ -18,15 +20,14 @@ public class RoomPanelController : MonoBehaviour
 
     private void Start()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
         roomCard = GetComponent<Button>();
 
         roomCard.onClick.AddListener(() => RoomCardClick());
-    }
-
-    public void Init(RoomInfo info)
-    {
-        roomInfo = info;
-        UpdateButtonState();
     }
 
     public void RoomInformation(string roomName, int currentPlayer, int maxPlayer, bool isPrivate, RoomInfo info)
