@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MafiaRoomSetting : MonoBehaviour
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Photon.Realtime;
+
+public class MafiaRoomSetting : MonoBehaviourPunCallbacks
 {
     public static MafiaRoomSetting Instance { get; private set; }
 
     public RectTransform masterSetting;
+    public RectTransform playerSetting;
     public TMP_Dropdown dayTime;
     public TMP_Dropdown nightTime;
     public Toggle finalAppeal;
@@ -36,8 +39,8 @@ public class MafiaRoomSetting : MonoBehaviour
     private int dayTimeSecond;
     private int nightTimeSecond;
     private bool isNoLimitDay;
-    private bool isFinalAppeal;
-    private bool isAnonymous;
+    private bool isFinalAppeal = false;
+    private bool isAnonymous = false;
 
     private int mafiaNumber;
     private int gangsterNumber;
@@ -64,11 +67,18 @@ public class MafiaRoomSetting : MonoBehaviour
         policeCount.onValueChanged.AddListener(delegate { SetPoliceCount(); UpdateCountSetting(); ValidateRoleCount(); });
         stalkerCount.onValueChanged.AddListener(delegate { SetStalkerCount(); UpdateCountSetting(); ValidateRoleCount(); });
 
-        SetDayTime(0);
-        SetNightTime(0);
-        UpdateCountSetting();
-        ValidateRoleCount();
-        SettingConfirm();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            SettingConfirm();
+        }
+
+        else
+        {
+            SetDayTime(0);
+            SetNightTime(0);
+            UpdateCountSetting();
+            SettingConfirm();
+        }
     }
 
     public void SettingConfirm()
@@ -82,6 +92,24 @@ public class MafiaRoomSetting : MonoBehaviour
         SetDoctorCount();
         SetPoliceCount();
         SetStalkerCount();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Hashtable roomProperties = new Hashtable
+            {
+                { "DayTime", dayTimeSecond },
+                { "NightTime", nightTimeSecond },
+                { "FinalAppeal", isFinalAppeal },
+                { "AnonymousVote", isAnonymous },
+                { "MafiaCount", mafiaNumber },
+                { "GangsterCount", gangsterNumber },
+                { "DoctorCount", doctorNumber },
+                { "PoliceCount", policeNumber },
+                { "StalkerCount", stalkerNumber }
+            };
+
+            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
+        }
 
         masterSetting.gameObject.SetActive(false);
     }
@@ -127,15 +155,7 @@ public class MafiaRoomSetting : MonoBehaviour
             int minutes = dayTimeSecond / 60;
             int seconds = dayTimeSecond % 60;
 
-            if (seconds == 0)
-            {
-                dayTimeText.text = $"{minutes}분";
-            }
-
-            else
-            {
-                dayTimeText.text = $"{minutes}분 {seconds}초";
-            }
+            dayTimeText.text = (seconds == 0) ? $"{minutes}분" : $"{minutes}분 {seconds}초";
         }
     }
 
@@ -144,15 +164,12 @@ public class MafiaRoomSetting : MonoBehaviour
         switch (option)
         {
             case 0:
-                nightTimeSecond = 30;
-                break;
-            case 1:
                 nightTimeSecond = 60;
                 break;
-            case 2:
+            case 1:
                 nightTimeSecond = 90;
                 break;
-            case 3:
+            case 2:
                 nightTimeSecond = 120;
                 break;
         }
@@ -165,14 +182,7 @@ public class MafiaRoomSetting : MonoBehaviour
         int minutes = nightTimeSecond / 60;
         int seconds = nightTimeSecond % 60;
 
-        if (seconds == 0)
-        {
-            nightTimeText.text = $"{minutes}분";
-        }
-        else
-        {
-            nightTimeText.text = $"{minutes}분 {seconds}초";
-        }
+        nightTimeText.text = (seconds == 0) ? $"{minutes}분" : $"{minutes}분 {seconds}초";
     }
 
     private void UpdateFinalAppealText()
@@ -210,32 +220,126 @@ public class MafiaRoomSetting : MonoBehaviour
         stalkerNumber = stalkerCount.value;
     }
 
-    private void UpdateCountSetting()
+    public void UpdateCountSetting()
     {
-        mafiaCountText.text = $"{mafiaNumber}명";
-        gangsterCountText.text = $"{(gangsterNumber == 1 ? "있음" : "없음")}";
-        doctorCountText.text = $"{doctorNumber}명";
-        policeCountText.text = $"{policeNumber}명";
-        stalkerCountText.text = $"{(stalkerNumber == 1 ? "있음" : "없음")}";
+        mafiaCountText.text = mafiaNumber == 0 ? "1명" : $"{mafiaNumber}명";
+        gangsterCountText.text = gangsterNumber == 1 ? "있음" : "없음";
+        doctorCountText.text = doctorNumber == 0 ? "없음" : $"{doctorNumber}명";
+        policeCountText.text = policeNumber == 0 ? "없음" : $"{policeNumber}명";
+        stalkerCountText.text = stalkerNumber == 1 ? "있음" : "없음";
     }
 
-    private void ValidateRoleCount()
+    public void ValidateRoleCount()
     {
         int totalPlayer = mafiaNumber + gangsterNumber + policeNumber + doctorNumber + stalkerNumber;
         int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
 
-        if (totalPlayer > maxPlayer)
+        if (totalPlayer > maxPlayer || mafiaNumber + gangsterNumber > maxPlayer / 2)
         {
             settingConfirmButton.interactable = false;
-            return;
         }
 
-        if (mafiaNumber + gangsterNumber > maxPlayer / 2)
+        else
         {
-            settingConfirmButton.interactable = false;
-            return;
+            settingConfirmButton.interactable = true;
+        }
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        Init();
+        UpdateFromRoomProperties();
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        if (PhotonNetwork.InLobby)
+        {
+            ValidateRoleCount();
+        }
+    }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        UpdateFromRoomProperties();
+    }
+
+    public void UpdateFromRoomProperties()
+    {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("DayTime", out object dayTimeObj))
+        {
+            dayTimeSecond = (int)dayTimeObj;
+            UpdateDayText();
         }
 
-        settingConfirmButton.interactable = true;
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("NightTime", out object nightTimeObj))
+        {
+            nightTimeSecond = (int)nightTimeObj;
+            UpdateNightText();
+        }
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("FinalAppeal", out object finalAppealObj))
+        {
+            isFinalAppeal = (bool)finalAppealObj;
+            UpdateFinalAppealText();
+        }
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("AnonymousVote", out object anonymousVoteObj))
+        {
+            isAnonymous = (bool)anonymousVoteObj;
+            UpdateVoteText();
+        }
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("MafiaCount", out object mafiaCountObj))
+        {
+            mafiaNumber = (int)mafiaCountObj;
+            UpdateCountSetting();
+        }
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("GangsterCount", out object gangsterCountObj))
+        {
+            gangsterNumber = (int)gangsterCountObj;
+            UpdateCountSetting();
+        }
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("DoctorCount", out object doctorCountObj))
+        {
+            doctorNumber = (int)doctorCountObj;
+            UpdateCountSetting();
+        }
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("PoliceCount", out object policeCountObj))
+        {
+            policeNumber = (int)policeCountObj;
+            UpdateCountSetting();
+        }
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("StalkerCount", out object stalkerCountObj))
+        {
+            stalkerNumber = (int)stalkerCountObj;
+            UpdateCountSetting();
+        }
+    }
+
+    public void Init()
+    {
+        dayTime.value = 0;
+        nightTime.value = 0;
+        anonymousVote.isOn = false;
+        finalAppeal.isOn = false;
+        mafiaCount.value = 0;
+        gangsterCount.value = 0;
+        policeCount.value = 0;
+        doctorCount.value = 0;
+        stalkerCount.value = 0;
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+
+        UpdateFromRoomProperties();
     }
 }

@@ -27,10 +27,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void Start()
@@ -113,8 +109,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         if (roomPanel != null)
         {
             roomPanel.RoomInformation(roomInfo.Name, roomInfo.PlayerCount, roomInfo.MaxPlayers, isPrivate, roomInfo);
-
-            roomPanel.UpdateButtonState();
         }
     }
 }

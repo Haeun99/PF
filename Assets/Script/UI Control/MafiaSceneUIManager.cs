@@ -36,12 +36,17 @@ public class MafiaSceneUIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
     }
 
     private void Start()
     {
         backToVillageButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
+        backToVillageButton.onClick.AddListener(() => PhotonNetwork.LeaveLobby());
         createRoomButton.onClick.AddListener(() => TogglePanel(createRoomPanel));
         findRoomButton.onClick.AddListener(() => FindGame(findRoomPanel));
         quitCreateButton.onClick.AddListener(() => ClosePanel(createRoomPanel));

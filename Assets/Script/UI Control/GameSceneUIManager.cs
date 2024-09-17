@@ -35,6 +35,8 @@ public class GameSceneUIManager : MonoBehaviour
     private void Awake()
     {
         Time.timeScale = 1;
+
+        DontDestroyOnLoad(this);
     }
 
     private void Start()

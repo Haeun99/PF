@@ -6642,6 +6642,8 @@ GameObject:
   - component: {fileID: 214650612}
   - component: {fileID: 214650614}
   - component: {fileID: 214650613}
+  - component: {fileID: 214650616}
+  - component: {fileID: 214650615}
   m_Layer: 5
   m_Name: Game Panel
   m_TagString: Untagged
@@ -6714,6 +6716,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 214650611}
   m_CullTransparentMesh: 1
+--- !u!114 &214650615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214650611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &214650616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214650611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70081b76a29052c439a54a7945793a28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mafiaRole: {fileID: 742035163}
+  gangsterRole: {fileID: 1103991575}
+  doctorRole: {fileID: 1734354132}
+  policeRole: {fileID: 1457579558}
+  stalkerRole: {fileID: 1449455382}
+  citizenRole: {fileID: 740079663}
+  mafiaText: {fileID: 991126435}
+  gangsterText: {fileID: 296174158}
+  doctorText: {fileID: 1072535898}
+  policeText: {fileID: 672519089}
+  stalkerText: {fileID: 1182052550}
+  citizenText: {fileID: 1862402880}
 --- !u!1 &217462749
 GameObject:
   m_ObjectHideFlags: 0
@@ -16768,70 +16816,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &614732782
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 614732784}
-  - component: {fileID: 614732783}
-  m_Layer: 0
-  m_Name: RoomSettingManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &614732783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 614732782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00cec5fa5a9ab9147b3c9774eddec563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  masterSetting: {fileID: 1480017446}
-  dayTime: {fileID: 1294027111}
-  nightTime: {fileID: 1553410704}
-  finalAppeal: {fileID: 1323843506}
-  anonymousVote: {fileID: 1081675391}
-  mafiaCount: {fileID: 1294339454}
-  gangsterCount: {fileID: 1824871320}
-  doctorCount: {fileID: 1874887921}
-  policeCount: {fileID: 723954651}
-  stalkerCount: {fileID: 2042391459}
-  settingConfirmButton: {fileID: 1977812044}
-  dayTimeText: {fileID: 1461271935}
-  nightTimeText: {fileID: 1361562826}
-  finalAppealText: {fileID: 518634423}
-  anonymousVoteText: {fileID: 130033793}
-  mafiaCountText: {fileID: 711279318}
-  gangsterCountText: {fileID: 1904268748}
-  doctorCountText: {fileID: 1303263431}
-  policeCountText: {fileID: 585173806}
-  stalkerCountText: {fileID: 113344464}
---- !u!4 &614732784
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 614732782}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 616.8884, y: 593.98737, z: 259.92108}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &615305803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19847,7 +19831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &742035163
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37509,6 +37493,7 @@ GameObject:
   - component: {fileID: 1427470460}
   - component: {fileID: 1427470459}
   - component: {fileID: 1427470462}
+  - component: {fileID: 1427470463}
   m_Layer: 5
   m_Name: Lobby Panel
   m_TagString: Untagged
@@ -37593,6 +37578,39 @@ MonoBehaviour:
   playerPrefab: {fileID: 298906413946835654, guid: b2dc737314332e0459c1e5ee42487abb, type: 3}
   startButton: {fileID: 2662732967809696318}
   readyButton: {fileID: 1805245080025414995}
+--- !u!114 &1427470463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427470457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00cec5fa5a9ab9147b3c9774eddec563, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterSetting: {fileID: 1480017446}
+  playerSetting: {fileID: 882308883}
+  dayTime: {fileID: 1294027111}
+  nightTime: {fileID: 1553410704}
+  finalAppeal: {fileID: 1323843506}
+  anonymousVote: {fileID: 1081675391}
+  mafiaCount: {fileID: 1294339454}
+  gangsterCount: {fileID: 1824871320}
+  doctorCount: {fileID: 1874887921}
+  policeCount: {fileID: 723954651}
+  stalkerCount: {fileID: 2042391459}
+  settingConfirmButton: {fileID: 1977812044}
+  dayTimeText: {fileID: 1461271935}
+  nightTimeText: {fileID: 1361562826}
+  finalAppealText: {fileID: 518634423}
+  anonymousVoteText: {fileID: 130033793}
+  mafiaCountText: {fileID: 711279318}
+  gangsterCountText: {fileID: 1904268748}
+  doctorCountText: {fileID: 1303263431}
+  policeCountText: {fileID: 585173806}
+  stalkerCountText: {fileID: 113344464}
 --- !u!1 &1430330061
 GameObject:
   m_ObjectHideFlags: 0
@@ -41515,8 +41533,6 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "30\uCD08"
-      m_Image: {fileID: 0}
     - m_Text: "1\uBD84"
       m_Image: {fileID: 0}
     - m_Text: "1\uBD84 30\uCD08"
@@ -59891,7 +59907,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "30\uCD08"
+  m_text: "1\uBD84"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 46e2261c2fec80b46817bd7a9295c62b, type: 2}
   m_sharedMaterial: {fileID: 6379235807938730655, guid: 46e2261c2fec80b46817bd7a9295c62b, type: 2}
