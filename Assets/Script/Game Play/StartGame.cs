@@ -6,6 +6,8 @@ using Photon.Realtime;
 
 public class StartGame : MonoBehaviour
 {
+    public static StartGame Instance { get; private set; }
+
     public RectTransform mafiaRole;
     public RectTransform gangsterRole;
     public RectTransform doctorRole;
@@ -24,7 +26,7 @@ public class StartGame : MonoBehaviour
     private List<string> availableJobs = new List<string>();
     private Dictionary<Player, string> playerJobs = new Dictionary<Player, string>();
 
-    void Start()
+    public void StartGameClick()
     {
         if (PhotonNetwork.IsMasterClient)
         {

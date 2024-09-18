@@ -15,7 +15,7 @@ public class GameStartButton : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             gameStartButton.interactable = false;
-            gameStartButton.onClick.AddListener(StartGame);
+            gameStartButton.onClick.AddListener(GameStart);
         }
 
         CheckAllPlayersReady();
@@ -48,11 +48,11 @@ public class GameStartButton : MonoBehaviourPunCallbacks
         }
     }
 
-    private void StartGame()
+    private void GameStart()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            // 게임 시작
+            StartGame.Instance.StartGameClick();
         }
     }
 
