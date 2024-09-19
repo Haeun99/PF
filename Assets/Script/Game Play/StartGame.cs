@@ -4,7 +4,9 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class StartGame : MonoBehaviour
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
+public class StartGame : MonoBehaviourPunCallbacks
 {
     public static StartGame Instance { get; private set; }
 
@@ -24,33 +26,51 @@ public class StartGame : MonoBehaviour
     public RectTransform citizenText;
 
     private List<string> availableJobs = new List<string>();
-    private Dictionary<Player, string> playerJobs = new Dictionary<Player, string>();
 
-    public void StartGameClick()
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
+    public void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            int mafiaCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["MafiaCount"];
-            int gangsterCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["GangsterCount"];
-            int doctorCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["DoctorCount"];
-            int policeCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["PoliceCount"];
-            int stalkerCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["StalkerCount"];
-
-            for (int i = 0; i < mafiaCount; i++) availableJobs.Add("Mafia");
-            for (int i = 0; i < gangsterCount; i++) availableJobs.Add("Gangster");
-            for (int i = 0; i < doctorCount; i++) availableJobs.Add("Doctor");
-            for (int i = 0; i < policeCount; i++) availableJobs.Add("Police");
-            for (int i = 0; i < stalkerCount; i++) availableJobs.Add("Stalker");
-
+            InitializeJobList();
             AssignJobsToPlayers();
         }
     }
 
+    private void InitializeJobList()
+    {
+        availableJobs.Clear();
+
+        int mafiaCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["MafiaCount"];
+        int gangsterCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["GangsterCount"];
+        int doctorCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["DoctorCount"];
+        int policeCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["PoliceCount"];
+        int stalkerCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["StalkerCount"];
+
+        for (int i = 0; i < mafiaCount; i++) availableJobs.Add("Mafia");
+        for (int i = 0; i < gangsterCount; i++) availableJobs.Add("Gangster");
+        for (int i = 0; i < doctorCount; i++) availableJobs.Add("Doctor");
+        for (int i = 0; i < policeCount; i++) availableJobs.Add("Police");
+        for (int i = 0; i < stalkerCount; i++) availableJobs.Add("Stalker");
+
+        int totalPlayers = PhotonNetwork.PlayerList.Length;
+        int assignedJobs = availableJobs.Count;
+        int citizenCount = totalPlayers - assignedJobs;
+
+        for (int i = 0; i < citizenCount; i++) availableJobs.Add("Citizen");
+    }
+
     private void AssignJobsToPlayers()
     {
-        PhotonView photonView = GetComponent<PhotonView>();
-
         List<Player> players = new List<Player>(PhotonNetwork.PlayerList);
+        Dictionary<Player, string> playerJobs = new Dictionary<Player, string>();
 
         foreach (Player player in players)
         {
@@ -58,53 +78,56 @@ public class StartGame : MonoBehaviour
             string assignedJob = availableJobs[randomIndex];
 
             playerJobs[player] = assignedJob;
-
-            photonView.RPC("SetPlayerJob", RpcTarget.All, player, assignedJob);
-
             availableJobs.RemoveAt(randomIndex);
         }
+
+        Hashtable jobProperties = new Hashtable();
+        foreach (var pair in playerJobs)
+        {
+            jobProperties[pair.Key.ActorNumber] = pair.Value;
+        }
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(jobProperties);
     }
 
-    [PunRPC]
-    public void SetPlayerJob(Player player, string job)
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
-        if (player == PhotonNetwork.LocalPlayer)
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+
+        if (propertiesThatChanged.ContainsKey(PhotonNetwork.LocalPlayer.ActorNumber))
         {
+            string job = (string)propertiesThatChanged[PhotonNetwork.LocalPlayer.ActorNumber];
             ShowJobUI(job);
         }
     }
 
     private void ShowJobUI(string job)
     {
+        mafiaRole.gameObject.SetActive(job == "Mafia");
+        gangsterRole.gameObject.SetActive(job == "Gangster");
+        doctorRole.gameObject.SetActive(job == "Doctor");
+        policeRole.gameObject.SetActive(job == "Police");
+        stalkerRole.gameObject.SetActive(job == "Stalker");
+        citizenRole.gameObject.SetActive(job == "Citizen");
+
         switch (job)
         {
             case "Mafia":
-                mafiaRole.gameObject.SetActive(true);
                 StartCoroutine(JobTextCoroutine(mafiaText));
                 break;
-
             case "Gangster":
-                gangsterRole.gameObject.SetActive(true);
                 StartCoroutine(JobTextCoroutine(gangsterText));
                 break;
-
             case "Doctor":
-                doctorRole.gameObject.SetActive(true);
                 StartCoroutine(JobTextCoroutine(doctorText));
                 break;
-
             case "Police":
-                policeRole.gameObject.SetActive(true);
                 StartCoroutine(JobTextCoroutine(policeText));
                 break;
-
             case "Stalker":
-                stalkerRole.gameObject.SetActive(true);
                 StartCoroutine(JobTextCoroutine(stalkerText));
                 break;
-
             default:
-                citizenRole.gameObject.SetActive(true);
                 StartCoroutine(JobTextCoroutine(citizenText));
                 break;
         }
@@ -113,7 +136,7 @@ public class StartGame : MonoBehaviour
     IEnumerator JobTextCoroutine(RectTransform panel)
     {
         panel.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         panel.gameObject.SetActive(false);
     }
 }

@@ -43,7 +43,7 @@ public class GameStartButton : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            StartGame.Instance.StartGameClick();
+            // 게임 시작 로직
         }
     }
 

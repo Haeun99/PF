@@ -41,11 +41,23 @@ public class LobbyControl : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
 
-        Hashtable customProps = new Hashtable
+        if (PhotonNetwork.IsMasterClient)
         {
-            { "IsReady", false }
-        };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
+            Hashtable customProps = new Hashtable
+            {
+                { "IsReady", true }
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
+        }
+
+        else
+        {
+            Hashtable customProps = new Hashtable
+            {
+                { "IsReady", false }
+            };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
+        }
 
         EnterLobby();
         SortPlayers();
@@ -186,12 +198,18 @@ public class LobbyControl : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            CheckReady();
+            Hashtable customProps = new Hashtable
+            {
+                { "IsReady", true }
+            };
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
         }
 
         EnterLobby();
         SortPlayers();
+        CheckReady();
     }
 }

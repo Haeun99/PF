@@ -21,13 +21,30 @@ public class PlayerPanelManager : MonoBehaviourPunCallbacks
 
     public void SetReadyCheck(bool isReady)
     {
-        readyCheck.gameObject.SetActive(isReady);
+        if (!player.IsMasterClient)
+        {
+            readyCheck.gameObject.SetActive(isReady);
+        }
+        else
+        {
+            readyCheck.gameObject.SetActive(false);
+        }
     }
 
     public void Initialize(Player player)
     {
+        this.player = player;
         SetNickname(player.NickName);
 
         masterCrown.gameObject.SetActive(player.IsMasterClient);
+
+        if (player.IsMasterClient)
+        {
+            readyCheck.gameObject.SetActive(false);
+        }
+        else
+        {
+            readyCheck.gameObject.SetActive(false);
+        }
     }
 }

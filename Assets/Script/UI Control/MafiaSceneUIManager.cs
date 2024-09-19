@@ -79,6 +79,7 @@ public class MafiaSceneUIManager : MonoBehaviour
         SetMainButtonsActive(true);
 
         PhotonNetwork.LeaveRoom();
+        PhotonNetwork.JoinLobby();
     }
 
     private void FindGame(RectTransform panel)
