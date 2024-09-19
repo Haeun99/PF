@@ -14,11 +14,6 @@ public class PlayerPanelManager : MonoBehaviourPunCallbacks
 
     public Player player;
 
-    private void Start()
-    {
-        readyCheck.gameObject.SetActive(false);
-    }
-
     public void SetNickname(string nickname)
     {
         playerNickname.text = nickname;
@@ -33,19 +28,6 @@ public class PlayerPanelManager : MonoBehaviourPunCallbacks
     {
         SetNickname(player.NickName);
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            masterCrown.gameObject.SetActive(true);
-        }
-
-        else
-        {
-            masterCrown.gameObject.SetActive(false);
-        }
-
-        if (player.CustomProperties.TryGetValue("isReady", out object isReady))
-        {
-            SetReadyCheck((bool)isReady);
-        }
+        masterCrown.gameObject.SetActive(player.IsMasterClient);
     }
 }

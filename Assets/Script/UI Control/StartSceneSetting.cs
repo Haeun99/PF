@@ -67,10 +67,6 @@ public class StartSceneSetting : MonoBehaviour
             {
                 PanelOpen(gameEndPanel);
             }
-            else
-            {
-
-            }
         }
     }
 

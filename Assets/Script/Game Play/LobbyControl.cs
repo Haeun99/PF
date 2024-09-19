@@ -1,15 +1,11 @@
 using Photon.Pun;
 using Photon.Realtime;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Linq;
-using ExitGames.Client.Photon;
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-using System;
 
 public class LobbyControl : MonoBehaviourPunCallbacks
 {
@@ -19,7 +15,8 @@ public class LobbyControl : MonoBehaviourPunCallbacks
     public Button startButton;
     public Button readyButton;
 
-    private Dictionary<int, bool> playersReady;
+    private Dictionary<int, bool> playersReady = new();
+
     public Dictionary<int, PlayerPanelManager> playerEntries = new();
 
     private void Start()
@@ -42,19 +39,13 @@ public class LobbyControl : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        var props = PhotonNetwork.CurrentRoom.CustomProperties;
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            playersReady = new Dictionary<int, bool>();
-        }
-
-        else
-        {
-
-        }
-
         PhotonNetwork.AutomaticallySyncScene = true;
+
+        Hashtable customProps = new Hashtable
+        {
+            { "IsReady", false }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProps);
 
         EnterLobby();
         SortPlayers();
@@ -102,7 +93,7 @@ public class LobbyControl : MonoBehaviourPunCallbacks
         playerPanel.masterCrown.gameObject.SetActive(newPlayer.IsMasterClient);
         playerPanel.readyCheck.gameObject.SetActive(!newPlayer.IsMasterClient);
 
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && !newPlayer.CustomProperties.ContainsKey("IsReady"))
         {
             playersReady[newPlayer.ActorNumber] = false;
             CheckReady();
@@ -115,27 +106,12 @@ public class LobbyControl : MonoBehaviourPunCallbacks
     {
         base.OnPlayerLeftRoom(otherPlayer);
 
-        if (otherPlayer == null || !playerEntries.ContainsKey(otherPlayer.ActorNumber))
-        {
-            return;
-        }
-
-        if (playerEntries.ContainsKey(otherPlayer.ActorNumber))
-        {
-            Destroy(playerEntries[otherPlayer.ActorNumber].gameObject);
-            playerEntries.Remove(otherPlayer.ActorNumber);
-        }
-
-        if (PhotonNetwork.IsMasterClient)
+        if (playersReady.ContainsKey(otherPlayer.ActorNumber))
         {
             playersReady.Remove(otherPlayer.ActorNumber);
-            CheckReady();
         }
 
         UpdatePlayerList();
-        SortPlayers();
-        RoomPanelController.Instance.UpdateButtonState();
-        PhotonNetwork.JoinLobby();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -143,15 +119,14 @@ public class LobbyControl : MonoBehaviourPunCallbacks
         base.OnPlayerEnteredRoom(newPlayer);
 
         UpdatePlayerList();
-        RoomPanelController.Instance.UpdateButtonState();
     }
 
     public void SortPlayers()
     {
         var sortedPlayers = playerEntries.Values
-        .Where(p => p != null && p.gameObject != null)
-        .OrderBy(p => p.player.ActorNumber)
-        .ToList();
+            .Where(p => p != null && p.gameObject != null)
+            .OrderBy(p => p.player.ActorNumber)
+            .ToList();
 
         for (int i = 0; i < sortedPlayers.Count; i++)
         {
@@ -173,21 +148,12 @@ public class LobbyControl : MonoBehaviourPunCallbacks
         }
     }
 
-    public void ReadyToggleClick(bool isOn)
-    {
-        Player localPlayer = PhotonNetwork.LocalPlayer;
-
-        Hashtable customProps = new Hashtable
-    {
-        { "IsReady", isOn }
-    };
-
-        localPlayer.SetCustomProperties(customProps);
-    }
-
     public void SetPlayerReady(int actNumber, bool isReady)
     {
-        playerEntries[actNumber].readyCheck.gameObject.SetActive(isReady);
+        if (playerEntries.TryGetValue(actNumber, out PlayerPanelManager playerPanel))
+        {
+            playerPanel.SetReadyCheck(isReady);
+        }
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -199,16 +165,22 @@ public class LobbyControl : MonoBehaviourPunCallbacks
     private void CheckReady()
     {
         bool allReady = playersReady.Values.All(x => x);
-        bool anyReady = playersReady.Values.Any(x => x);
 
-        startButton.interactable = allReady;
+        GameStartButton[] gameStartButtons = FindObjectsOfType<GameStartButton>();
+        foreach (var gameStartButton in gameStartButtons)
+        {
+            gameStartButton.CheckAllPlayersReady();
+        }
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         if (changedProps.ContainsKey("IsReady"))
         {
-            SetPlayerReady(targetPlayer.ActorNumber, (bool)changedProps["IsReady"]);
+            bool isReady = (bool)changedProps["IsReady"];
+            SetPlayerReady(targetPlayer.ActorNumber, isReady);
+
+            Debug.Log($"Player {targetPlayer.ActorNumber} properties updated: IsReady = {isReady}");
         }
     }
 
@@ -216,17 +188,10 @@ public class LobbyControl : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            playersReady = new Dictionary<int, bool>();
-
-            foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
-            {
-                playersReady[player.ActorNumber] = false;
-            }
-
             CheckReady();
         }
 
         EnterLobby();
-        UpdatePlayerList();
+        SortPlayers();
     }
 }

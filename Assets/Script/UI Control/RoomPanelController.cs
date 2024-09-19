@@ -59,18 +59,18 @@ public class RoomPanelController : MonoBehaviour
         return null;
     }
 
-    public void UpdateButtonState()
-    {
-        bool isFull = PhotonNetwork.CurrentRoom.PlayerCount >= roomInfo.MaxPlayers;
+    //public void UpdateButtonState()
+    //{
+    //    bool isFull = PhotonNetwork.CurrentRoom.PlayerCount >= roomInfo.MaxPlayers;
 
-        if (isFull)
-        {
-            roomCard.interactable = false;
-        }
+    //    if (isFull)
+    //    {
+    //        roomCard.interactable = false;
+    //    }
 
-        else
-        {
-            roomCard.interactable = true;
-        }
-    }
+    //    else
+    //    {
+    //        roomCard.interactable = true;
+    //    }
+    //}
 }
