@@ -4,9 +4,12 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 public class GameStartButton : MonoBehaviourPunCallbacks
 {
     public Button gameStartButton;
+    public GameObject gamePanel;
 
     private void Start()
     {
@@ -41,10 +44,10 @@ public class GameStartButton : MonoBehaviourPunCallbacks
 
     private void GameStart()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            // 게임 시작 로직
-        }
+        gamePanel.SetActive(true);
+
+        StartGame.Instance.StartGameClick();
+        ResetPlayersReadyState();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -59,11 +62,19 @@ public class GameStartButton : MonoBehaviourPunCallbacks
         CheckAllPlayersReady();
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         if (changedProps.ContainsKey("IsReady"))
         {
             CheckAllPlayersReady();
+        }
+    }
+
+    private void ResetPlayersReadyState()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            player.SetCustomProperties(new Hashtable { { "IsReady", false } });
         }
     }
 }

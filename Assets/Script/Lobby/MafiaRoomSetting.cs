@@ -70,6 +70,7 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             SettingConfirm();
+            UpdateFromRoomProperties();
         }
 
         else
@@ -93,23 +94,20 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
         SetPoliceCount();
         SetStalkerCount();
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Hashtable roomProperties = new Hashtable
-            {
-                { "DayTime", dayTimeSecond },
-                { "NightTime", nightTimeSecond },
-                { "FinalAppeal", isFinalAppeal },
-                { "AnonymousVote", isAnonymous },
-                { "MafiaCount", mafiaNumber },
-                { "GangsterCount", gangsterNumber },
-                { "DoctorCount", doctorNumber },
-                { "PoliceCount", policeNumber },
-                { "StalkerCount", stalkerNumber }
-            };
+        Hashtable roomProperties = new Hashtable
+    {
+        { "DayTime", dayTimeSecond },
+        { "NightTime", nightTimeSecond },
+        { "FinalAppeal", isFinalAppeal },
+        { "AnonymousVote", isAnonymous },
+        { "MafiaCount", mafiaNumber },
+        { "GangsterCount", gangsterNumber },
+        { "DoctorCount", doctorNumber },
+        { "PoliceCount", policeNumber },
+        { "StalkerCount", stalkerNumber }
+    };
 
-            PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
-        }
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
 
         masterSetting.gameObject.SetActive(false);
     }
@@ -249,7 +247,6 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        Init();
         UpdateFromRoomProperties();
     }
 
@@ -268,6 +265,8 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
 
     public void UpdateFromRoomProperties()
     {
+        Init();
+
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("DayTime", out object dayTimeObj))
         {
             dayTimeSecond = (int)dayTimeObj;
@@ -325,15 +324,15 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
 
     public void Init()
     {
-        dayTime.value = 0;
-        nightTime.value = 0;
-        anonymousVote.isOn = false;
-        finalAppeal.isOn = false;
-        mafiaCount.value = 0;
-        gangsterCount.value = 0;
-        policeCount.value = 0;
-        doctorCount.value = 0;
-        stalkerCount.value = 0;
+        dayTimeSecond = 60;
+        nightTimeSecond = 60;
+        isFinalAppeal = false;
+        isAnonymous = false;
+        mafiaNumber = 1;
+        gangsterNumber = 0;
+        doctorNumber = 0;
+        policeNumber = 0;
+        stalkerNumber = 0;
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)

@@ -76,7 +76,6 @@ public class DatabaseManager : MonoBehaviour
 
         catch (FirebaseException fe)
         {
-            Debug.LogError(fe.Message);
             loginError.gameObject.SetActive(true);
         }
     }

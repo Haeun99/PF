@@ -94,6 +94,7 @@ public class MafiaSceneUIManager : MonoBehaviour
     {
         CreateRoom.Instance.CreateMafiaRoom();
 
+
         panel.gameObject.SetActive(true);
         SetPopupActive();
     }

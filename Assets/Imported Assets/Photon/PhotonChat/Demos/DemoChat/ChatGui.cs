@@ -146,7 +146,7 @@ namespace Photon.Chat.Demo
 
             if (!appIdPresent)
             {
-                Debug.LogError("You need to set the chat app ID in the PhotonServerSettings file in order to continue.");
+
             }
         }
 
