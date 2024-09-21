@@ -35,7 +35,7 @@ public class StartGame : MonoBehaviourPunCallbacks
         }
     }
 
-    public void StartGameClick()
+    private void Start()
     {
         InitializeJobList();
         AssignJobsToPlayers();
