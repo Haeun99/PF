@@ -23,6 +23,7 @@ public class RoomPanelController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         roomCard = GetComponent<Button>();

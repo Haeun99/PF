@@ -34,7 +34,7 @@ public class MafiaGameUIManager : MonoBehaviour
 
     private void Start()
     {
-        quitGameButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
+        quitGameButton.onClick.AddListener(QuitGame);
         chatButton.onClick.AddListener(() => RepeatTogglePanel(chatPanel));
         settingCheckButton.onClick.AddListener(() => ClosePanel(settingPanel));
         playerSettingCheckButton.onClick.AddListener(() => ClosePanel(playerRoomSettingPanel));
@@ -61,6 +61,13 @@ public class MafiaGameUIManager : MonoBehaviour
             masterRoomSettingPanel.gameObject.SetActive(false);
             playerRoomSettingPanel.gameObject.SetActive(true);
         }
+    }
+
+    private void QuitGame()
+    {
+        SceneManager.LoadScene("Game_Scene");
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LeaveLobby();
     }
 
     private void ClosePanel(RectTransform panel)

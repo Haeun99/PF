@@ -6,7 +6,6 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class ReadyButton : MonoBehaviourPunCallbacks
@@ -29,12 +28,7 @@ public class ReadyButton : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        isReady = false;
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "IsReady", isReady } });
-
-        buttonImage.color = Color.white;
-        buttonText.text = "준비하기";
+        ResetReadyState();
     }
 
     private void ReadyState()
@@ -45,5 +39,14 @@ public class ReadyButton : MonoBehaviourPunCallbacks
         buttonText.text = isReady ? "준비 취소" : "준비하기";
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "IsReady", isReady } });
+    }
+
+    public void ResetReadyState()
+    {
+        isReady = false;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "IsReady", isReady } });
+
+        buttonImage.color = Color.white;
+        buttonText.text = "준비하기";
     }
 }

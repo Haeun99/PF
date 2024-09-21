@@ -27,6 +27,11 @@ public class CreateRoom : MonoBehaviourPunCallbacks
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
@@ -43,6 +48,11 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+        if (pwLabel == null || roomPWInput == null)
+        {
+            return;
+        }
+
         if (privateMode.isOn)
         {
             pwLabel.gameObject.SetActive(true);
@@ -100,7 +110,9 @@ public class CreateRoom : MonoBehaviourPunCallbacks
 
     public void RoomCreate(RoomInfo roomInfo)
     {
-        bool isPrivate = roomInfo.CustomProperties.ContainsKey("IsPrivate") && (bool)roomInfo.CustomProperties["IsPrivate"];
+        bool isPrivate = roomInfo.CustomProperties != null &&
+                 roomInfo.CustomProperties.ContainsKey("IsPrivate") &&
+                 (bool)roomInfo.CustomProperties["IsPrivate"];
 
         var room = Instantiate(roomPrefab, roomList, false);
 

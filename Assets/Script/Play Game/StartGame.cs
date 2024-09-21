@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -32,24 +34,29 @@ public class StartGame : MonoBehaviourPunCallbacks
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
     }
 
-    private void Start()
+    public void StartButtonClick()
     {
         InitializeJobList();
-        AssignJobsToPlayers();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            AssignJobsToPlayers();
+        }
     }
 
     private void InitializeJobList()
     {
         randomJob.Clear();
 
-        int mafiaCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["MafiaCount"];
-        int gangsterCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["GangsterCount"];
-        int doctorCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["DoctorCount"];
-        int policeCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["PoliceCount"];
-        int stalkerCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["StalkerCount"];
+        int mafiaCount = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("MafiaCount") ? (int)PhotonNetwork.CurrentRoom.CustomProperties["MafiaCount"] : 1;
+        int gangsterCount = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("GangsterCount") ? (int)PhotonNetwork.CurrentRoom.CustomProperties["GangsterCount"] : 0;
+        int doctorCount = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("DoctorCount") ? (int)PhotonNetwork.CurrentRoom.CustomProperties["DoctorCount"] : 0;
+        int policeCount = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("PoliceCount") ? (int)PhotonNetwork.CurrentRoom.CustomProperties["PoliceCount"] : 0;
+        int stalkerCount = PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("StalkerCount") ? (int)PhotonNetwork.CurrentRoom.CustomProperties["StalkerCount"] : 0;
 
         for (int i = 0; i < mafiaCount; i++) randomJob.Add("Mafia");
         for (int i = 0; i < gangsterCount; i++) randomJob.Add("Gangster");
@@ -78,23 +85,27 @@ public class StartGame : MonoBehaviourPunCallbacks
             randomJob.RemoveAt(randomIndex);
         }
 
-        Hashtable jobProperties = new Hashtable();
         foreach (var pair in playerJobs)
         {
-            jobProperties[pair.Key.ActorNumber] = pair.Value;
+            Hashtable jobProperty = new Hashtable();
+            jobProperty["Job"] = pair.Value;
+
+            pair.Key.SetCustomProperties(jobProperty);
         }
 
-        PhotonNetwork.CurrentRoom.SetCustomProperties(jobProperties);
+        foreach (var player in players)
+        {
+            Debug.Log($"Player: {player.NickName}, Assigned Job: {playerJobs[player]}");
+        }
     }
 
-    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
-        base.OnRoomPropertiesUpdate(propertiesThatChanged);
-        Debug.Log("Room properties updated: " + propertiesThatChanged.ToStringFull());
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
 
-        if (propertiesThatChanged.ContainsKey(PhotonNetwork.LocalPlayer.ActorNumber))
+        if (targetPlayer == PhotonNetwork.LocalPlayer && changedProps.ContainsKey("Job"))
         {
-            string job = (string)propertiesThatChanged[PhotonNetwork.LocalPlayer.ActorNumber];
+            string job = (string)changedProps["Job"];
             ShowJobUI(job);
         }
     }

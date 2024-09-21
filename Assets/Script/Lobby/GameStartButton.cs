@@ -13,13 +13,14 @@ public class GameStartButton : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
+        gameStartButton.onClick.AddListener(GameStart);
+
         if (PhotonNetwork.IsMasterClient)
         {
             gameStartButton.interactable = false;
-            gameStartButton.onClick.AddListener(GameStart);
+            CheckAllPlayersReady();
         }
-
-        CheckAllPlayersReady();
     }
 
     public void CheckAllPlayersReady()
@@ -44,30 +45,31 @@ public class GameStartButton : MonoBehaviourPunCallbacks
 
     private void GameStart()
     {
-        // 게임 시작을 위한 룸 프로퍼티 설정 (모든 클라이언트에 전파됨)
         Hashtable roomProperties = new Hashtable
-    {
-        { "GameStarted", true }
-    };
+        {
+            { "GameStarted", true }
+        };
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
 
-        Debug.Log("GameStarted property set.");
-
-        // 플레이어 상태 초기화
+        gamePanel.SetActive(true);
+        StartGame.Instance.StartButtonClick();
         ResetPlayersReadyState();
     }
 
-    public override void OnRoomPropertiesUpdate(Hashtable changedProps)
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
-        base.OnRoomPropertiesUpdate(changedProps);
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
 
-        Debug.Log("OnRoomPropertiesUpdate called!");
-
-        // "GameStarted" 프로퍼티가 변경되었을 때 처리
-        if (changedProps.ContainsKey("GameStarted") && (bool)changedProps["GameStarted"])
+        if (propertiesThatChanged.ContainsKey("GameStarted"))
         {
-            Debug.Log("Game started property detected.");
-            gamePanel.SetActive(true);
+            bool gameStarted = (bool)propertiesThatChanged["GameStarted"];
+            
+            if (gameStarted)
+            {
+                gamePanel.SetActive(true);
+                StartGame.Instance.StartButtonClick();
+                ResetPlayersReadyState();
+            }
         }
     }
 
@@ -96,6 +98,21 @@ public class GameStartButton : MonoBehaviourPunCallbacks
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             player.SetCustomProperties(new Hashtable { { "IsReady", false } });
+        }
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            GameObject playerObject = player.TagObject as GameObject;
+
+            if (playerObject != null)
+            {
+                ReadyButton readyButton = playerObject.GetComponentInChildren<ReadyButton>();
+
+                if (readyButton != null)
+                {
+                    readyButton.ResetReadyState();
+                }
+            }
         }
     }
 }

@@ -53,7 +53,10 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
+
+        Init();
 
         settingConfirmButton.onClick.AddListener(SettingConfirm);
         dayTime.onValueChanged.AddListener(SetDayTime);
@@ -78,7 +81,16 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
             SetDayTime(0);
             SetNightTime(0);
             UpdateCountSetting();
-            SettingConfirm();
+
+            UpdateDayText();
+            UpdateNightText();
+            UpdateFinalAppealText();
+            UpdateVoteText();
+            SetMafiaCount();
+            SetGangsterCount();
+            SetDoctorCount();
+            SetPoliceCount();
+            SetStalkerCount();
         }
     }
 
@@ -227,6 +239,7 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
         stalkerCountText.text = stalkerNumber == 1 ? "있음" : "없음";
     }
 
+    // todo : 현재 인원으로 수정해야함
     public void ValidateRoleCount()
     {
         int totalPlayer = mafiaNumber + gangsterNumber + policeNumber + doctorNumber + stalkerNumber;
@@ -265,8 +278,6 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
 
     public void UpdateFromRoomProperties()
     {
-        Init();
-
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("DayTime", out object dayTimeObj))
         {
             dayTimeSecond = (int)dayTimeObj;
