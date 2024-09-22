@@ -98,21 +98,7 @@ public class GameStartButton : MonoBehaviourPunCallbacks
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             player.SetCustomProperties(new Hashtable { { "IsReady", false } });
-        }
-
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            GameObject playerObject = player.TagObject as GameObject;
-
-            if (playerObject != null)
-            {
-                ReadyButton readyButton = playerObject.GetComponentInChildren<ReadyButton>();
-
-                if (readyButton != null)
-                {
-                    readyButton.ResetReadyState();
-                }
-            }
+            ReadyButton.Instance.ResetReadyState();
         }
     }
 }

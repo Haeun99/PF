@@ -10,10 +10,21 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class ReadyButton : MonoBehaviourPunCallbacks
 {
+    public static ReadyButton Instance { get; private set; }
+
     private bool isReady = false;
     private Button readyButton;
     private Image buttonImage;
     private TextMeshProUGUI buttonText;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     private void Start()
     {

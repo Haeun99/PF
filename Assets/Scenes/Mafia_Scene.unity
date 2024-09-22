@@ -1582,7 +1582,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 64343576}
   m_HandleRect: {fileID: 64343575}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5811,7 +5811,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 56215075}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1433623124}
@@ -12263,7 +12263,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1667174329}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 2140989933}
@@ -14955,7 +14955,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 365257641}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 491117437}
@@ -16404,7 +16404,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 620938187}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 540659675}
@@ -19626,7 +19626,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 440587169}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1002943265}
@@ -19739,7 +19739,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1992243719}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1688549824}
@@ -20548,7 +20548,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 466851541}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 641898994}
@@ -25495,6 +25495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 915404503}
   - component: {fileID: 915404504}
+  - component: {fileID: 915404505}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -25519,7 +25520,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -900.00006}
+  m_AnchoredPosition: {x: 0, y: -900}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &915404504
@@ -25548,6 +25549,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &915404505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915404502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &917241278
 GameObject:
   m_ObjectHideFlags: 0
@@ -29615,6 +29630,10 @@ MonoBehaviour:
   masterRoomSettingPanel: {fileID: 1480017446}
   playerRoomSettingPanel: {fileID: 882308883}
   playerSettingCheckButton: {fileID: 735584771}
+  quitButton: {fileID: 223710845}
+  readyButton: {fileID: 1805245080025414995}
+  startButton: {fileID: 2662732967809696318}
+  settingButton: {fileID: 265472580}
 --- !u!1 &1040443169
 GameObject:
   m_ObjectHideFlags: 0
@@ -30842,7 +30861,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1218967158}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1526678026}
@@ -32481,7 +32500,6 @@ GameObject:
   - component: {fileID: 1155181968}
   - component: {fileID: 1155181971}
   - component: {fileID: 1155181970}
-  - component: {fileID: 1155181969}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -32509,20 +32527,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -835}
   m_SizeDelta: {x: 1073, y: 20}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1155181969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1155181967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 0
 --- !u!114 &1155181970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33478,7 +33482,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 453458800}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 36042669}
@@ -37857,7 +37861,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1152464987}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1923866390}
@@ -40709,6 +40713,7 @@ GameObject:
   - component: {fileID: 1427470463}
   - component: {fileID: 1427470464}
   - component: {fileID: 1427470465}
+  - component: {fileID: 1427470466}
   m_Layer: 5
   m_Name: Lobby Panel
   m_TagString: Untagged
@@ -40864,6 +40869,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameStartButton: {fileID: 2662732967809696318}
   gamePanel: {fileID: 1068178227}
+--- !u!114 &1427470466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427470457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bef2196de487e348acb2eb72a40bfcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myChat: {fileID: 3291872097989943616, guid: 0dd67908e7d875e41b07c625f3ede98e, type: 3}
+  otherChat: {fileID: 8994381758710255028, guid: 21c26593bfd116b4397ead23864359e2, type: 3}
+  systemChat: {fileID: 5785406242007182171, guid: 74cbe87ca74084a44a92261a9846e17e, type: 3}
+  chatContent: {fileID: 915404503}
+  chattingInput: {fileID: 224866088}
+  sendButton: {fileID: 1802133125}
 --- !u!1 &1433623122
 GameObject:
   m_ObjectHideFlags: 0
@@ -45056,7 +45079,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1891134116}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1255998788}
@@ -47540,7 +47563,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 30
   m_Viewport: {fileID: 1178830343}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1990764515}

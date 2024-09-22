@@ -23,6 +23,12 @@ public class MafiaGameUIManager : MonoBehaviour
     public RectTransform playerRoomSettingPanel;
     public Button playerSettingCheckButton;
 
+    [Space(20)]
+    public Button quitButton;
+    public Button readyButton;
+    public Button startButton;
+    public Button settingButton;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -45,7 +51,17 @@ public class MafiaGameUIManager : MonoBehaviour
     {
         isOpen = !isOpen;
         panel.gameObject.SetActive(isOpen);
-        // 버튼 토글 로직 추가해야함
+        quitButton.gameObject.SetActive(!isOpen);
+        settingButton.gameObject.SetActive(!isOpen);
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            startButton.gameObject.SetActive(!isOpen);
+        }
+        else
+        {
+            readyButton.gameObject.SetActive(!isOpen);
+        }
     }
 
     private void OpenPanel()
