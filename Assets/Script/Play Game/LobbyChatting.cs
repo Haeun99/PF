@@ -30,7 +30,10 @@ public class LobbyChatting : MonoBehaviour
 
     private void Chatting()
     {
+        string message = chatInput.text;
+
         ChattingManager.Instance.SendMessageToChannel($"{PhotonNetwork.CurrentRoom.Name}_Lobby", chatInput);
+        ChattingManager.Instance.DisplayMyChat(message, ChattingManager.Instance.LobbyContent);
     }
 
     void OnEnable()
