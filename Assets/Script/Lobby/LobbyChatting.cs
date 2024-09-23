@@ -21,7 +21,7 @@ public class LobbyChatting : MonoBehaviour, IChatClientListener
     void Start()
     {
         chatClient = new ChatClient(this);
-        chatClient.Connect("0d890b75-4bab-4ee1-8f70-1e44f6fe3a17", "1.0", new AuthenticationValues(PhotonNetwork.LocalPlayer.NickName));
+        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(PhotonNetwork.LocalPlayer.NickName));
 
         sendButton.onClick.AddListener(SendChatMessage);
     }
