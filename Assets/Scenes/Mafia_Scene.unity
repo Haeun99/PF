@@ -33970,6 +33970,7 @@ GameObject:
   - component: {fileID: 1199265467}
   - component: {fileID: 1199265469}
   - component: {fileID: 1199265468}
+  - component: {fileID: 1199265470}
   m_Layer: 5
   m_Name: Lobby Backboard
   m_TagString: Untagged
@@ -34043,6 +34044,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1199265466}
   m_CullTransparentMesh: 1
+--- !u!114 &1199265470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1199265466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c09e4cb34bc281448db1db1061c2937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myChat: {fileID: 3291872097989943616, guid: 0dd67908e7d875e41b07c625f3ede98e, type: 3}
+  otherChat: {fileID: 8994381758710255028, guid: 21c26593bfd116b4397ead23864359e2, type: 3}
+  deadChat: {fileID: 8994381758710255028, guid: 0a0bee0eb1bb5974d817d7bb9cd4ef39, type: 3}
+  systemChat: {fileID: 5785406242007182171, guid: 74cbe87ca74084a44a92261a9846e17e, type: 3}
+  LobbyContent: {fileID: 915404503}
+  InGameContent:
+  - {fileID: 1155181968}
+  - {fileID: 68142190}
+  - {fileID: 801399640}
+  - {fileID: 687445529}
+  - {fileID: 408973955}
+  - {fileID: 1978865940}
+  MafiaTeamContent:
+  - {fileID: 1778251668}
+  - {fileID: 935991829}
+  DoctorContent: {fileID: 1140049153}
+  PoliceContent: {fileID: 1471376635}
+  StalkerContent: {fileID: 877612814}
 --- !u!1 &1200718132
 GameObject:
   m_ObjectHideFlags: 0
@@ -40881,12 +40912,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bef2196de487e348acb2eb72a40bfcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myChat: {fileID: 3291872097989943616, guid: 0dd67908e7d875e41b07c625f3ede98e, type: 3}
-  otherChat: {fileID: 8994381758710255028, guid: 21c26593bfd116b4397ead23864359e2, type: 3}
-  systemChat: {fileID: 5785406242007182171, guid: 74cbe87ca74084a44a92261a9846e17e, type: 3}
-  chatContent: {fileID: 915404503}
-  chattingInput: {fileID: 224866088}
   sendButton: {fileID: 1802133125}
+  chatInput: {fileID: 224866088}
 --- !u!1 &1433623122
 GameObject:
   m_ObjectHideFlags: 0
