@@ -7,10 +7,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyChatting : MonoBehaviour, IChatClientListener
+public class InGameChatting : MonoBehaviour, IChatClientListener
 {
     public GameObject myChat;
     public GameObject otherChat;
+    public GameObject deadChat;
     public GameObject systemChat;
     public Transform chatContent;
     public TMP_InputField chattingInput;
@@ -44,7 +45,7 @@ public class LobbyChatting : MonoBehaviour, IChatClientListener
         string message = chattingInput.text;
         if (!string.IsNullOrEmpty(message))
         {
-            chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_Lobby", message);
+            chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
 
             chattingInput.text = "";
             chattingInput.ActivateInputField();
@@ -113,13 +114,13 @@ public class LobbyChatting : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
-        chatClient.Subscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Lobby" });
+        chatClient.Subscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_InGame" });
     }
 
     public void OnDisconnected()
     {
         chatClient?.Disconnect();
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Lobby" });
+        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_InGame" });
     }
     public void OnPrivateMessage(string sender, object message, string channel)
     {

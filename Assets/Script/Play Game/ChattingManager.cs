@@ -13,7 +13,7 @@ public class ChattingManager : MonoBehaviour, IChatClientListener
 
     private Dictionary<string, Action<string, string>> channelHandlers;
 
-    public event Action<string, string, string> OnChatMessageReceived;
+    public event Action<string, string[], object[]> OnChatMessageReceived;
 
     private ChatClient chatClient;
 
@@ -109,7 +109,7 @@ public class ChattingManager : MonoBehaviour, IChatClientListener
             string sender = senders[i];
             string message = messages[i].ToString();
 
-            OnChatMessageReceived?.Invoke(channelName, sender, message);
+            OnChatMessageReceived?.Invoke(channelName, senders, messages);
 
             foreach (var handler in channelHandlers)
             {
