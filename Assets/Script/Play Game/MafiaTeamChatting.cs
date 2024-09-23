@@ -7,11 +7,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGameChatting : MonoBehaviour, IChatClientListener
+public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
 {
     public GameObject myChat;
     public GameObject otherChat;
-    public GameObject deadChat;
     public GameObject systemChat;
     public Transform chatContent;
     public TMP_InputField chattingInput;
@@ -45,7 +44,7 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
         string message = chattingInput.text;
         if (!string.IsNullOrEmpty(message))
         {
-            chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
+            chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
 
             chattingInput.text = "";
             chattingInput.ActivateInputField();
@@ -114,8 +113,7 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
-        chatClient.Subscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_InGame" });
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam" });
+        chatClient.Subscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam" });
         chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Doctor" });
         chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Police" });
         chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Stalker" });
@@ -125,7 +123,7 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
     public void OnDisconnected()
     {
         chatClient?.Disconnect();
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_InGame" });
+        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam" });
     }
     public void OnPrivateMessage(string sender, object message, string channel)
     {

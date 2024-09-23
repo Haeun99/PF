@@ -239,15 +239,21 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
         stalkerCountText.text = stalkerNumber == 1 ? "있음" : "없음";
     }
 
-    // todo : 현재 인원으로 수정해야함
     public void ValidateRoleCount()
     {
         int totalPlayer = mafiaNumber + gangsterNumber + policeNumber + doctorNumber + stalkerNumber;
-        int maxPlayer = PhotonNetwork.CurrentRoom.MaxPlayers;
+        int currentPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        bool isMinimum = currentPlayerCount < 5;
+        bool isOverHalf = (mafiaNumber + gangsterNumber) > (currentPlayerCount / 2);
 
-        if (totalPlayer > maxPlayer || mafiaNumber + gangsterNumber > maxPlayer / 2)
+        if (totalPlayer > currentPlayerCount || isOverHalf)
         {
             settingConfirmButton.interactable = false;
+
+            if (isMinimum && totalPlayer < 5 && (mafiaNumber + gangsterNumber) < 3)
+            {
+                settingConfirmButton.interactable = true;
+            }
         }
 
         else

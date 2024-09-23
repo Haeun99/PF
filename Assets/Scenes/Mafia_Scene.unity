@@ -5811,7 +5811,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 56215075}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1433623124}
@@ -12283,7 +12283,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 1667174329}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 2140989933}
@@ -14975,7 +14975,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 365257641}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 491117437}
@@ -16424,7 +16424,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 620938187}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 540659675}
@@ -19646,7 +19646,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 440587169}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1002943265}
@@ -19759,7 +19759,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 1992243719}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1688549824}
@@ -20568,7 +20568,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 466851541}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 641898994}
@@ -22870,6 +22870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 799575150}
   - component: {fileID: 799575151}
+  - component: {fileID: 799575152}
   m_Layer: 5
   m_Name: Police Panel
   m_TagString: Untagged
@@ -22919,6 +22920,24 @@ MonoBehaviour:
   chatContent: {fileID: 687445529}
   chattingInput: {fileID: 659984242}
   sendButton: {fileID: 374252392}
+--- !u!114 &799575152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799575149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea2115991818424f9aeec05ed18afa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myChat: {fileID: 3291872097989943616, guid: 0dd67908e7d875e41b07c625f3ede98e, type: 3}
+  otherChat: {fileID: 8994381758710255028, guid: 21c26593bfd116b4397ead23864359e2, type: 3}
+  systemChat: {fileID: 5785406242007182171, guid: 74cbe87ca74084a44a92261a9846e17e, type: 3}
+  chatContent: {fileID: 1471376635}
+  chattingInput: {fileID: 1040443171}
+  sendButton: {fileID: 1171964402}
 --- !u!1 &801399639
 GameObject:
   m_ObjectHideFlags: 0
@@ -30901,7 +30920,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 1218967158}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1526678026}
@@ -32409,6 +32428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1147956814}
   - component: {fileID: 1147956815}
+  - component: {fileID: 1147956816}
   m_Layer: 5
   m_Name: Doctor Panel
   m_TagString: Untagged
@@ -32458,6 +32478,24 @@ MonoBehaviour:
   chatContent: {fileID: 801399640}
   chattingInput: {fileID: 8345175}
   sendButton: {fileID: 1164128652}
+--- !u!114 &1147956816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147956813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb54c385d6aa93b4fb5c2eb740333b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myChat: {fileID: 3291872097989943616, guid: 0dd67908e7d875e41b07c625f3ede98e, type: 3}
+  otherChat: {fileID: 8994381758710255028, guid: 21c26593bfd116b4397ead23864359e2, type: 3}
+  systemChat: {fileID: 5785406242007182171, guid: 74cbe87ca74084a44a92261a9846e17e, type: 3}
+  chatContent: {fileID: 1140049153}
+  chattingInput: {fileID: 1950696872}
+  sendButton: {fileID: 749681968}
 --- !u!1 &1152464986
 GameObject:
   m_ObjectHideFlags: 0
@@ -33542,7 +33580,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 453458800}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 36042669}
@@ -37164,6 +37202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1295417421}
   - component: {fileID: 1295417422}
+  - component: {fileID: 1295417423}
   m_Layer: 5
   m_Name: Gangster Panel
   m_TagString: Untagged
@@ -37213,6 +37252,24 @@ MonoBehaviour:
   chatContent: {fileID: 68142190}
   chattingInput: {fileID: 2138799424}
   sendButton: {fileID: 1124358238}
+--- !u!114 &1295417423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295417420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380041dbd32215a4e9d871f760ebb6f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myChat: {fileID: 3291872097989943616, guid: 0dd67908e7d875e41b07c625f3ede98e, type: 3}
+  otherChat: {fileID: 8994381758710255028, guid: 21c26593bfd116b4397ead23864359e2, type: 3}
+  systemChat: {fileID: 5785406242007182171, guid: 74cbe87ca74084a44a92261a9846e17e, type: 3}
+  chatContent: {fileID: 935991829}
+  chattingInput: {fileID: 1535560650}
+  sendButton: {fileID: 1860761398}
 --- !u!1 &1303263429
 GameObject:
   m_ObjectHideFlags: 0
@@ -37960,7 +38017,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 1152464987}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1923866390}
@@ -45159,7 +45216,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 1891134116}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1255998788}
@@ -47643,7 +47700,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 30
+  m_ScrollSensitivity: 50
   m_Viewport: {fileID: 1178830343}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1990764515}
@@ -48464,6 +48521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1672667632}
   - component: {fileID: 1672667634}
+  - component: {fileID: 1672667635}
   m_Layer: 5
   m_Name: Mafia Panel
   m_TagString: Untagged
@@ -48513,6 +48571,24 @@ MonoBehaviour:
   chatContent: {fileID: 1155181968}
   chattingInput: {fileID: 1448874871}
   sendButton: {fileID: 794630707}
+--- !u!114 &1672667635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672667631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 380041dbd32215a4e9d871f760ebb6f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myChat: {fileID: 3291872097989943616, guid: 0dd67908e7d875e41b07c625f3ede98e, type: 3}
+  otherChat: {fileID: 8994381758710255028, guid: 21c26593bfd116b4397ead23864359e2, type: 3}
+  systemChat: {fileID: 5785406242007182171, guid: 74cbe87ca74084a44a92261a9846e17e, type: 3}
+  chatContent: {fileID: 1778251668}
+  chattingInput: {fileID: 80013556}
+  sendButton: {fileID: 983131716}
 --- !u!1 &1673196778
 GameObject:
   m_ObjectHideFlags: 0
@@ -50165,6 +50241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1732002753}
   - component: {fileID: 1732002754}
+  - component: {fileID: 1732002755}
   m_Layer: 5
   m_Name: Stalker Panel
   m_TagString: Untagged
@@ -50214,6 +50291,23 @@ MonoBehaviour:
   chatContent: {fileID: 408973955}
   chattingInput: {fileID: 38784728}
   sendButton: {fileID: 1068205912}
+--- !u!114 &1732002755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732002752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4c7f291c5137454f854afa3520a67d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myChat: {fileID: 3291872097989943616, guid: 0dd67908e7d875e41b07c625f3ede98e, type: 3}
+  systemChat: {fileID: 5785406242007182171, guid: 74cbe87ca74084a44a92261a9846e17e, type: 3}
+  chatContent: {fileID: 877612814}
+  chattingInput: {fileID: 1200718134}
+  sendButton: {fileID: 681134453}
 --- !u!1 &1740206364
 GameObject:
   m_ObjectHideFlags: 0

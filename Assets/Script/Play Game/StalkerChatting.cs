@@ -7,11 +7,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InGameChatting : MonoBehaviour, IChatClientListener
+public class StalkerChatting : MonoBehaviour, IChatClientListener
 {
     public GameObject myChat;
-    public GameObject otherChat;
-    public GameObject deadChat;
     public GameObject systemChat;
     public Transform chatContent;
     public TMP_InputField chattingInput;
@@ -45,7 +43,7 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
         string message = chattingInput.text;
         if (!string.IsNullOrEmpty(message))
         {
-            chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
+            chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_Stalker", message);
 
             chattingInput.text = "";
             chattingInput.ActivateInputField();
@@ -75,16 +73,8 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
         }
         else
         {
-            DisplayOtherChat(message, sender.ToString());
+            DisplaySystemMessage(message);
         }
-    }
-
-    private void DisplayOtherChat(string message, string sender)
-    {
-        var chatBubble = Instantiate(otherChat, chatContent);
-
-        chatBubble.transform.Find("Nickname").GetComponent<TextMeshProUGUI>().text = sender;
-        chatBubble.transform.Find("Chat Bubble/Chat").GetComponent<TextMeshProUGUI>().text = message;
     }
 
     public void DisplaySystemMessage(string message)
@@ -107,25 +97,24 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
             }
             else
             {
-                DisplayOtherChat(message, sender);
+                DisplaySystemMessage(message);
             }
         }
     }
 
     public void OnConnected()
     {
-        chatClient.Subscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_InGame" });
+        chatClient.Subscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Stalker" });
         chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam" });
         chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Doctor" });
         chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Police" });
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Stalker" });
         chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Lobby" });
     }
 
     public void OnDisconnected()
     {
         chatClient?.Disconnect();
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_InGame" });
+        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Stalker" });
     }
     public void OnPrivateMessage(string sender, object message, string channel)
     {
