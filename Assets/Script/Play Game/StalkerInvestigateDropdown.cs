@@ -54,8 +54,25 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
 
     public void PlayerVote()
     {
-        Player selecetedPlayer = GetSelectedPlayer();
+        Player selectedPlayer = GetSelectedPlayer();
+
+        StalkerAction(selectedPlayer);
 
         selectButton.interactable = false;
+
+        StalkerChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}¥‘¿Ã <color=green>{selectedPlayer.NickName}<color=white>¥‘¿ª Ω∫≈‰≈∑«’¥œ¥Ÿ...");
+    }
+
+    private void StalkerAction(Player targetPlayer)
+    {
+        if (targetPlayer.CustomProperties.ContainsKey("nightAction"))
+        {
+            string action = (string)targetPlayer.CustomProperties["nightAction"];
+        }
+
+        else
+        {
+
+        }
     }
 }

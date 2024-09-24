@@ -8,7 +8,7 @@ public class PlayerStatus : MonoBehaviour
 {
     public static PlayerStatus Instance { get; private set; }
 
-    public bool isDead;
+    private bool isDead;
 
     private void Awake()
     {
@@ -22,6 +22,7 @@ public class PlayerStatus : MonoBehaviour
     {
         isDead = dead;
         UpdatePlayerStatus();
+        InGameChatting.Instance.SubscribeToChannels(true);
     }
 
     private void UpdatePlayerStatus()

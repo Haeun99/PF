@@ -54,8 +54,30 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 
     public void PlayerVote()
     {
-        Player selecetedPlayer = GetSelectedPlayer();
+        Player selectedPlayer = GetSelectedPlayer();
 
-        killButton.interactable = false;
+        Hashtable mafiaAction = new Hashtable
+        {
+            { "nightAction", "Mafia" }
+        };
+
+        MafiaAction(selectedPlayer);
+
+        MafiaTeamChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}님이 살해 대상으로 <color=green>{selectedPlayer.NickName}<color=white>님을 선택했습니다.");
+    }
+
+    private void MafiaAction(Player targetPlayer)
+    {
+        Hashtable props = new Hashtable
+        {
+            { "isDead", true }
+        };
+
+        targetPlayer.SetCustomProperties(props);
+    }
+
+    private void DeadPlayer()
+    {
+        PlayerStatus.Instance.SetDead(true);
     }
 }

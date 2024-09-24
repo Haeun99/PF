@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class StalkerChatting : MonoBehaviour, IChatClientListener
 {
+    public static StalkerChatting Instance { get; private set; }
+
     public GameObject myChat;
     public GameObject systemChat;
     public Transform chatContent;
@@ -16,6 +18,20 @@ public class StalkerChatting : MonoBehaviour, IChatClientListener
     public Button sendButton;
 
     private ChatClient chatClient;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
+    private void OnEnable()
+    {
+        DisplaySystemMessage("스토커 전용 채팅방입니다.");
+        DisplaySystemMessage("스토커는 매일 밤 단 한 명의 행적을 조사할 수 있습니다. 시민과 당신을 위해 신중하게 선택하세요.");
+    }
 
     void Start()
     {

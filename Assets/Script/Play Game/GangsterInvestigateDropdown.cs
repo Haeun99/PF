@@ -54,8 +54,25 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
 
     public void PlayerVote()
     {
-        Player selecetedPlayer = GetSelectedPlayer();
+        Player selectedPlayer = GetSelectedPlayer();
+
+        Hashtable gangsterAction = new Hashtable
+        {
+            { "nightAction", "Gangster" }
+        };
+
+        GangsterAction(selectedPlayer);
 
         selectButton.interactable = false;
+
+        MafiaTeamChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}¥‘¿Ã <color=green>{selectedPlayer.NickName}<color=white>¥‘¿ª ¡∂ªÁ«’¥œ¥Ÿ...");
+    }
+
+    private void GangsterAction(Player targetPlayer)
+    {
+        if (targetPlayer.CustomProperties.ContainsKey("job"))
+        {
+            string job = (string)targetPlayer.CustomProperties["job"];
+        }
     }
 }

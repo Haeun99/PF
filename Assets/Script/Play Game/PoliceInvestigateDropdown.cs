@@ -44,8 +44,23 @@ public class PoliceInvestigateDropdown : MonoBehaviour
     {
         Player selectedPlayer = GetSelectedPlayer();
 
-        // 조사해서 시스템 채팅으로 시스템 메시지 전달
+        Hashtable policeAction = new Hashtable
+        {
+            { "nightAction", "Police" }
+        };
+
+        PoliceAction(selectedPlayer);
 
         investigateButton.interactable = false;
+
+        PoliceChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...");
+    }
+
+    private void PoliceAction(Player targetPlayer)
+    {
+        if (targetPlayer.CustomProperties.ContainsKey("job"))
+        {
+            string job = (string)targetPlayer.CustomProperties["job"];
+        }
     }
 }

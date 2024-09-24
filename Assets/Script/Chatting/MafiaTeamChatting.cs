@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
 {
+    public static MafiaTeamChatting Instance { get; private set; }
+
     public GameObject myChat;
     public GameObject otherChat;
     public GameObject systemChat;
@@ -17,6 +19,20 @@ public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
     public Button sendButton;
 
     private ChatClient chatClient;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
+    private void OnEnable()
+    {
+        DisplaySystemMessage("마피아팀 전용 채팅방입니다.");
+        DisplaySystemMessage("마피아는 매일 밤 단 한 명의 시민을 죽일 수 있습니다. 충분한 회의를 통해 의견을 통일하세요.");
+    }
 
     void Start()
     {

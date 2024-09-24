@@ -19,7 +19,7 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
     public TMP_InputField chattingInput;
     public Button sendButton;
 
-    private ChatClient chatClient;
+    public ChatClient chatClient;
 
     private void Awake()
     {

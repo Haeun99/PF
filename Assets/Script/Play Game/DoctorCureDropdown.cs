@@ -54,8 +54,26 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
 
     public void PlayerVote()
     {
-        Player selecetedPlayer = GetSelectedPlayer();
+        Player selectedPlayer = GetSelectedPlayer();
+
+        Hashtable doctorAction = new Hashtable
+        {
+            { "nightAction", "Doctor" }
+        };
+
+        DoctorAction(selectedPlayer);
 
         selectButton.interactable = false;
+
+        DoctorChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}¥‘¿Ã <color=green>{selectedPlayer.NickName}<color=white>¥‘¿ª ƒ°∑·«’¥œ¥Ÿ...");
+    }
+
+    private void DoctorAction(Player targetPlayer)
+    {
+        Hashtable props = new Hashtable
+        {
+            { "isDead", false }
+        };
+        targetPlayer.SetCustomProperties(props);
     }
 }

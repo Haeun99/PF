@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class LobbyChatting : MonoBehaviour, IChatClientListener
 {
+    public static LobbyChatting Instance { get; private set; }
+
     public GameObject myChat;
     public GameObject otherChat;
     public GameObject systemChat;
@@ -17,6 +19,14 @@ public class LobbyChatting : MonoBehaviour, IChatClientListener
     public Button sendButton;
 
     private ChatClient chatClient;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     void Start()
     {

@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+using Photon.Chat;
 using Photon.Realtime;
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 {
+    private ChatClient chatClient;
+
     public TMP_Dropdown playerDropdown;
     public Button selectButton;
 
@@ -17,6 +20,8 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        chatClient = InGameChatting.Instance.chatClient;
+
         UpdatePlayerList();
 
         selectButton.onClick.AddListener(PlayerVote);
@@ -54,8 +59,21 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 
     public void PlayerVote()
     {
-        Player selecetedPlayer = GetSelectedPlayer();
+        Player selectedPlayer = GetSelectedPlayer();
 
         selectButton.interactable = false;
+
+        string message;
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("AnonymousVote") && (bool)PhotonNetwork.CurrentRoom.CustomProperties["AnonymousVote"])
+        {
+            message = $"{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}</color>님에게 투표했습니다.";
+        }
+        else
+        {
+            message = $"{PhotonNetwork.LocalPlayer.NickName}님이 투표했습니다.";
+        }
+
+        InGameChatting.Instance.DisplaySystemMessage(message);
+        chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
     }
 }
