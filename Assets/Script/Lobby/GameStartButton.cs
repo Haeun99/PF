@@ -67,8 +67,6 @@ public class GameStartButton : MonoBehaviourPunCallbacks
             if (gameStarted)
             {
                 gamePanel.SetActive(true);
-                StartGame.Instance.StartButtonClick();
-                ResetPlayersReadyState();
             }
         }
     }

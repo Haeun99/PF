@@ -42,7 +42,6 @@ public class StartSceneSetting : MonoBehaviour
         }
     }
 
-
     private void Start()
     {
         startButton.onClick.AddListener(() => LoadScene("CutScene"));

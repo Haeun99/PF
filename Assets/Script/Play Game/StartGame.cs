@@ -148,4 +148,13 @@ public class StartGame : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(5f);
         panel.gameObject.SetActive(false);
     }
+
+    public string GetPlayerJob(Player player)
+    {
+        if (player.CustomProperties.ContainsKey("Job"))
+        {
+            return (string)player.CustomProperties["Job"];
+        } 
+        return null;
+    }
 }

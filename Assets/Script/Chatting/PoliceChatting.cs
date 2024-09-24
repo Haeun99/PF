@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DoctorChatting : MonoBehaviour, IChatClientListener
+public class PoliceChatting : MonoBehaviour, IChatClientListener
 {
     public GameObject myChat;
     public GameObject otherChat;
@@ -44,7 +44,7 @@ public class DoctorChatting : MonoBehaviour, IChatClientListener
         string message = chattingInput.text;
         if (!string.IsNullOrEmpty(message))
         {
-            chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_Doctor", message);
+            chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
 
             chattingInput.text = "";
             chattingInput.ActivateInputField();
@@ -95,6 +95,9 @@ public class DoctorChatting : MonoBehaviour, IChatClientListener
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
+        if (channelName != $"{PhotonNetwork.CurrentRoom.Name}_Police")
+            return;
+
         for (int i = 0; i < senders.Length; i++)
         {
             string sender = senders[i];
@@ -113,17 +116,13 @@ public class DoctorChatting : MonoBehaviour, IChatClientListener
 
     public void OnConnected()
     {
-        chatClient.Subscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Doctor" });
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam" });
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Police" });
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Stalker" });
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Lobby" });
+        chatClient.Subscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Police" });
     }
 
     public void OnDisconnected()
     {
         chatClient?.Disconnect();
-        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Doctor" });
+        chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Police" });
     }
     public void OnPrivateMessage(string sender, object message, string channel)
     {
