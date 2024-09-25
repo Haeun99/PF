@@ -16,7 +16,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
     public TMP_Dropdown playerDropdown;
     public Button selectButton;
 
-    private List<Player> players = new List<Player>();
+    protected List<Player> players = new List<Player>();
 
     private void Start()
     {
@@ -32,7 +32,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         UpdatePlayerList();
     }
 
-    private void UpdatePlayerList()
+    public virtual void UpdatePlayerList()
     {
         playerDropdown.ClearOptions();
         players.Clear();
@@ -57,7 +57,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         return players[selectedIndex];
     }
 
-    public void PlayerVote()
+    public virtual void PlayerVote()
     {
         Player selectedPlayer = GetSelectedPlayer();
 

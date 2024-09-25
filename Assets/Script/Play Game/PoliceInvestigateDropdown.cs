@@ -6,20 +6,9 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PoliceInvestigateDropdown : MonoBehaviour
+public class PoliceInvestigateDropdown : InGamePlayerDropdown
 {
-    public TMP_Dropdown playerDropdown;
-    public Button investigateButton;
-
-    private List<Player> players = new List<Player>();
-
-    private void Start()
-    {
-        UpdatePlayerList();
-        investigateButton.onClick.AddListener(playerSelect);
-    }
-
-    private void UpdatePlayerList()
+    public override void UpdatePlayerList()
     {
         playerDropdown.ClearOptions();
         players.Clear();
@@ -34,13 +23,7 @@ public class PoliceInvestigateDropdown : MonoBehaviour
         playerDropdown.AddOptions(playerNames);
     }
 
-    public Player GetSelectedPlayer()
-    {
-        int selectedIndex = playerDropdown.value;
-        return players[selectedIndex];
-    }
-
-    public void playerSelect()
+    public override void PlayerVote()
     {
         Player selectedPlayer = GetSelectedPlayer();
 
@@ -49,11 +32,11 @@ public class PoliceInvestigateDropdown : MonoBehaviour
             { "nightAction", "Police" }
         };
 
-        PoliceAction(selectedPlayer);
-
-        investigateButton.interactable = false;
+        selectButton.interactable = false;
 
         PoliceChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...");
+
+        PoliceAction(selectedPlayer);
     }
 
     private void PoliceAction(Player targetPlayer)
@@ -61,6 +44,16 @@ public class PoliceInvestigateDropdown : MonoBehaviour
         if (targetPlayer.CustomProperties.ContainsKey("job"))
         {
             string job = (string)targetPlayer.CustomProperties["job"];
+
+            if (job == "Mafia" || job == "Gangster")
+            {
+                PoliceChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 <color=red>마피아<color=white>입니다!");
+            }
+
+            else
+            {
+                PoliceChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 마피아가 아닙니다.");
+            }
         }
     }
 }

@@ -8,51 +8,9 @@ using Photon.Realtime;
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class DoctorCureDropdown : MonoBehaviourPunCallbacks
+public class DoctorCureDropdown : InGamePlayerDropdown
 {
-    public TMP_Dropdown playerDropdown;
-    public Button selectButton;
-
-    private List<Player> players = new List<Player>();
-
-    private void Start()
-    {
-        UpdatePlayerList();
-
-        selectButton.onClick.AddListener(PlayerVote);
-    }
-
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
-    {
-        UpdatePlayerList();
-    }
-
-    private void UpdatePlayerList()
-    {
-        playerDropdown.ClearOptions();
-        players.Clear();
-
-        List<string> playerNames = new List<string>();
-
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            if (!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"])
-            {
-                playerNames.Add(player.NickName);
-                players.Add(player);
-            }
-        }
-
-        playerDropdown.AddOptions(playerNames);
-    }
-
-    public Player GetSelectedPlayer()
-    {
-        int selectedIndex = playerDropdown.value;
-        return players[selectedIndex];
-    }
-
-    public void PlayerVote()
+    public override void PlayerVote()
     {
         Player selectedPlayer = GetSelectedPlayer();
 
@@ -68,6 +26,7 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
         DoctorChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}¥‘¿Ã <color=green>{selectedPlayer.NickName}<color=white>¥‘¿ª ƒ°∑·«’¥œ¥Ÿ...");
     }
 
+    // ∏∂««æ∆∂˚ º±≈√ ∞„√∆¿ª ∂ß system message ¥ﬁ∂Ûæﬂ«‘
     private void DoctorAction(Player targetPlayer)
     {
         Hashtable props = new Hashtable

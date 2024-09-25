@@ -15,6 +15,7 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
     public GameObject otherChat;
     public GameObject deadChat;
     public GameObject systemChat;
+    public GameObject finalSystemChat;
     public Transform chatContent;
     public TMP_InputField chattingInput;
     public Button sendButton;
@@ -124,6 +125,11 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
         var chatBubble = Instantiate(systemChat, chatContent);
 
         chatBubble.transform.Find("Chat Bubble/Chat").GetComponent<TextMeshProUGUI>().text = message;
+    }
+
+    public void FinalAppealSystemMessage()
+    {
+        Instantiate(finalSystemChat, chatContent);
     }
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
