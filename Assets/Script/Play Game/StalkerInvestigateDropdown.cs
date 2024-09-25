@@ -6,19 +6,17 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
-using Hashtable = ExitGames.Client.Photon.Hashtable;
-
 public class StalkerInvestigateDropdown : InGamePlayerDropdown
 {
     public override void PlayerVote()
     {
         Player selectedPlayer = GetSelectedPlayer();
 
-        selectButton.interactable = false;
-
-        StalkerChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 스토킹합니다...");
+        StalkerChatting.Instance.DisplaySystemMessage($"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 스토킹합니다...");
 
         StalkerAction(selectedPlayer);
+
+        selectButton.gameObject.SetActive(false);
     }
 
     private void StalkerAction(Player targetPlayer)

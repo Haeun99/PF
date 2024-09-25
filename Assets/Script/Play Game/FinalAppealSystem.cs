@@ -30,7 +30,7 @@ public class FinalAppealSystem : MonoBehaviour
 
     public void finalKillButtonClick()
     {
-        
+
     }
 
     public void finalSaveButtonClick()

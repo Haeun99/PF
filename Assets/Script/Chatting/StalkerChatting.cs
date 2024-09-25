@@ -29,8 +29,8 @@ public class StalkerChatting : MonoBehaviour, IChatClientListener
 
     private void OnEnable()
     {
-        DisplaySystemMessage("스토커 전용 채팅방입니다.");
-        DisplaySystemMessage("스토커는 매일 밤 단 한 명의 행적을 조사할 수 있습니다. 시민과 당신을 위해 신중하게 선택하세요.");
+        DisplaySystemMessage("[시스템]스토커 전용 채팅방입니다.");
+        DisplaySystemMessage("[시스템]스토커는 매일 밤 단 한 명의 행적을 조사할 수 있습니다. 시민과 당신을 위해 신중하게 선택하세요.");
     }
 
     void Start()
@@ -95,9 +95,10 @@ public class StalkerChatting : MonoBehaviour, IChatClientListener
 
     public void DisplaySystemMessage(string message)
     {
-        var chatBubble = Instantiate(systemChat, chatContent);
+        string actualMessage = message.Replace("[시스템]", string.Empty);
 
-        chatBubble.transform.Find("Chat Bubble/Chat").GetComponent<TextMeshProUGUI>().text = message;
+        var chatBubble = Instantiate(systemChat, chatContent);
+        chatBubble.transform.Find("Chat Bubble/Chat").GetComponent<TextMeshProUGUI>().text = actualMessage;
     }
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)

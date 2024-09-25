@@ -12,8 +12,8 @@ public class GamePlayRoutine : MonoBehaviour
 {
     public Coroutine gameLoopCoroutine;
 
-    protected float dayTime;
-    protected float nightTime;
+    protected int dayTime;
+    protected int nightTime;
     protected bool isFinalAppeal;
 
     public Transform[] gamePanel;
@@ -23,8 +23,8 @@ public class GamePlayRoutine : MonoBehaviour
     public void Start()
     {
         Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-        dayTime = (float)roomProperties["DayTime"];
-        nightTime = (float)roomProperties["NightTime"];
+        dayTime = (int)roomProperties["DayTime"];
+        nightTime = (int)roomProperties["NightTime"];
         isFinalAppeal = (bool)roomProperties["FinalAppeal"];
 
         gameLoopCoroutine = StartCoroutine(GameLoop());
@@ -58,7 +58,13 @@ public class GamePlayRoutine : MonoBehaviour
 
         chattingInput.interactable = false;
 
-        yield return new WaitForSeconds(nightTime);
+        TimeSlider.Instance.slider.gameObject.SetActive(true);
+        TimeSlider.Instance.StartNightPhase();
+
+        while (TimeSlider.Instance.timeRemaining > 0)
+        {
+            yield return null;
+        }
 
         ResetRoleActions();
 
@@ -73,11 +79,10 @@ public class GamePlayRoutine : MonoBehaviour
         CheckGameEndConditions();
 
         chattingInput.interactable = true;
-        voteButton.interactable = true;
+        voteButton.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(dayTime);
 
-        voteButton.interactable = false;
         ResetVoting();
     }
 
@@ -95,43 +100,57 @@ public class GamePlayRoutine : MonoBehaviour
         // 처형 메시지에 커스텀 프로퍼티 추가 + 그거 받아서 계수
     }
 
-    public void CheckGameEndConditions()
+    public bool CheckGameEndConditions()
     {
-        int aliveMafiaCount = 0;
-        int aliveGangsterCount = 0;
-        int aliveNonMafiaPlayers = 0;
-
-        foreach (Player player in PhotonNetwork.PlayerList)
+        if (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.CustomProperties == null)
         {
-            if (player.CustomProperties.ContainsKey("isDead") && (bool)player.CustomProperties["isDead"])
-            {
-                continue;
-            }
-
-            string job = player.CustomProperties["job"].ToString();
-            if (job == "Mafia")
-            {
-                aliveMafiaCount++;
-            }
-            else if (job == "Gangster")
-            {
-                aliveGangsterCount++;
-            }
-            else
-            {
-                aliveNonMafiaPlayers++;
-            }
+            Debug.LogError("Room이나 CustomProperties가 null입니다.");
+            return false;
         }
 
-        if (aliveMafiaCount + aliveGangsterCount == 0)
+        int mafiaCount = 0;
+        int gangsterCount = 0;
+        int playerCount = 0;
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("MafiaCount"))
         {
-            EndGame("시민팀이 승리했습니다!");
+            mafiaCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["MafiaCount"];
+        }
+        else
+        {
+            Debug.LogError("MafiaCount가 설정되지 않았습니다.");
         }
 
-        else if (aliveMafiaCount + aliveGangsterCount >= aliveNonMafiaPlayers)
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("GangsterCount"))
         {
-            EndGame("마피아팀이 승리했습니다!");
+            gangsterCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["GangsterCount"];
         }
+        else
+        {
+            Debug.LogError("GangsterCount가 설정되지 않았습니다.");
+        }
+
+        if (PhotonNetwork.CurrentRoom != null)
+        {
+            playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        }
+        else
+        {
+            Debug.LogError("Room이 null입니다.");
+        }
+
+        if (mafiaCount + gangsterCount == 0)
+        {
+            EndGame("[시스템]<color=blue>시민팀 <color=white>승리!");
+            return true;
+        }
+        else if (mafiaCount + gangsterCount >= playerCount)
+        {
+            EndGame("[시스템]<color=red>마피아팀 <color=white>승리!");
+            return true;
+        }
+
+        return false;
     }
 
     public void EndGame(string message)

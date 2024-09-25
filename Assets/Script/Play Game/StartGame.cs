@@ -81,6 +81,28 @@ public class StartGame : MonoBehaviourPunCallbacks
             int randomIndex = Random.Range(0, randomJob.Count);
             string assignedJob = randomJob[randomIndex];
 
+            switch (assignedJob)
+            {
+                case "Mafia":
+                    assignedJob = "마피아";
+                    break;
+                case "Gangster":
+                    assignedJob = "건달";
+                    break;
+                case "Doctor":
+                    assignedJob = "의사";
+                    break;
+                case "Police":
+                    assignedJob = "경찰";
+                    break;
+                case "Stalker":
+                    assignedJob = "스토커";
+                    break;
+                case "Citizen":
+                    assignedJob = "시민";
+                    break;
+            }
+
             playerJobs[player] = assignedJob;
             randomJob.RemoveAt(randomIndex);
         }

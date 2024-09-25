@@ -122,9 +122,10 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
 
     public void DisplaySystemMessage(string message)
     {
-        var chatBubble = Instantiate(systemChat, chatContent);
+        string actualMessage = message.Replace("[시스템]", string.Empty);
 
-        chatBubble.transform.Find("Chat Bubble/Chat").GetComponent<TextMeshProUGUI>().text = message;
+        var chatBubble = Instantiate(systemChat, chatContent);
+        chatBubble.transform.Find("Chat Bubble/Chat").GetComponent<TextMeshProUGUI>().text = actualMessage;
     }
 
     public void FinalAppealSystemMessage()
@@ -141,13 +142,20 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
                 string sender = senders[i];
                 string message = messages[i].ToString();
 
-                if (sender == PhotonNetwork.LocalPlayer.NickName)
+                if (message.StartsWith("[시스템]"))
                 {
-                    DisplayMyChat(message);
+                    DisplaySystemMessage(message);
                 }
                 else
                 {
-                    DisplayOtherChat(message, sender);
+                    if (sender == PhotonNetwork.LocalPlayer.NickName)
+                    {
+                        DisplayMyChat(message);
+                    }
+                    else
+                    {
+                        DisplayOtherChat(message, sender);
+                    }
                 }
             }
         }

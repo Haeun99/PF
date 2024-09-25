@@ -19,9 +19,14 @@ public class MafiaKillDropdown : InGamePlayerDropdown
             { "nightAction", "Mafia" }
         };
 
-        MafiaTeamChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}님이 살해 대상으로 <color=green>{selectedPlayer.NickName}<color=white>님을 선택했습니다.");
+        string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 살해 대상으로 <color=green>{selectedPlayer.NickName}<color=white>님을 선택했습니다.";
+
+        MafiaTeamChatting.Instance.DisplaySystemMessage(message);
+        chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
 
         MafiaAction(selectedPlayer);
+
+        selectButton.gameObject.SetActive(false);
     }
 
     // 마피아 선택 일치해야함 이 부분 보수

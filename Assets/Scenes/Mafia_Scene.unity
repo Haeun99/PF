@@ -6616,7 +6616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &224284163
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20212,7 +20212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &695159959
 RectTransform:
   m_ObjectHideFlags: 0
@@ -44995,7 +44995,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1482626201
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50519,7 +50519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 1288216353}
-  selectButton: {fileID: 0}
+  selectButton: {fileID: 552024885}
 --- !u!114 &1672667638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53892,7 +53892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1834001462
 RectTransform:
   m_ObjectHideFlags: 0
@@ -61776,7 +61776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2113759532
 RectTransform:
   m_ObjectHideFlags: 0

@@ -21,9 +21,12 @@ public class DoctorCureDropdown : InGamePlayerDropdown
 
         DoctorAction(selectedPlayer);
 
-        selectButton.interactable = false;
+        string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 치료합니다...";
 
-        DoctorChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 치료합니다...");
+        DoctorChatting.Instance.DisplaySystemMessage(message);
+        chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_Doctor", message);
+
+        selectButton.gameObject.SetActive(false);
     }
 
     // 마피아랑 선택 겹쳤을 때 system message 달라야함

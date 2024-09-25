@@ -30,8 +30,8 @@ public class PoliceChatting : MonoBehaviour, IChatClientListener
 
     private void OnEnable()
     {
-        DisplaySystemMessage("경찰 전용 채팅방입니다.");
-        DisplaySystemMessage("경찰은 매일 밤 단 한 명의 직업을 조사할 수 있습니다. 충분한 회의를 통해 의견을 통일하세요.");
+        DisplaySystemMessage("[시스템]경찰 전용 채팅방입니다.");
+        DisplaySystemMessage("[시스템]경찰은 매일 밤 단 한 명의 직업을 조사할 수 있습니다. 충분한 회의를 통해 의견을 통일하세요.");
     }
 
     void Start()
@@ -66,7 +66,6 @@ public class PoliceChatting : MonoBehaviour, IChatClientListener
             chattingInput.ActivateInputField();
         }
     }
-
 
     private void DisplayMyChat(string message)
     {
@@ -104,9 +103,10 @@ public class PoliceChatting : MonoBehaviour, IChatClientListener
 
     public void DisplaySystemMessage(string message)
     {
-        var chatBubble = Instantiate(systemChat, chatContent);
+        string actualMessage = message.Replace("[시스템]", string.Empty);
 
-        chatBubble.transform.Find("Chat Bubble/Chat").GetComponent<TextMeshProUGUI>().text = message;
+        var chatBubble = Instantiate(systemChat, chatContent);
+        chatBubble.transform.Find("Chat Bubble/Chat").GetComponent<TextMeshProUGUI>().text = actualMessage;
     }
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
@@ -119,13 +119,20 @@ public class PoliceChatting : MonoBehaviour, IChatClientListener
             string sender = senders[i];
             string message = messages[i].ToString();
 
-            if (sender == PhotonNetwork.LocalPlayer.NickName)
+            if (message.StartsWith("[시스템]"))
             {
-                DisplayMyChat(message);
+                DisplaySystemMessage(message);
             }
             else
             {
-                DisplayOtherChat(message, sender);
+                if (sender == PhotonNetwork.LocalPlayer.NickName)
+                {
+                    DisplayMyChat(message);
+                }
+                else
+                {
+                    DisplayOtherChat(message, sender);
+                }
             }
         }
     }

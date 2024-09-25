@@ -32,11 +32,14 @@ public class PoliceInvestigateDropdown : InGamePlayerDropdown
             { "nightAction", "Police" }
         };
 
-        selectButton.interactable = false;
+        string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
 
-        PoliceChatting.Instance.DisplaySystemMessage($"{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...");
+        PoliceChatting.Instance.DisplaySystemMessage(message);
+        chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
 
         PoliceAction(selectedPlayer);
+
+        selectButton.gameObject.SetActive(false);
     }
 
     private void PoliceAction(Player targetPlayer)
@@ -45,14 +48,20 @@ public class PoliceInvestigateDropdown : InGamePlayerDropdown
         {
             string job = (string)targetPlayer.CustomProperties["job"];
 
-            if (job == "Mafia" || job == "Gangster")
+            if (job == "마피아" || job == "건달")
             {
-                PoliceChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 <color=red>마피아<color=white>입니다!");
+                string message = ($"[시스템]<color=green>{targetPlayer.NickName}<color=white>님은 <color=red>마피아<color=white>입니다!");
+
+                PoliceChatting.Instance.DisplaySystemMessage(message);
+                chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
             }
 
             else
             {
-                PoliceChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 마피아가 아닙니다.");
+                string message = ($"[시스템]<color=green>{targetPlayer.NickName}<color=white>님은 마피아가 아닙니다.");
+
+                PoliceChatting.Instance.DisplaySystemMessage(message);
+                chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
             }
         }
     }

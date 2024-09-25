@@ -11,19 +11,18 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 {
-    private ChatClient chatClient;
+    public ChatClient chatClient;
 
     public TMP_Dropdown playerDropdown;
     public Button selectButton;
 
     protected List<Player> players = new List<Player>();
 
-    private void Start()
+    public virtual void Start()
     {
         chatClient = InGameChatting.Instance.chatClient;
 
         UpdatePlayerList();
-
         selectButton.onClick.AddListener(PlayerVote);
     }
 
@@ -54,6 +53,12 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
     public Player GetSelectedPlayer()
     {
         int selectedIndex = playerDropdown.value;
+
+        if (selectedIndex < 0 || selectedIndex >= players.Count)
+        {
+            return null;
+        }
+
         return players[selectedIndex];
     }
 
@@ -61,19 +66,29 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
     {
         Player selectedPlayer = GetSelectedPlayer();
 
-        selectButton.interactable = false;
-
         string message;
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("AnonymousVote") && (bool)PhotonNetwork.CurrentRoom.CustomProperties["AnonymousVote"])
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("AnonymousVote"))
         {
-            message = $"{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}</color>님에게 투표했습니다.";
-        }
-        else
-        {
-            message = $"{PhotonNetwork.LocalPlayer.NickName}님이 투표했습니다.";
+            bool isAnonymousVote = (bool)PhotonNetwork.CurrentRoom.CustomProperties["AnonymousVote"];
+
+            if (isAnonymousVote == false)
+            {
+                message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}</color>님에게 투표했습니다.";
+
+                InGameChatting.Instance.DisplaySystemMessage(message);
+                chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
+            }
+
+            else
+            {
+                message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 투표했습니다.";
+
+                InGameChatting.Instance.DisplaySystemMessage(message);
+                chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
+            }
         }
 
-        InGameChatting.Instance.DisplaySystemMessage(message);
-        chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
+        selectButton.gameObject.SetActive(false);
     }
 }

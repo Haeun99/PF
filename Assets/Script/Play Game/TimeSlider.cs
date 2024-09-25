@@ -10,9 +10,8 @@ public class TimeSlider : MonoBehaviour
 
     public Slider slider;
 
-    private float currentTime;
-    private float timeRemaining;
-    private bool isDayPhase = true;
+    public int currentTime;
+    public float timeRemaining { get; private set; }
 
     private void Awake()
     {
@@ -28,11 +27,6 @@ public class TimeSlider : MonoBehaviour
         {
             timeRemaining -= Time.deltaTime;
             UpdateSlider();
-
-            //if (timeRemaining <= 0)
-            //{
-            //    SwitchPhase();
-            //}
         }
     }
 
@@ -42,7 +36,6 @@ public class TimeSlider : MonoBehaviour
         timeRemaining = currentTime;
         slider.maxValue = currentTime;
         slider.value = currentTime;
-        isDayPhase = true;
     }
 
     public void StartNightPhase()
@@ -51,12 +44,11 @@ public class TimeSlider : MonoBehaviour
         timeRemaining = currentTime;
         slider.maxValue = currentTime;
         slider.value = currentTime;
-        isDayPhase = false;
     }
 
     public void StartVotePhase()
     {
-        currentTime = 10f;
+        currentTime = 10;
         timeRemaining = currentTime;
         slider.maxValue = currentTime;
         slider.value = currentTime;
@@ -64,7 +56,7 @@ public class TimeSlider : MonoBehaviour
 
     public void FinalAppealPhase()
     {
-        currentTime = 30f;
+        currentTime = 30;
         timeRemaining = currentTime;
         slider.maxValue = currentTime;
         slider.value = currentTime;
@@ -75,23 +67,11 @@ public class TimeSlider : MonoBehaviour
         slider.value = timeRemaining;
     }
 
-    //private void SwitchPhase()
-    //{
-    //    if (isDayPhase)
-    //    {
-    //        StartNightPhase();
-    //    }
-    //    else
-    //    {
-    //        StartDayPhase();
-    //    }
-    //}
-
-    private float GetTimeFromRoomProperties(string key)
+    private int GetTimeFromRoomProperties(string key)
     {
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(key))
         {
-            return (float)PhotonNetwork.CurrentRoom.CustomProperties[key];
+            return (int)PhotonNetwork.CurrentRoom.CustomProperties[key];
         }
         return 0;
     }

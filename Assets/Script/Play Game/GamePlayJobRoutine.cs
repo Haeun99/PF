@@ -14,11 +14,17 @@ public class GamePlayJobRoutine : GamePlayRoutine
         CheckGameEndConditions();
 
         chattingInput.interactable = false;
-        roleAction.interactable = true;
+        roleAction.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(nightTime);
+        TimeSlider.Instance.slider.gameObject.SetActive(true);
+        TimeSlider.Instance.StartNightPhase();
 
-        roleAction.interactable = false;
+        while (TimeSlider.Instance.timeRemaining > 0)
+        {
+            yield return null;
+        }
+
+        roleAction.gameObject.SetActive(false);
         ResetRoleActions();
     }
 }
