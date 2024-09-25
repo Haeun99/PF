@@ -629,6 +629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5785406242007182172}
   - component: {fileID: 5785406242007182173}
+  - component: {fileID: 6784697232034678610}
   m_Layer: 5
   m_Name: FinalAppealSystem
   m_TagString: Untagged
@@ -684,6 +685,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &6784697232034678610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5785406242007182171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17f6d350715c58342bebdf6b028993a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5785406242891401359
 GameObject:
   m_ObjectHideFlags: 0

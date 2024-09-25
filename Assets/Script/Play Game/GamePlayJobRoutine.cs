@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GamePlayJobRoutine : GamePlayRoutine
 {
-    public TMP_Dropdown roleAction;
+    public Button roleAction;
 
     public override IEnumerator NightPhase()
     {

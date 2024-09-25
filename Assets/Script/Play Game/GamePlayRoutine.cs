@@ -18,7 +18,7 @@ public class GamePlayRoutine : MonoBehaviour
 
     public Transform[] gamePanel;
     public TMP_InputField chattingInput;
-    public TMP_Dropdown voteDropdown;
+    public Button voteButton;
 
     public void Start()
     {
@@ -38,6 +38,8 @@ public class GamePlayRoutine : MonoBehaviour
         {
             yield return StartCoroutine(NightPhase());
 
+            // 밤 / 낮 사이 직업 공개 시간
+
             yield return StartCoroutine(DayPhase());
 
             if (isFinalAppeal)
@@ -49,6 +51,9 @@ public class GamePlayRoutine : MonoBehaviour
 
     public virtual IEnumerator NightPhase()
     {
+        TimeSlider.Instance.slider.gameObject.SetActive(true);
+        TimeSlider.Instance.StartNightPhase();
+
         CheckGameEndConditions();
 
         chattingInput.interactable = false;
@@ -56,18 +61,23 @@ public class GamePlayRoutine : MonoBehaviour
         yield return new WaitForSeconds(nightTime);
 
         ResetRoleActions();
+
+        TimeSlider.Instance.slider.gameObject.SetActive(false);
     }
 
     public IEnumerator DayPhase()
     {
+        TimeSlider.Instance.slider.gameObject.SetActive(true);
+        TimeSlider.Instance.StartDayPhase();
+
         CheckGameEndConditions();
 
         chattingInput.interactable = true;
-        voteDropdown.interactable = true;
+        voteButton.interactable = true;
 
         yield return new WaitForSeconds(dayTime);
 
-        voteDropdown.interactable = false;
+        voteButton.interactable = false;
         ResetVoting();
     }
 
@@ -76,9 +86,11 @@ public class GamePlayRoutine : MonoBehaviour
         chattingInput.interactable = false;
         // 최다 득표자의 inputField만 true -> 이건 InGameChatting에서 가져와야징.....
 
+        TimeSlider.Instance.FinalAppealPhase();
         yield return new WaitForSeconds(30);
 
         InGameChatting.Instance.FinalAppealSystemMessage();
+        TimeSlider.Instance.StartVotePhase();
 
         // 처형 메시지에 커스텀 프로퍼티 추가 + 그거 받아서 계수
     }
@@ -124,6 +136,8 @@ public class GamePlayRoutine : MonoBehaviour
 
     public void EndGame(string message)
     {
+        TimeSlider.Instance.slider.gameObject.SetActive(false);
+
         for (int i = 0; i < 8; i++)
         {
             gamePanel[i].gameObject.SetActive(false);

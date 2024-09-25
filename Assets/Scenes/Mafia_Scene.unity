@@ -6610,7 +6610,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224284163}
   - component: {fileID: 224284164}
-  - component: {fileID: 224284165}
   m_Layer: 5
   m_Name: Vote Time
   m_TagString: Untagged
@@ -6692,19 +6691,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &224284165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 224284162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 224284164}
 --- !u!1 &224866086
 GameObject:
   m_ObjectHideFlags: 0
@@ -12489,6 +12475,7 @@ GameObject:
   - component: {fileID: 412057715}
   - component: {fileID: 412057716}
   - component: {fileID: 412057717}
+  - component: {fileID: 412057718}
   m_Layer: 5
   m_Name: Citizen Panel
   m_TagString: Untagged
@@ -12573,10 +12560,21 @@ MonoBehaviour:
   - {fileID: 1732002753}
   - {fileID: 412057714}
   - {fileID: 1068178228}
-  chattingInput: {fileID: 0}
-  voteDropdown: {fileID: 0}
-  finalKillButton: {fileID: 0}
-  finalSaveButton: {fileID: 0}
+  chattingInput: {fileID: 1460706911}
+  voteButton: {fileID: 868698223}
+--- !u!114 &412057718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412057713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 2113759533}
 --- !u!1001 &416145050
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20208,7 +20206,6 @@ GameObject:
   m_Component:
   - component: {fileID: 695159959}
   - component: {fileID: 695159960}
-  - component: {fileID: 695159961}
   m_Layer: 5
   m_Name: Vote Time
   m_TagString: Untagged
@@ -20290,19 +20287,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &695159961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 695159958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 695159960}
 --- !u!1 &695193565
 GameObject:
   m_ObjectHideFlags: 0
@@ -23806,6 +23790,7 @@ GameObject:
   - component: {fileID: 799575153}
   - component: {fileID: 799575154}
   - component: {fileID: 799575155}
+  - component: {fileID: 799575156}
   m_Layer: 5
   m_Name: Police Panel
   m_TagString: Untagged
@@ -23923,11 +23908,22 @@ MonoBehaviour:
   - {fileID: 1732002753}
   - {fileID: 412057714}
   - {fileID: 1068178228}
-  chattingInput: {fileID: 0}
-  voteDropdown: {fileID: 0}
-  finalKillButton: {fileID: 0}
-  finalSaveButton: {fileID: 0}
-  roleAction: {fileID: 0}
+  chattingInput: {fileID: 659984242}
+  voteButton: {fileID: 517805727}
+  roleAction: {fileID: 324485083}
+--- !u!114 &799575156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799575149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 2088337815}
 --- !u!1 &801399639
 GameObject:
   m_ObjectHideFlags: 0
@@ -31564,7 +31560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1068178228
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33761,6 +33757,7 @@ GameObject:
   - component: {fileID: 1147956817}
   - component: {fileID: 1147956818}
   - component: {fileID: 1147956819}
+  - component: {fileID: 1147956820}
   m_Layer: 5
   m_Name: Doctor Panel
   m_TagString: Untagged
@@ -33878,11 +33875,22 @@ MonoBehaviour:
   - {fileID: 1732002753}
   - {fileID: 412057714}
   - {fileID: 1068178228}
-  chattingInput: {fileID: 0}
-  voteDropdown: {fileID: 0}
-  finalKillButton: {fileID: 0}
-  finalSaveButton: {fileID: 0}
-  roleAction: {fileID: 0}
+  chattingInput: {fileID: 8345175}
+  voteButton: {fileID: 1313337775}
+  roleAction: {fileID: 164267083}
+--- !u!114 &1147956820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1147956813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 695159960}
 --- !u!1 &1152464986
 GameObject:
   m_ObjectHideFlags: 0
@@ -33919,9 +33927,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -27, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1152464988
 MonoBehaviour:
@@ -34010,7 +34018,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: -835}
-  m_SizeDelta: {x: 1073, y: 0}
+  m_SizeDelta: {x: 1073, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1155181970
 MonoBehaviour:
@@ -38821,6 +38829,7 @@ GameObject:
   - component: {fileID: 1295417424}
   - component: {fileID: 1295417425}
   - component: {fileID: 1295417426}
+  - component: {fileID: 1295417427}
   m_Layer: 5
   m_Name: Gangster Panel
   m_TagString: Untagged
@@ -38938,11 +38947,22 @@ MonoBehaviour:
   - {fileID: 1732002753}
   - {fileID: 412057714}
   - {fileID: 1068178228}
-  chattingInput: {fileID: 0}
-  voteDropdown: {fileID: 0}
-  finalKillButton: {fileID: 0}
-  finalSaveButton: {fileID: 0}
-  roleAction: {fileID: 0}
+  chattingInput: {fileID: 2138799424}
+  voteButton: {fileID: 131717565}
+  roleAction: {fileID: 958284956}
+--- !u!114 &1295417427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295417420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 1482626202}
 --- !u!1 &1303263429
 GameObject:
   m_ObjectHideFlags: 0
@@ -40508,7 +40528,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -44969,7 +44989,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1482626201}
   - component: {fileID: 1482626202}
-  - component: {fileID: 1482626203}
   m_Layer: 5
   m_Name: Vote Time
   m_TagString: Untagged
@@ -45051,19 +45070,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1482626203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1482626200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 1482626202}
 --- !u!1 &1485025007
 GameObject:
   m_ObjectHideFlags: 0
@@ -50416,13 +50422,14 @@ GameObject:
   - component: {fileID: 1672667636}
   - component: {fileID: 1672667637}
   - component: {fileID: 1672667638}
+  - component: {fileID: 1672667639}
   m_Layer: 5
   m_Name: Mafia Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1672667632
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50533,11 +50540,22 @@ MonoBehaviour:
   - {fileID: 1732002753}
   - {fileID: 412057714}
   - {fileID: 1068178228}
-  chattingInput: {fileID: 0}
-  voteDropdown: {fileID: 0}
-  finalKillButton: {fileID: 0}
-  finalSaveButton: {fileID: 0}
-  roleAction: {fileID: 0}
+  chattingInput: {fileID: 1448874871}
+  voteButton: {fileID: 2026734930}
+  roleAction: {fileID: 552024885}
+--- !u!114 &1672667639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672667631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 1834001463}
 --- !u!1 &1673196778
 GameObject:
   m_ObjectHideFlags: 0
@@ -52231,6 +52249,7 @@ GameObject:
   - component: {fileID: 1732002756}
   - component: {fileID: 1732002757}
   - component: {fileID: 1732002758}
+  - component: {fileID: 1732002759}
   m_Layer: 5
   m_Name: Stalker Panel
   m_TagString: Untagged
@@ -52347,11 +52366,22 @@ MonoBehaviour:
   - {fileID: 1732002753}
   - {fileID: 412057714}
   - {fileID: 1068178228}
-  chattingInput: {fileID: 0}
-  voteDropdown: {fileID: 0}
-  finalKillButton: {fileID: 0}
-  finalSaveButton: {fileID: 0}
-  roleAction: {fileID: 0}
+  chattingInput: {fileID: 38784728}
+  voteButton: {fileID: 1277019662}
+  roleAction: {fileID: 1011329585}
+--- !u!114 &1732002759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732002752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider: {fileID: 224284164}
 --- !u!1 &1740206364
 GameObject:
   m_ObjectHideFlags: 0
@@ -53856,7 +53886,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1834001462}
   - component: {fileID: 1834001463}
-  - component: {fileID: 1834001464}
   m_Layer: 5
   m_Name: Vote Time
   m_TagString: Untagged
@@ -53938,19 +53967,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1834001464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1834001461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 1834001463}
 --- !u!1 &1834464759
 GameObject:
   m_ObjectHideFlags: 0
@@ -55169,7 +55185,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -55594,9 +55610,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -27, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1891134117
 MonoBehaviour:
@@ -60860,7 +60876,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2088337814}
   - component: {fileID: 2088337815}
-  - component: {fileID: 2088337816}
   m_Layer: 5
   m_Name: Vote Time
   m_TagString: Untagged
@@ -60942,19 +60957,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2088337816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088337813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 2088337815}
 --- !u!1 &2088472725
 GameObject:
   m_ObjectHideFlags: 0
@@ -61768,7 +61770,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2113759532}
   - component: {fileID: 2113759533}
-  - component: {fileID: 2113759534}
   m_Layer: 5
   m_Name: Vote Time
   m_TagString: Untagged
@@ -61850,19 +61851,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2113759534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2113759531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f83ea860c705e1a4889749e8fad32bd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider: {fileID: 2113759533}
 --- !u!1 &2115540040
 GameObject:
   m_ObjectHideFlags: 0

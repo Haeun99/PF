@@ -32,7 +32,35 @@ public class GangsterInvestigateDropdown : InGamePlayerDropdown
         {
             string job = (string)targetPlayer.CustomProperties["job"];
 
-            MafiaTeamChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 <color=blue>{job}<color=white>입니다!");
+            if (job == "Mafia")
+            {
+                MafiaTeamChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 <color=red>마피아<color=white>입니다!");
+            }
+
+            else if (job == "Gangster")
+            {
+                MafiaTeamChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 <color=red>건달<color=white>입니다!");
+            }
+
+            else if (job == "Doctor")
+            {
+                MafiaTeamChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 <color=green>의사<color=white>입니다!");
+            }
+
+            else if (job == "Police")
+            {
+                MafiaTeamChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 <color=blue>경찰<color=white>입니다!");
+            }
+
+            else if (job == "Stalker")
+            {
+                MafiaTeamChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 <color=blue>스토커<color=white>입니다!");
+            }
+
+            else
+            {
+                MafiaTeamChatting.Instance.DisplaySystemMessage($"<color=green>{targetPlayer.NickName}<color=white>님은 시민입니다.");
+            }
         }
     }
 }
