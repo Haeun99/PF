@@ -47,6 +47,8 @@ public class GamePlayRoutine : MonoBehaviour
 
             yield return StartCoroutine(DayPhase());
 
+            InGamePlayerDropdown.Instance.CalculateVoteResults();
+
             if (isFinalAppeal)
             {
                 yield return StartCoroutine(FinalAppealPhase());
@@ -91,7 +93,11 @@ public class GamePlayRoutine : MonoBehaviour
 
     public IEnumerator JobProcess()
     {
-
+        MafiaKillDropdown.Instance.OnNightTimeEnd();
+        GangsterInvestigateDropdown.Instance.OnNightTimeEnd();
+        DoctorCureDropdown.Instance.OnNightTimeEnd();
+        PoliceInvestigateDropdown.Instance.OnNightTimeEnd();
+        StalkerInvestigateDropdown.Instance.OnNightTimeEnd();
 
         yield return new WaitForSeconds(5);
     }
@@ -99,15 +105,14 @@ public class GamePlayRoutine : MonoBehaviour
     public IEnumerator FinalAppealPhase()
     {
         chattingInput.interactable = false;
-        // 최다 득표자의 inputField만 true -> 이건 InGameChatting에서 가져와야징.....
 
         TimeSlider.Instance.FinalAppealPhase();
         yield return new WaitForSeconds(30);
 
         InGameChatting.Instance.FinalAppealSystemMessage();
-        TimeSlider.Instance.StartVotePhase();
 
-        // 처형 메시지에 커스텀 프로퍼티 추가 + 그거 받아서 계수
+        TimeSlider.Instance.StartVotePhase();
+        FinalAppealSystem.Instance.CalculateFinalAppeal();
     }
 
     public bool CheckGameEndConditions()
@@ -140,17 +145,45 @@ public class GamePlayRoutine : MonoBehaviour
         }
 
         LobbyChatting.Instance.DisplaySystemMessage(message);
+
+        string roleRevealMessage = GetRoleRevealMessage();
+    }
+
+    private string GetRoleRevealMessage()
+    {
+        string roleRevealMessage = "[시스템]직업:\n";
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.ContainsKey("Job"))
+            {
+                string Job = (string)player.CustomProperties["Job"];
+                string nickname = player.NickName;
+
+                roleRevealMessage += $"{nickname} : {Job}\n";
+            }
+        }
+
+        return roleRevealMessage;
     }
 
     public void ResetRoleActions()
     {
-        // 역할 활동 초기화 로직
-        // nightAction 커스텀 프로퍼티 null
+        Hashtable porps = new Hashtable
+        {
+            { "nightAction", null }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(porps);
     }
 
     public void ResetVoting()
     {
-        // 투표 초기화 로직
-        // 투표 커스텀 프로퍼티 생성 후 null로 변경
+        Hashtable votingProperties = new Hashtable
+        {
+            { "votedPlayer", null }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(votingProperties);
     }
 }

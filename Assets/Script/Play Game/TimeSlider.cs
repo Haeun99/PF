@@ -10,7 +10,7 @@ public class TimeSlider : MonoBehaviour
 
     public Slider slider;
 
-    public int currentTime;
+    private int currentTime;
     public float timeRemaining { get; private set; }
 
     private void Awake()

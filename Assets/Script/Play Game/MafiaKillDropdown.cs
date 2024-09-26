@@ -8,42 +8,174 @@ using Photon.Realtime;
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class MafiaKillDropdown : InGamePlayerDropdown
+public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 {
-    public override void PlayerVote()
+    public static MafiaKillDropdown Instance { get; private set; }
+
+    public TMP_Dropdown playerDropdown;
+    public Button selectButton;
+
+    private int voteEnd;
+
+    public List<Player> players = new List<Player>();
+
+    private Dictionary<Player, Player> mafiaVotes = new Dictionary<Player, Player>();
+
+    public void Start()
     {
-        Player selectedPlayer = GetSelectedPlayer();
+        UpdatePlayerList();
+        selectButton.onClick.AddListener(PlayerVote);
 
-        Hashtable mafiaAction = new Hashtable
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
         {
-            { "nightAction", "Mafia" },
-            { "selectedPlayer", selectedPlayer.NickName }
-        };
-
-        string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 살해 대상으로 <color=green>{selectedPlayer.NickName}<color=white>님을 선택했습니다.";
-
-        MafiaTeamChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
-
-        MafiaAction(selectedPlayer);
-
-        selectButton.gameObject.SetActive(false);
+            voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
+        }
     }
 
-    // 마피아 선택 일치해야함 이 부분 보수
-    private void MafiaAction(Player targetPlayer)
+    public virtual void Update()
     {
-        Hashtable props = new Hashtable
+        if (Instance == null)
         {
-            { "isDead", true }
-        };
-
-        targetPlayer.SetCustomProperties(props);
-
-        DeadPlayer(targetPlayer);
+            Instance = this;
+        }
     }
 
-    private void DeadPlayer(Player player)
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        UpdatePlayerList();
+    }
+
+    public void UpdatePlayerList()
+    {
+        playerDropdown.ClearOptions();
+        players.Clear();
+
+        List<string> playerNames = new List<string>();
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"])
+            {
+                playerNames.Add(player.NickName);
+                players.Add(player);
+            }
+        }
+
+        playerDropdown.AddOptions(playerNames);
+    }
+
+    public Player GetSelectedPlayer()
+    {
+        int selectedIndex = playerDropdown.value;
+
+        if (selectedIndex < 0 || selectedIndex >= players.Count)
+        {
+            return null;
+        }
+
+        return players[selectedIndex];
+    }
+
+    public void PlayerVote()
+    {
+        Player localPlayer = PhotonNetwork.LocalPlayer;
+
+        if (localPlayer.CustomProperties.ContainsKey("Job") && localPlayer.CustomProperties["Job"].Equals("마피아"))
+        {
+            Player selectedPlayer = GetSelectedPlayer();
+
+            mafiaVotes[localPlayer] = selectedPlayer;
+
+            Hashtable mafiaAction = new Hashtable
+            {
+                { "nightAction", "Mafia" },
+                { "selectedPlayer", selectedPlayer }
+            };
+
+            string message = $"[시스템]{localPlayer.NickName}님이 살해 대상으로 <color=green>{selectedPlayer.NickName}<color=white>님을 선택했습니다.";
+
+            MafiaTeamChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
+
+            if (Time.time >= voteEnd)
+            {
+                selectButton.gameObject.SetActive(false);
+            }
+        }
+
+        else
+        {
+            return;
+        }
+    }
+
+    public void OnNightTimeEnd()
+    {
+        Player killTarget = CheckVotes();
+        Player cureTarget = DoctorCureDropdown.Instance.CheckVotes();
+
+        if (killTarget != null)
+        {
+            if (cureTarget != null && killTarget == cureTarget)
+            {
+                InGameChatting.Instance.DisplaySystemMessage($"[시스템]<color=yellow>지난 밤, 마피아에게 죽을 뻔한 사람을 의사가 살렸습니다!");
+            }
+            else
+            {
+                MafiaAction(killTarget);
+            }
+        }
+        else
+        {
+            InGameChatting.Instance.DisplaySystemMessage("[시스템]지난 밤은 아무 일도 일어나지 않았습니다.");
+        }
+    }
+
+    public Player CheckVotes()
+    {
+        Player lastSelectedPlayer = null;
+        bool allVotesMatch = true;
+        bool hasVotes = false;
+
+        foreach (Player Mafia in PhotonNetwork.PlayerList)
+        {
+            if ((bool)Mafia.CustomProperties["isDead"])
+            {
+                continue;
+            }
+
+            if (!mafiaVotes.ContainsKey(Mafia))
+            {
+                continue;
+            }
+
+            hasVotes = true;
+
+            if (lastSelectedPlayer == null)
+            {
+                lastSelectedPlayer = mafiaVotes[Mafia];
+            }
+            else
+            {
+                if (lastSelectedPlayer != mafiaVotes[Mafia])
+                {
+                    allVotesMatch = false;
+                    break;
+                }
+            }
+        }
+
+        if (!hasVotes || lastSelectedPlayer == null)
+        {
+            return null;
+        }
+
+        return allVotesMatch ? lastSelectedPlayer : null;
+    }
+
+    public void MafiaAction(Player targetPlayer)
     {
         PlayerStatus.Instance.SetDead(true);
+
+        InGameChatting.Instance.DisplaySystemMessage($"[시스템]지난 밤, 마피아에 의해 {targetPlayer.NickName}님이 살해당했습니다.");
     }
 }

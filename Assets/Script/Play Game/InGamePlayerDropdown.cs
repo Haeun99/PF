@@ -8,18 +8,38 @@ using Photon.Chat;
 using Photon.Realtime;
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Linq;
 
 public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 {
+    public static InGamePlayerDropdown Instance { get; private set; }
+
     public TMP_Dropdown playerDropdown;
     public Button selectButton;
 
-    protected List<Player> players = new List<Player>();
+    private int voteEnd;
 
-    public virtual void Start()
+    public TMP_InputField[] chatting;
+
+    public List<Player> players = new List<Player>();
+
+    public void Start()
     {
         UpdatePlayerList();
         selectButton.onClick.AddListener(PlayerVote);
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
+        {
+            voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
+        }
+    }
+
+    public void Update()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -88,6 +108,11 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
                 InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
             }
         }
+
+        if (Time.time >= voteEnd)
+        {
+            selectButton.gameObject.SetActive(false);
+        }
     }
 
     public void CalculateVoteResults()
@@ -113,25 +138,66 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 
         Player mostVotedPlayer = null;
         int maxVotes = 0;
+        int secondMaxVotes = 0;
 
         foreach (var entry in voteCount)
         {
             if (entry.Value > maxVotes)
             {
+                secondMaxVotes = maxVotes;
                 mostVotedPlayer = entry.Key;
                 maxVotes = entry.Value;
+            }
+            else if (entry.Value > secondMaxVotes && entry.Value < maxVotes)
+            {
+                secondMaxVotes = entry.Value;
             }
         }
 
         if (mostVotedPlayer != null)
         {
-            // final appeal coroutine time에 말하기 활성화
+            FinalAppealSystem.Instance.SetMostVotedPlayer(mostVotedPlayer);
+        }
 
-            Hashtable props = new Hashtable
+        if (maxVotes > secondMaxVotes)
+        {
+            bool isFinalAppeal = (bool)PhotonNetwork.CurrentRoom.CustomProperties["FinalAppeal"];
+
+            if (isFinalAppeal == false)
             {
-                { "isDead", true }
-            };
-            mostVotedPlayer.SetCustomProperties(props);
+                PlayerStatus.Instance.SetDead(true);
+
+                InGameChatting.Instance.DisplaySystemMessage($"[시스템]{mostVotedPlayer.NickName}님이 처형 당했습니다.");
+                InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 되었습니다.");
+            }
+
+            else
+            {
+                ManageChatInputFields(mostVotedPlayer);
+            }
+        }
+
+        else
+        {
+            InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 결과가 동점입니다. 처형이 진행되지 않습니다.");
+            InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 되었습니다.");
+        }
+    }
+
+    public void ManageChatInputFields(Player mostVotedPlayer)
+    {
+        foreach (var inputField in chatting)
+        {
+            inputField.gameObject.SetActive(false);
+        }
+
+        if (mostVotedPlayer != null)
+        {
+            int playerIndex = PhotonNetwork.PlayerList.ToList().IndexOf(mostVotedPlayer);
+            if (playerIndex >= 0 && playerIndex < chatting.Length)
+            {
+                chatting[playerIndex].gameObject.SetActive(true);
+            }
         }
     }
 }

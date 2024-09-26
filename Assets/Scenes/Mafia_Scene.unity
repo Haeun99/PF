@@ -12540,6 +12540,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 2005748116}
   selectButton: {fileID: 868698223}
+  voteEnd: 0
+  chatting:
+  - {fileID: 1448874871}
+  - {fileID: 2138799424}
+  - {fileID: 8345175}
+  - {fileID: 659984242}
+  - {fileID: 38784728}
+  - {fileID: 1460706911}
 --- !u!114 &412057717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23873,6 +23881,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 1375685984}
   selectButton: {fileID: 517805727}
+  voteEnd: 0
+  chatting:
+  - {fileID: 1448874871}
+  - {fileID: 2138799424}
+  - {fileID: 8345175}
+  - {fileID: 659984242}
+  - {fileID: 38784728}
+  - {fileID: 1460706911}
 --- !u!114 &799575154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33841,6 +33857,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 1173751317}
   selectButton: {fileID: 1313337775}
+  voteEnd: 0
+  chatting:
+  - {fileID: 1448874871}
+  - {fileID: 2138799424}
+  - {fileID: 8345175}
+  - {fileID: 659984242}
+  - {fileID: 38784728}
+  - {fileID: 1460706911}
 --- !u!114 &1147956818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38914,6 +38938,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 266105140}
   selectButton: {fileID: 131717565}
+  voteEnd: 0
+  chatting:
+  - {fileID: 1448874871}
+  - {fileID: 2138799424}
+  - {fileID: 8345175}
+  - {fileID: 659984242}
+  - {fileID: 38784728}
+  - {fileID: 1460706911}
 --- !u!114 &1295417425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50508,6 +50540,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 1506396079}
   selectButton: {fileID: 2026734930}
+  voteEnd: 0
+  chatting:
+  - {fileID: 1448874871}
+  - {fileID: 2138799424}
+  - {fileID: 8345175}
+  - {fileID: 659984242}
+  - {fileID: 38784728}
+  - {fileID: 1460706911}
 --- !u!114 &1672667637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52335,6 +52375,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 57791496}
   selectButton: {fileID: 1277019662}
+  voteEnd: 0
+  chatting:
+  - {fileID: 1448874871}
+  - {fileID: 2138799424}
+  - {fileID: 8345175}
+  - {fileID: 659984242}
+  - {fileID: 38784728}
+  - {fileID: 1460706911}
 --- !u!114 &1732002757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61343,6 +61391,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f1c873092253b48bcbbf67c30320c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerVote:
+  - {fileID: 2026734930}
+  - {fileID: 131717565}
+  - {fileID: 1313337775}
+  - {fileID: 517805727}
+  - {fileID: 1277019662}
+  - {fileID: 868698223}
+  jobVote:
+  - {fileID: 958284956}
+  - {fileID: 324485083}
+  - {fileID: 1011329585}
+  - {fileID: 552024885}
+  - {fileID: 164267083}
+  jobChatting:
+  - {fileID: 1950696872}
+  - {fileID: 1535560650}
+  - {fileID: 80013556}
+  - {fileID: 1040443171}
+  - {fileID: 1200718134}
 --- !u!1 &2099205611
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,43 +6,166 @@ using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PoliceInvestigateDropdown : InGamePlayerDropdown
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+
+public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
 {
-    public override void UpdatePlayerList()
+    public static PoliceInvestigateDropdown Instance { get; private set; }
+
+    public TMP_Dropdown playerDropdown;
+    public Button selectButton;
+
+    private int voteEnd;
+
+    public List<Player> players = new List<Player>();
+
+    private Dictionary<Player, Player> policeVotes = new Dictionary<Player, Player>();
+
+    public void Start()
+    {
+        UpdatePlayerList();
+        selectButton.onClick.AddListener(PlayerVote);
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
+        {
+            voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
+        }
+    }
+
+    public virtual void Update()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        UpdatePlayerList();
+    }
+
+    public void UpdatePlayerList()
     {
         playerDropdown.ClearOptions();
         players.Clear();
 
         List<string> playerNames = new List<string>();
+
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            playerNames.Add(player.NickName);
-            players.Add(player);
+            if (!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"])
+            {
+                playerNames.Add(player.NickName);
+                players.Add(player);
+            }
         }
 
         playerDropdown.AddOptions(playerNames);
     }
 
-    public override void PlayerVote()
+    public Player GetSelectedPlayer()
     {
-        Player selectedPlayer = GetSelectedPlayer();
+        int selectedIndex = playerDropdown.value;
 
-        Hashtable policeAction = new Hashtable
+        if (selectedIndex < 0 || selectedIndex >= players.Count)
         {
-            { "nightAction", "Police" },
-            { "selectedPlayer", selectedPlayer.NickName }
-        };
+            return null;
+        }
 
-        string message = $"[Ω√Ω∫≈€]{PhotonNetwork.LocalPlayer.NickName}¥‘¿Ã <color=green>{selectedPlayer.NickName}<color=white>¥‘¿ª ¡∂ªÁ«’¥œ¥Ÿ...";
-
-        PoliceChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
-
-        PoliceAction(selectedPlayer);
-
-        selectButton.gameObject.SetActive(false);
+        return players[selectedIndex];
     }
 
-    private void PoliceAction(Player targetPlayer)
+    public void PlayerVote()
+    {
+        Player localPlayer = PhotonNetwork.LocalPlayer;
+
+        if (localPlayer.CustomProperties.ContainsKey("Job") && localPlayer.CustomProperties["Job"].Equals("∞Ê¬˚"))
+        {
+            Player selectedPlayer = GetSelectedPlayer();
+
+            policeVotes[localPlayer] = selectedPlayer;
+
+            Hashtable policeAction = new Hashtable
+            {
+                { "nightAction", "Police" },
+                { "selectedPlayer", selectedPlayer }
+            };
+
+            string message = $"[Ω√Ω∫≈€]{PhotonNetwork.LocalPlayer.NickName}¥‘¿Ã <color=green>{selectedPlayer.NickName}<color=white>¥‘¿ª ¡∂ªÁ«’¥œ¥Ÿ...";
+
+            PoliceChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
+
+            PoliceAction(selectedPlayer);
+
+            if (Time.time >= voteEnd)
+            {
+                selectButton.gameObject.SetActive(false);
+            }
+        }
+
+        else
+        {
+            return;
+        }
+    }
+
+    public void OnNightTimeEnd()
+    {
+        Player selectedTarget = CheckVotes();
+        if (selectedTarget != null)
+        {
+            PoliceAction(selectedTarget);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public Player CheckVotes()
+    {
+        Player lastSelectedPlayer = null;
+        bool allVotesMatch = true;
+        bool hasVotes = false;
+
+        foreach (Player Police in PhotonNetwork.PlayerList)
+        {
+            if ((bool)Police.CustomProperties["isDead"])
+            {
+                continue;
+            }
+
+            if (!policeVotes.ContainsKey(Police))
+            {
+                continue;
+            }
+
+            hasVotes = true;
+
+            if (lastSelectedPlayer == null)
+            {
+                lastSelectedPlayer = policeVotes[Police];
+            }
+            else
+            {
+                if (lastSelectedPlayer != policeVotes[Police])
+                {
+                    allVotesMatch = false;
+                    break;
+                }
+            }
+        }
+
+        if (!hasVotes || lastSelectedPlayer == null)
+        {
+            return null;
+        }
+
+        return allVotesMatch ? lastSelectedPlayer : null;
+    }
+
+    public void PoliceAction(Player targetPlayer)
     {
         string job = StartGame.Instance.GetPlayerJob(targetPlayer);
 
