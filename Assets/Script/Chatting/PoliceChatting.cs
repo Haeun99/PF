@@ -30,7 +30,7 @@ public class PoliceChatting : MonoBehaviour, IChatClientListener
 
     private void OnEnable()
     {
-        DisplaySystemMessage("[시스템]경찰 전용 채팅방입니다.");
+        DisplaySystemMessage("[시스템]<color=blue>경찰<color=white> 전용 채팅방입니다.");
         DisplaySystemMessage("[시스템]경찰은 매일 밤 단 한 명의 직업을 조사할 수 있습니다. 충분한 회의를 통해 의견을 통일하세요.");
     }
 
@@ -135,6 +135,11 @@ public class PoliceChatting : MonoBehaviour, IChatClientListener
                 }
             }
         }
+    }
+
+    public void SendSystemMessage(string channel, string message)
+    {
+        chatClient.PublishMessage(channel, message);
     }
 
     public void OnConnected()

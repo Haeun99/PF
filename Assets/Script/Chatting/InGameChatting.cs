@@ -179,6 +179,11 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
         }
     }
 
+    public void SendSystemMessage(string channel, string message)
+    {
+        chatClient.PublishMessage(channel, message);
+    }
+
     public void SubscribeToChannels(bool isDead)
     {
         if (isDead)

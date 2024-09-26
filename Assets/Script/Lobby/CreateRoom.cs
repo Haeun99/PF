@@ -69,7 +69,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     private void SetMaxPlayerNumber()
     {
         int option = maxPlayerDropdwon.value;
-        maxPlayer = (byte)option + 4;
+        maxPlayer = (byte)option + 5;
     }
 
     public void CreateMafiaRoom()

@@ -30,6 +30,11 @@ public class GamePlayRoutine : MonoBehaviour
         gameLoopCoroutine = StartCoroutine(GameLoop());
     }
 
+    private void Update()
+    {
+        CheckGameEndConditions();
+    }
+
     public IEnumerator GameLoop()
     {
         yield return new WaitForSeconds(5f);
@@ -38,7 +43,7 @@ public class GamePlayRoutine : MonoBehaviour
         {
             yield return StartCoroutine(NightPhase());
 
-            // 밤 / 낮 사이 직업 공개 시간
+            yield return StartCoroutine(JobProcess());
 
             yield return StartCoroutine(DayPhase());
 
@@ -51,10 +56,10 @@ public class GamePlayRoutine : MonoBehaviour
 
     public virtual IEnumerator NightPhase()
     {
+        voteButton.gameObject.SetActive(false);
+
         TimeSlider.Instance.slider.gameObject.SetActive(true);
         TimeSlider.Instance.StartNightPhase();
-
-        CheckGameEndConditions();
 
         chattingInput.interactable = false;
 
@@ -76,14 +81,19 @@ public class GamePlayRoutine : MonoBehaviour
         TimeSlider.Instance.slider.gameObject.SetActive(true);
         TimeSlider.Instance.StartDayPhase();
 
-        CheckGameEndConditions();
-
         chattingInput.interactable = true;
         voteButton.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(dayTime);
 
         ResetVoting();
+    }
+
+    public IEnumerator JobProcess()
+    {
+
+
+        yield return new WaitForSeconds(5);
     }
 
     public IEnumerator FinalAppealPhase()
@@ -102,42 +112,9 @@ public class GamePlayRoutine : MonoBehaviour
 
     public bool CheckGameEndConditions()
     {
-        if (PhotonNetwork.CurrentRoom == null || PhotonNetwork.CurrentRoom.CustomProperties == null)
-        {
-            Debug.LogError("Room이나 CustomProperties가 null입니다.");
-            return false;
-        }
-
-        int mafiaCount = 0;
-        int gangsterCount = 0;
-        int playerCount = 0;
-
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("MafiaCount"))
-        {
-            mafiaCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["MafiaCount"];
-        }
-        else
-        {
-            Debug.LogError("MafiaCount가 설정되지 않았습니다.");
-        }
-
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("GangsterCount"))
-        {
-            gangsterCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["GangsterCount"];
-        }
-        else
-        {
-            Debug.LogError("GangsterCount가 설정되지 않았습니다.");
-        }
-
-        if (PhotonNetwork.CurrentRoom != null)
-        {
-            playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
-        }
-        else
-        {
-            Debug.LogError("Room이 null입니다.");
-        }
+        int mafiaCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["MafiaCount"];
+        int gangsterCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["GangsterCount"];
+        int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
         if (mafiaCount + gangsterCount == 0)
         {
@@ -157,7 +134,7 @@ public class GamePlayRoutine : MonoBehaviour
     {
         TimeSlider.Instance.slider.gameObject.SetActive(false);
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 7; i++)
         {
             gamePanel[i].gameObject.SetActive(false);
         }

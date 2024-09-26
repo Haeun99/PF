@@ -16,13 +16,13 @@ public class MafiaKillDropdown : InGamePlayerDropdown
 
         Hashtable mafiaAction = new Hashtable
         {
-            { "nightAction", "Mafia" }
+            { "nightAction", "Mafia" },
+            { "selectedPlayer", selectedPlayer.NickName }
         };
 
         string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 살해 대상으로 <color=green>{selectedPlayer.NickName}<color=white>님을 선택했습니다.";
 
-        MafiaTeamChatting.Instance.DisplaySystemMessage(message);
-        chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
+        MafiaTeamChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
 
         MafiaAction(selectedPlayer);
 
@@ -38,9 +38,11 @@ public class MafiaKillDropdown : InGamePlayerDropdown
         };
 
         targetPlayer.SetCustomProperties(props);
+
+        DeadPlayer(targetPlayer);
     }
 
-    private void DeadPlayer()
+    private void DeadPlayer(Player player)
     {
         PlayerStatus.Instance.SetDead(true);
     }

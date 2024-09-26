@@ -16,15 +16,15 @@ public class DoctorCureDropdown : InGamePlayerDropdown
 
         Hashtable doctorAction = new Hashtable
         {
-            { "nightAction", "Doctor" }
+            { "nightAction", "Doctor" },
+            { "selectedPlayer", selectedPlayer.NickName }
         };
 
         DoctorAction(selectedPlayer);
 
         string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 치료합니다...";
 
-        DoctorChatting.Instance.DisplaySystemMessage(message);
-        chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_Doctor", message);
+        DoctorChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Doctor", message);
 
         selectButton.gameObject.SetActive(false);
     }

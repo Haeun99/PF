@@ -40,7 +40,7 @@ public class GameStartButton : MonoBehaviourPunCallbacks
             }
         }
 
-        gameStartButton.interactable = allReady && PhotonNetwork.CurrentRoom.PlayerCount >= 4;
+        gameStartButton.interactable = allReady && PhotonNetwork.CurrentRoom.PlayerCount >= 5;
     }
 
     private void GameStart()

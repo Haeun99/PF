@@ -11,8 +11,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 {
-    public ChatClient chatClient;
-
     public TMP_Dropdown playerDropdown;
     public Button selectButton;
 
@@ -20,8 +18,6 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 
     public virtual void Start()
     {
-        chatClient = InGameChatting.Instance.chatClient;
-
         UpdatePlayerList();
         selectButton.onClick.AddListener(PlayerVote);
     }
@@ -66,6 +62,12 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
     {
         Player selectedPlayer = GetSelectedPlayer();
 
+        Hashtable props = new Hashtable
+        {
+            { "votedPlayer", selectedPlayer }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
         string message;
 
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("AnonymousVote"))
@@ -76,19 +78,60 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
             {
                 message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}</color>님에게 투표했습니다.";
 
-                InGameChatting.Instance.DisplaySystemMessage(message);
-                chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
+                InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
             }
 
             else
             {
                 message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 투표했습니다.";
 
-                InGameChatting.Instance.DisplaySystemMessage(message);
-                chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
+                InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
+            }
+        }
+    }
+
+    public void CalculateVoteResults()
+    {
+        Dictionary<Player, int> voteCount = new Dictionary<Player, int>();
+
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.ContainsKey("votedPlayer"))
+            {
+                Player votedPlayer = (Player)player.CustomProperties["votedPlayer"];
+
+                if (votedPlayer != null)
+                {
+                    if (!voteCount.ContainsKey(votedPlayer))
+                    {
+                        voteCount[votedPlayer] = 0;
+                    }
+                    voteCount[votedPlayer]++;
+                }
             }
         }
 
-        selectButton.gameObject.SetActive(false);
+        Player mostVotedPlayer = null;
+        int maxVotes = 0;
+
+        foreach (var entry in voteCount)
+        {
+            if (entry.Value > maxVotes)
+            {
+                mostVotedPlayer = entry.Key;
+                maxVotes = entry.Value;
+            }
+        }
+
+        if (mostVotedPlayer != null)
+        {
+            // final appeal coroutine time에 말하기 활성화
+
+            Hashtable props = new Hashtable
+            {
+                { "isDead", true }
+            };
+            mostVotedPlayer.SetCustomProperties(props);
+        }
     }
 }

@@ -12575,6 +12575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 2113759533}
+  currentTime: 0
 --- !u!1001 &416145050
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19366,8 +19367,6 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "4\uBA85"
-      m_Image: {fileID: 0}
     - m_Text: "5\uBA85"
       m_Image: {fileID: 0}
     - m_Text: "6\uBA85"
@@ -23924,6 +23923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 2088337815}
+  currentTime: 0
 --- !u!1 &801399639
 GameObject:
   m_ObjectHideFlags: 0
@@ -26228,11 +26228,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 20
+    m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 20
-  m_ChildAlignment: 0
+    m_Top: 10
+    m_Bottom: 10
+  m_ChildAlignment: 6
   m_Spacing: 30
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
@@ -32844,7 +32844,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB2F9\uC2E0\uC740 <color=blue>\uC2DC\uBBFC<color=white>\uC785\uB2C8\uB2E4.\n\n\uCD94\uB9AC\uB97C
+  m_text: "\uB2F9\uC2E0\uC740 \uC2DC\uBBFC\uC785\uB2C8\uB2E4.\n\n\uCD94\uB9AC\uB97C
     \uD1B5\uD574 \uC228\uC5B4\uC788\uB294 \uB9C8\uD53C\uC544\uB97C \uBAA8\uB450 \uCC3E\uC544\uB0B4\uACE0
     \uC2B9\uB9AC\uD558\uC138\uC694!"
   m_isRightToLeft: 0
@@ -33519,10 +33519,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 20
+    m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 20
+    m_Top: 10
+    m_Bottom: 10
   m_ChildAlignment: 6
   m_Spacing: 30
   m_ChildForceExpandWidth: 0
@@ -33891,6 +33891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 695159960}
+  currentTime: 0
 --- !u!1 &1152464986
 GameObject:
   m_ObjectHideFlags: 0
@@ -38963,6 +38964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1482626202}
+  currentTime: 0
 --- !u!1 &1303263429
 GameObject:
   m_ObjectHideFlags: 0
@@ -44573,10 +44575,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 20
+    m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 20
+    m_Top: 10
+    m_Bottom: 10
   m_ChildAlignment: 6
   m_Spacing: 30
   m_ChildForceExpandWidth: 0
@@ -50556,6 +50558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1834001463}
+  currentTime: 0
 --- !u!1 &1673196778
 GameObject:
   m_ObjectHideFlags: 0
@@ -52382,6 +52385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 224284164}
+  currentTime: 0
 --- !u!1 &1740206364
 GameObject:
   m_ObjectHideFlags: 0
@@ -52771,10 +52775,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 20
+    m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 20
+    m_Top: 10
+    m_Bottom: 10
   m_ChildAlignment: 6
   m_Spacing: 30
   m_ChildForceExpandWidth: 0

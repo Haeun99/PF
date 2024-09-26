@@ -11,8 +11,6 @@ public class GamePlayJobRoutine : GamePlayRoutine
 
     public override IEnumerator NightPhase()
     {
-        CheckGameEndConditions();
-
         chattingInput.interactable = false;
         roleAction.gameObject.SetActive(true);
 

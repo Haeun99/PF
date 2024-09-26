@@ -21,8 +21,7 @@ public class GangsterInvestigateDropdown : InGamePlayerDropdown
 
         string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
 
-        MafiaTeamChatting.Instance.DisplaySystemMessage(message);
-        chatClient.PublishMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
+        MafiaTeamChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
 
         GangsterAction(selectedPlayer);
 
@@ -31,11 +30,10 @@ public class GangsterInvestigateDropdown : InGamePlayerDropdown
 
     private void GangsterAction(Player targetPlayer)
     {
-        if (targetPlayer.CustomProperties.ContainsKey("job"))
-        {
-            string job = (string)targetPlayer.CustomProperties["job"];
+        string job = StartGame.Instance.GetPlayerJob(targetPlayer);
 
-            MafiaTeamChatting.Instance.DisplaySystemMessage($"[시스템]<color=green>{targetPlayer.NickName}님은 <color=blue>{job}<color=white>입니다!");
-        }
+        string message = $"[시스템]<color=green>{targetPlayer.NickName}<color=white>님은 <color=blue>{job}<color=white>입니다!";
+
+        MafiaTeamChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
     }
 }

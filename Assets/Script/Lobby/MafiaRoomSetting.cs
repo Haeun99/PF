@@ -243,14 +243,14 @@ public class MafiaRoomSetting : MonoBehaviourPunCallbacks
     {
         int totalPlayer = mafiaNumber + gangsterNumber + policeNumber + doctorNumber + stalkerNumber;
         int currentPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
-        bool isMinimum = currentPlayerCount < 5;
+        bool isMinimum = currentPlayerCount < 6;
         bool isOverHalf = (mafiaNumber + gangsterNumber) > (currentPlayerCount / 2);
 
         if (totalPlayer > currentPlayerCount || isOverHalf)
         {
             settingConfirmButton.interactable = false;
 
-            if (isMinimum && totalPlayer < 5 && (mafiaNumber + gangsterNumber) < 3)
+            if (isMinimum && totalPlayer < 6 && (mafiaNumber + gangsterNumber) < 3)
             {
                 settingConfirmButton.interactable = true;
             }

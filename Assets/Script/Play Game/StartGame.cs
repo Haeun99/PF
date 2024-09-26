@@ -134,28 +134,28 @@ public class StartGame : MonoBehaviourPunCallbacks
 
     private void ShowJobUI(string job)
     {
-        mafiaRole.gameObject.SetActive(job == "Mafia");
-        gangsterRole.gameObject.SetActive(job == "Gangster");
-        doctorRole.gameObject.SetActive(job == "Doctor");
-        policeRole.gameObject.SetActive(job == "Police");
-        stalkerRole.gameObject.SetActive(job == "Stalker");
-        citizenRole.gameObject.SetActive(job == "Citizen");
+        mafiaRole.gameObject.SetActive(job == "마피아");
+        gangsterRole.gameObject.SetActive(job == "건달");
+        doctorRole.gameObject.SetActive(job == "의사");
+        policeRole.gameObject.SetActive(job == "경찰");
+        stalkerRole.gameObject.SetActive(job == "스토커");
+        citizenRole.gameObject.SetActive(job == "시민");
 
         switch (job)
         {
-            case "Mafia":
+            case "마피아":
                 StartCoroutine(JobTextCoroutine(mafiaText));
                 break;
-            case "Gangster":
+            case "건달":
                 StartCoroutine(JobTextCoroutine(gangsterText));
                 break;
-            case "Doctor":
+            case "의사":
                 StartCoroutine(JobTextCoroutine(doctorText));
                 break;
-            case "Police":
+            case "경찰":
                 StartCoroutine(JobTextCoroutine(policeText));
                 break;
-            case "Stalker":
+            case "스토커":
                 StartCoroutine(JobTextCoroutine(stalkerText));
                 break;
             default:
