@@ -83,7 +83,7 @@ public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
             messageText.text = message;
         }
 
-        if (job == "Mafia")
+        if (job == "¸¶ÇÇ¾Æ")
         {
             nicknameText.color = new Color(1.0f, 0.1686f, 0.0627f);
         }

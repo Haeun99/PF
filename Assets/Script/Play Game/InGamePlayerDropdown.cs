@@ -96,7 +96,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 
             if (isAnonymousVote == false)
             {
-                message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}</color>님에게 투표했습니다.";
+                message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=yellow>{selectedPlayer.NickName}</color>님에게 투표했습니다.";
 
                 InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", message);
             }

@@ -10,8 +10,9 @@ public class TimeSlider : MonoBehaviour
 
     public Slider slider;
 
-    private int currentTime;
-    public float timeRemaining { get; private set; }
+    private int currentTime; // 타이머의 총 시간
+    public double timeRemaining { get; private set; }
+    private double startTime;
 
     private void Awake()
     {
@@ -25,38 +26,34 @@ public class TimeSlider : MonoBehaviour
     {
         if (timeRemaining > 0)
         {
-            timeRemaining -= Time.deltaTime;
+            timeRemaining = currentTime - (PhotonNetwork.Time - startTime);
+
+            if (timeRemaining < 0)
+            {
+                timeRemaining = 0;
+            }
+
             UpdateSlider();
         }
     }
 
-    public void StartDayPhase()
+    public void StartTimer(string timeKey)
     {
-        currentTime = GetTimeFromRoomProperties("DayTime");
+        currentTime = GetTimeFromRoomProperties(timeKey);
+
+        startTime = PhotonNetwork.Time;
+
         timeRemaining = currentTime;
         slider.maxValue = currentTime;
         slider.value = currentTime;
     }
 
-    public void StartNightPhase()
+    public void StartTimer(double duration)
     {
-        currentTime = GetTimeFromRoomProperties("NightTime");
-        timeRemaining = currentTime;
-        slider.maxValue = currentTime;
-        slider.value = currentTime;
-    }
+        currentTime = (int)duration;
 
-    public void StartVotePhase()
-    {
-        currentTime = 10;
-        timeRemaining = currentTime;
-        slider.maxValue = currentTime;
-        slider.value = currentTime;
-    }
+        startTime = PhotonNetwork.Time;
 
-    public void FinalAppealPhase()
-    {
-        currentTime = 30;
         timeRemaining = currentTime;
         slider.maxValue = currentTime;
         slider.value = currentTime;
@@ -64,7 +61,7 @@ public class TimeSlider : MonoBehaviour
 
     private void UpdateSlider()
     {
-        slider.value = timeRemaining;
+        slider.value = (float)timeRemaining;
     }
 
     private int GetTimeFromRoomProperties(string key)

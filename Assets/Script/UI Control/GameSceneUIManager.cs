@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using UnityEditor;
 
 public class GameSceneUIManager : MonoBehaviour
@@ -40,7 +40,7 @@ public class GameSceneUIManager : MonoBehaviour
     private void Start()
     {
         menuButton.onClick.AddListener(ToggleMenu);
-        mafiaButton.onClick.AddListener(() => SceneManager.LoadScene("Mafia_Scene"));
+        mafiaButton.onClick.AddListener(MafiaScene);
         shopButton.onClick.AddListener(() => OpenPanel(shopPanel));
         cashButton.onClick.AddListener(() => OpenPanel(cashPanel));
         settingButton.onClick.AddListener(() => OpenPanelWithMenuClose(settingPanel));
@@ -57,6 +57,16 @@ public class GameSceneUIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             gameEndPanel.gameObject.SetActive(true);
+        }
+    }
+
+    private void MafiaScene()
+    {
+        PhotonNetwork.LoadLevel("Mafia_Scene");
+
+        if (!PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.JoinLobby();
         }
     }
 

@@ -43,7 +43,7 @@ public class GamePlayRoutine : MonoBehaviour
         {
             yield return StartCoroutine(NightPhase());
 
-            yield return StartCoroutine(JobProcess());
+            JobProcess();
 
             yield return StartCoroutine(DayPhase());
 
@@ -60,13 +60,10 @@ public class GamePlayRoutine : MonoBehaviour
     {
         voteButton.gameObject.SetActive(false);
 
-        TimeSlider.Instance.slider.gameObject.SetActive(true);
-        TimeSlider.Instance.StartNightPhase();
-
         chattingInput.interactable = false;
 
         TimeSlider.Instance.slider.gameObject.SetActive(true);
-        TimeSlider.Instance.StartNightPhase();
+        TimeSlider.Instance.StartTimer("NightTime");
 
         while (TimeSlider.Instance.timeRemaining > 0)
         {
@@ -81,7 +78,7 @@ public class GamePlayRoutine : MonoBehaviour
     public IEnumerator DayPhase()
     {
         TimeSlider.Instance.slider.gameObject.SetActive(true);
-        TimeSlider.Instance.StartDayPhase();
+        TimeSlider.Instance.StartTimer("DayTime");
 
         chattingInput.interactable = true;
         voteButton.gameObject.SetActive(true);
@@ -91,27 +88,34 @@ public class GamePlayRoutine : MonoBehaviour
         ResetVoting();
     }
 
-    public IEnumerator JobProcess()
+    public void JobProcess()
     {
-        MafiaKillDropdown.Instance.OnNightTimeEnd();
-        GangsterInvestigateDropdown.Instance.OnNightTimeEnd();
-        DoctorCureDropdown.Instance.OnNightTimeEnd();
-        PoliceInvestigateDropdown.Instance.OnNightTimeEnd();
-        StalkerInvestigateDropdown.Instance.OnNightTimeEnd();
+        if (MafiaKillDropdown.Instance != null)
+            MafiaKillDropdown.Instance.OnNightTimeEnd();
 
-        yield return new WaitForSeconds(5);
+        if (GangsterInvestigateDropdown.Instance != null)
+            GangsterInvestigateDropdown.Instance.OnNightTimeEnd();
+
+        if (DoctorCureDropdown.Instance != null)
+            DoctorCureDropdown.Instance.OnNightTimeEnd();
+
+        if (PoliceInvestigateDropdown.Instance != null)
+            PoliceInvestigateDropdown.Instance.OnNightTimeEnd();
+
+        if (StalkerInvestigateDropdown.Instance != null)
+            StalkerInvestigateDropdown.Instance.OnNightTimeEnd();
     }
 
     public IEnumerator FinalAppealPhase()
     {
         chattingInput.interactable = false;
 
-        TimeSlider.Instance.FinalAppealPhase();
+        TimeSlider.Instance.StartTimer(30);
         yield return new WaitForSeconds(30);
 
         InGameChatting.Instance.FinalAppealSystemMessage();
 
-        TimeSlider.Instance.StartVotePhase();
+        TimeSlider.Instance.StartTimer(10);
         FinalAppealSystem.Instance.CalculateFinalAppeal();
     }
 

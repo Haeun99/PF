@@ -15,7 +15,7 @@ public class GamePlayJobRoutine : GamePlayRoutine
         roleAction.gameObject.SetActive(true);
 
         TimeSlider.Instance.slider.gameObject.SetActive(true);
-        TimeSlider.Instance.StartNightPhase();
+        TimeSlider.Instance.StartTimer("NightTime");
 
         while (TimeSlider.Instance.timeRemaining > 0)
         {

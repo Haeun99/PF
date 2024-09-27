@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MafiaSceneUIManager : MonoBehaviour
 {
@@ -45,8 +44,7 @@ public class MafiaSceneUIManager : MonoBehaviour
 
     private void Start()
     {
-        backToVillageButton.onClick.AddListener(() => SceneManager.LoadScene("Game_Scene"));
-        backToVillageButton.onClick.AddListener(() => PhotonNetwork.LeaveLobby());
+        backToVillageButton.onClick.AddListener(BackToVillage);
         createRoomButton.onClick.AddListener(() => TogglePanel(createRoomPanel));
         findRoomButton.onClick.AddListener(() => FindGame(findRoomPanel));
         quitCreateButton.onClick.AddListener(() => ClosePanel(createRoomPanel));
@@ -78,8 +76,36 @@ public class MafiaSceneUIManager : MonoBehaviour
         panel.gameObject.SetActive(false);
         SetMainButtonsActive(true);
 
-        PhotonNetwork.LeaveRoom();
-        PhotonNetwork.JoinLobby();
+        if (PhotonNetwork.IsConnected)
+        {
+            if (PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.LeaveRoom();
+            }
+
+            if (!PhotonNetwork.InLobby)
+            {
+                PhotonNetwork.JoinLobby();
+            }
+        }
+    }
+
+    private void BackToVillage()
+    {
+        PhotonNetwork.LoadLevel("Game_Scene");
+
+        if (PhotonNetwork.IsConnected)
+        {
+            if (PhotonNetwork.InLobby)
+            {
+                PhotonNetwork.LeaveLobby();
+            }
+
+            if (PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.LeaveRoom();
+            }
+        }
     }
 
     private void FindGame(RectTransform panel)

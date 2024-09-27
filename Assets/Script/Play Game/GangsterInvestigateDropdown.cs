@@ -123,13 +123,6 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
 
     public Player CheckVotes()
     {
-        Player localPlayer = PhotonNetwork.LocalPlayer;
-
-        if (!localPlayer.CustomProperties.ContainsKey("Job") || !localPlayer.CustomProperties["Job"].Equals("°Ç´Þ"))
-        {
-            return null;
-        }
-
         Player selectedPlayer = GetSelectedPlayer();
 
         if (selectedPlayer != null && !((bool)selectedPlayer.CustomProperties["isDead"]))
