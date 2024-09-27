@@ -23,6 +23,22 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 
     public List<Player> players = new List<Player>();
 
+    public bool AllVote
+    {
+        get
+        {
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                if (!player.CustomProperties.ContainsKey("votedPlayer"))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
     public void Start()
     {
         UpdatePlayerList();

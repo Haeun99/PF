@@ -10,7 +10,7 @@ public class TimeSlider : MonoBehaviour
 
     public Slider slider;
 
-    private int currentTime; // 타이머의 총 시간
+    private int currentTime;
     public double timeRemaining { get; private set; }
     private double startTime;
 

@@ -10,8 +10,6 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class GamePlayRoutine : MonoBehaviour
 {
-    public Coroutine gameLoopCoroutine;
-
     protected int dayTime;
     protected int nightTime;
     protected bool isFinalAppeal;
@@ -27,7 +25,7 @@ public class GamePlayRoutine : MonoBehaviour
         nightTime = (int)roomProperties["NightTime"];
         isFinalAppeal = (bool)roomProperties["FinalAppeal"];
 
-        gameLoopCoroutine = StartCoroutine(GameLoop());
+        StartCoroutine(GameLoop());
     }
 
     private void Update()
@@ -38,22 +36,7 @@ public class GamePlayRoutine : MonoBehaviour
     public IEnumerator GameLoop()
     {
         yield return new WaitForSeconds(5f);
-
-        while (true)
-        {
-            yield return StartCoroutine(NightPhase());
-
-            JobProcess();
-
-            yield return StartCoroutine(DayPhase());
-
-            InGamePlayerDropdown.Instance.CalculateVoteResults();
-
-            if (isFinalAppeal)
-            {
-                yield return StartCoroutine(FinalAppealPhase());
-            }
-        }
+        yield return StartCoroutine(NightPhase());
     }
 
     public virtual IEnumerator NightPhase()
@@ -70,21 +53,55 @@ public class GamePlayRoutine : MonoBehaviour
             yield return null;
         }
 
+        JobProcess();
         ResetRoleActions();
 
         TimeSlider.Instance.slider.gameObject.SetActive(false);
+
+        yield return StartCoroutine(DayPhase());
     }
 
     public IEnumerator DayPhase()
     {
-        TimeSlider.Instance.slider.gameObject.SetActive(true);
-        TimeSlider.Instance.StartTimer("DayTime");
+        if (dayTime > 0)
+        {
+            TimeSlider.Instance.slider.gameObject.SetActive(true);
+            TimeSlider.Instance.StartTimer("DayTime");
+        }
+        else
+        {
+            TimeSlider.Instance.slider.gameObject.SetActive(false);
+        }
 
         chattingInput.interactable = true;
         voteButton.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(dayTime);
+        float timer = dayTime;
+        while (timer > 0)
+        {
+            if (InGamePlayerDropdown.Instance.AllVote)
+            {
+                InGamePlayerDropdown.Instance.CalculateVoteResults();
 
+                if (isFinalAppeal == true)
+                {
+                    yield return StartCoroutine(FinalAppealPhase());
+                }
+
+                else
+                {
+                    yield return StartCoroutine(NightPhase());
+                }
+
+                yield break;
+            }
+
+            timer -= Time.deltaTime;
+
+            yield return null;
+        }
+
+        InGamePlayerDropdown.Instance.CalculateVoteResults();
         ResetVoting();
     }
 
@@ -117,6 +134,8 @@ public class GamePlayRoutine : MonoBehaviour
 
         TimeSlider.Instance.StartTimer(10);
         FinalAppealSystem.Instance.CalculateFinalAppeal();
+
+        yield return StartCoroutine(NightPhase());
     }
 
     public bool CheckGameEndConditions()

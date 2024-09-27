@@ -25,10 +25,8 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-
-        else if (Instance != this)
+        else
         {
             Destroy(gameObject);
         }

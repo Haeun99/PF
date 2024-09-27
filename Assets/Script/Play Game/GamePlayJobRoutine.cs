@@ -11,6 +11,7 @@ public class GamePlayJobRoutine : GamePlayRoutine
 
     public override IEnumerator NightPhase()
     {
+        voteButton.gameObject.SetActive(false);
         chattingInput.interactable = false;
         roleAction.gameObject.SetActive(true);
 
@@ -22,7 +23,6 @@ public class GamePlayJobRoutine : GamePlayRoutine
             yield return null;
         }
 
-        roleAction.gameObject.SetActive(false);
         ResetRoleActions();
     }
 }
