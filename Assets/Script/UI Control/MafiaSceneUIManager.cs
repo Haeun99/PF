@@ -8,6 +8,7 @@ public class MafiaSceneUIManager : MonoBehaviour
 {
     public static MafiaSceneUIManager Instance { get; private set; }
 
+    public Canvas canvas;
     public Button backToVillageButton;
 
     [Space(20)]
@@ -39,6 +40,7 @@ public class MafiaSceneUIManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(this);
+            DontDestroyOnLoad(canvas);
         }
     }
 
@@ -92,8 +94,6 @@ public class MafiaSceneUIManager : MonoBehaviour
 
     private void BackToVillage()
     {
-        PhotonNetwork.LoadLevel("Game_Scene");
-
         if (PhotonNetwork.IsConnected)
         {
             if (PhotonNetwork.InLobby)
@@ -104,8 +104,15 @@ public class MafiaSceneUIManager : MonoBehaviour
             if (PhotonNetwork.InRoom)
             {
                 PhotonNetwork.LeaveRoom();
+                return;
             }
         }
+
+        backToVillageButton.gameObject.SetActive(false);
+        createRoomButton.gameObject.SetActive(false);
+        findRoomButton.gameObject.SetActive(false);
+
+        PhotonNetwork.LoadLevel("Game_Scene");
     }
 
     private void FindGame(RectTransform panel)

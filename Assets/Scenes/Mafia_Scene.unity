@@ -11239,6 +11239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59da165b14d8cbb4f852d15c06d08d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 610219131}
   backToVillageButton: {fileID: 2093553046}
   createRoomButton: {fileID: 1425373316}
   quitCreateButton: {fileID: 335740381}
@@ -12540,7 +12541,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 2005748116}
   selectButton: {fileID: 868698223}
-  voteEnd: 0
   chatting:
   - {fileID: 1448874871}
   - {fileID: 2138799424}
@@ -12583,7 +12583,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 2113759533}
-  currentTime: 0
 --- !u!1001 &416145050
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23881,7 +23880,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 1375685984}
   selectButton: {fileID: 517805727}
-  voteEnd: 0
   chatting:
   - {fileID: 1448874871}
   - {fileID: 2138799424}
@@ -23939,7 +23937,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 2088337815}
-  currentTime: 0
 --- !u!1 &801399639
 GameObject:
   m_ObjectHideFlags: 0
@@ -33857,7 +33854,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 1173751317}
   selectButton: {fileID: 1313337775}
-  voteEnd: 0
   chatting:
   - {fileID: 1448874871}
   - {fileID: 2138799424}
@@ -33915,7 +33911,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 695159960}
-  currentTime: 0
 --- !u!1 &1152464986
 GameObject:
   m_ObjectHideFlags: 0
@@ -38938,7 +38933,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 266105140}
   selectButton: {fileID: 131717565}
-  voteEnd: 0
   chatting:
   - {fileID: 1448874871}
   - {fileID: 2138799424}
@@ -38996,7 +38990,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1482626202}
-  currentTime: 0
 --- !u!1 &1303263429
 GameObject:
   m_ObjectHideFlags: 0
@@ -50540,7 +50533,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 1506396079}
   selectButton: {fileID: 2026734930}
-  voteEnd: 0
   chatting:
   - {fileID: 1448874871}
   - {fileID: 2138799424}
@@ -50598,7 +50590,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1834001463}
-  currentTime: 0
 --- !u!1 &1673196778
 GameObject:
   m_ObjectHideFlags: 0
@@ -52375,7 +52366,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDropdown: {fileID: 57791496}
   selectButton: {fileID: 1277019662}
-  voteEnd: 0
   chatting:
   - {fileID: 1448874871}
   - {fileID: 2138799424}
@@ -52433,7 +52423,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 224284164}
-  currentTime: 0
 --- !u!1 &1740206364
 GameObject:
   m_ObjectHideFlags: 0

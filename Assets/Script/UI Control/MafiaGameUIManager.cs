@@ -82,8 +82,21 @@ public class MafiaGameUIManager : MonoBehaviour
     private void QuitGame()
     {
         SceneManager.LoadScene("Game_Scene");
-        PhotonNetwork.LeaveRoom();
-        PhotonNetwork.LeaveLobby();
+
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.LeaveLobby();
+        }
+
+        settingPanel.gameObject.SetActive(false);
+        MafiaSceneUIManager.Instance.backToVillageButton.gameObject.SetActive(false);
+        MafiaSceneUIManager.Instance.createRoomButton.gameObject.SetActive(false);
+        MafiaSceneUIManager.Instance.findRoomButton.gameObject.SetActive(false);
     }
 
     private void ClosePanel(RectTransform panel)
