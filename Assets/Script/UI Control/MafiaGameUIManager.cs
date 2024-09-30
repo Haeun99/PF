@@ -94,9 +94,7 @@ public class MafiaGameUIManager : MonoBehaviour
         }
 
         settingPanel.gameObject.SetActive(false);
-        MafiaSceneUIManager.Instance.backToVillageButton.gameObject.SetActive(false);
-        MafiaSceneUIManager.Instance.createRoomButton.gameObject.SetActive(false);
-        MafiaSceneUIManager.Instance.findRoomButton.gameObject.SetActive(false);
+        MafiaSceneUIManager.Instance.canvas.gameObject.SetActive(false);
     }
 
     private void ClosePanel(RectTransform panel)

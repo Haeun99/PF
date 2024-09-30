@@ -115,10 +115,15 @@ public class StartGame : MonoBehaviourPunCallbacks
             pair.Key.SetCustomProperties(jobProperty);
         }
 
-        foreach (var player in players)
+        string jobAnnouncement = "[시스템] 직업 배정:\n";
+
+        foreach (var pair in playerJobs)
         {
-            Debug.Log($"Player: {player.NickName}, Assigned Job: {playerJobs[player]}");
+            Debug.Log($"Player: {pair.Key.NickName}, Assigned Job: {pair.Value}");
+            jobAnnouncement += $"{pair.Value} : {pair.Key.NickName}\n";
         }
+
+        LobbyChatting.Instance.DisplaySystemMessage(jobAnnouncement);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)

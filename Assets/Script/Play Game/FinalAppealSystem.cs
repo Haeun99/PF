@@ -33,11 +33,6 @@ public class FinalAppealSystem : MonoBehaviour
         StartCoroutine(CountdownAppealTime());
     }
 
-    public void SetMostVotedPlayer(Player player)
-    {
-        mostVotedPlayer = player;
-    }
-
     public void finalKillButtonClick()
     {
         Hashtable props = new Hashtable

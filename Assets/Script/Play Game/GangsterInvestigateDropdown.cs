@@ -21,6 +21,19 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
 
     private Dictionary<Player, Player> gangsterVote = new Dictionary<Player, Player>();
 
+    public void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void Start()
     {
         UpdatePlayerList();
@@ -29,14 +42,6 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
         {
             voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
-        }
-    }
-
-    public virtual void Update()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
         }
     }
 

@@ -22,6 +22,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
     public TMP_InputField[] chatting;
 
     public List<Player> players = new List<Player>();
+    private bool isFinalAppeal;
 
     public bool AllVote
     {
@@ -39,6 +40,19 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         }
     }
 
+    public void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void Start()
     {
         UpdatePlayerList();
@@ -48,14 +62,9 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         {
             voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
         }
-    }
 
-    public void Update()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        isFinalAppeal = (bool)roomProperties["FinalAppeal"];
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -170,9 +179,10 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
             }
         }
 
+
         if (mostVotedPlayer != null)
         {
-            FinalAppealSystem.Instance.SetMostVotedPlayer(mostVotedPlayer);
+            VoteManager.Instance.SetMostVotedPlayer(mostVotedPlayer);
         }
 
         if (maxVotes > secondMaxVotes)
@@ -184,7 +194,6 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
                 PlayerStatus.Instance.SetDead(true);
 
                 InGameChatting.Instance.DisplaySystemMessage($"[시스템]{mostVotedPlayer.NickName}님이 처형 당했습니다.");
-                InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 되었습니다.");
             }
 
             else
@@ -196,7 +205,6 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         else
         {
             InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 결과가 동점입니다. 처형이 진행되지 않습니다.");
-            InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 되었습니다.");
         }
     }
 
@@ -204,15 +212,19 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
     {
         foreach (var inputField in chatting)
         {
-            inputField.gameObject.SetActive(false);
+            inputField.interactable = false;
         }
 
         if (mostVotedPlayer != null)
         {
-            int playerIndex = PhotonNetwork.PlayerList.ToList().IndexOf(mostVotedPlayer);
-            if (playerIndex >= 0 && playerIndex < chatting.Length)
+            for (int i = 0; i < chatting.Length; i++)
             {
-                chatting[playerIndex].gameObject.SetActive(true);
+                string inputFieldPlayerName = chatting[i].gameObject.GetComponent<Player>().NickName;
+
+                if (inputFieldPlayerName == mostVotedPlayer.NickName)
+                {
+                    chatting[i].interactable = true;
+                }
             }
         }
     }

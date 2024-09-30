@@ -17,18 +17,23 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
 
     public List<Player> players = new List<Player>();
 
-    public void Start()
-    {
-        UpdatePlayerList();
-        selectButton.onClick.AddListener(PlayerVote);
-    }
-
-    public void Update()
+    public void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
         }
+
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void Start()
+    {
+        UpdatePlayerList();
+        selectButton.onClick.AddListener(PlayerVote);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)

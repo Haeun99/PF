@@ -41,17 +41,15 @@ public class GamePlayRoutine : MonoBehaviour
 
     public virtual IEnumerator NightPhase()
     {
+        InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 찾아왔습니다...");
+
         voteButton.gameObject.SetActive(false);
 
         chattingInput.interactable = false;
 
         TimeSlider.Instance.slider.gameObject.SetActive(true);
         TimeSlider.Instance.StartTimer("NightTime");
-
-        while (TimeSlider.Instance.timeRemaining > 0)
-        {
-            yield return null;
-        }
+        yield return new WaitForSeconds(nightTime);
 
         JobProcess();
         ResetRoleActions();
@@ -63,6 +61,9 @@ public class GamePlayRoutine : MonoBehaviour
 
     public IEnumerator DayPhase()
     {
+        InGameChatting.Instance.DisplaySystemMessage("[시스템]낮이 되었습니다.");
+        InGameChatting.Instance.DisplaySystemMessage("[시스템]추리와 충분한 회의를 통해 투표를 진행하세요.");
+
         if (dayTime > 0)
         {
             TimeSlider.Instance.slider.gameObject.SetActive(true);
@@ -125,6 +126,9 @@ public class GamePlayRoutine : MonoBehaviour
 
     public IEnumerator FinalAppealPhase()
     {
+        InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 마감. 최후 변론을 시작합니다.");
+        InGameChatting.Instance.DisplaySystemMessage("[시스템]변론을 듣고 자신의 의견과 일치하는 버튼을 누르세요.");
+
         chattingInput.interactable = false;
 
         TimeSlider.Instance.StartTimer(30);
@@ -133,6 +137,7 @@ public class GamePlayRoutine : MonoBehaviour
         InGameChatting.Instance.FinalAppealSystemMessage();
 
         TimeSlider.Instance.StartTimer(10);
+        yield return new WaitForSeconds(10);
         FinalAppealSystem.Instance.CalculateFinalAppeal();
 
         yield return StartCoroutine(NightPhase());
@@ -140,16 +145,44 @@ public class GamePlayRoutine : MonoBehaviour
 
     public bool CheckGameEndConditions()
     {
-        int mafiaCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["MafiaCount"];
-        int gangsterCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["GangsterCount"];
-        int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        int aliveMafiaTeamCount = 0;
+        int alivePlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        if (mafiaCount + gangsterCount == 0)
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.ContainsKey("Job"))
+            {
+                string job = (string)player.CustomProperties["Job"];
+
+                if (job == "마피아" || job == "건달")
+                {
+                    aliveMafiaTeamCount++;
+                }
+            }
+
+            if (player.CustomProperties.ContainsKey("isDead") && (bool)player.CustomProperties["isDead"])
+            {
+                string job = (string)player.CustomProperties["Job"];
+
+                if (job == "마피아" || job == "건달")
+                {
+                    aliveMafiaTeamCount--;
+                }
+
+                else
+                {
+                    alivePlayerCount--;
+                }
+            }
+        }
+
+        if (aliveMafiaTeamCount == 0)
         {
             EndGame("[시스템]<color=blue>시민팀 <color=white>승리!");
             return true;
         }
-        else if (mafiaCount + gangsterCount >= playerCount)
+
+        else if (aliveMafiaTeamCount >= alivePlayerCount - aliveMafiaTeamCount)
         {
             EndGame("[시스템]<color=red>마피아팀 <color=white>승리!");
             return true;
@@ -169,26 +202,28 @@ public class GamePlayRoutine : MonoBehaviour
 
         LobbyChatting.Instance.DisplaySystemMessage(message);
 
-        string roleRevealMessage = GetRoleRevealMessage();
+        //string roleRevealMessage = GetRoleRevealMessage();
+
+        //LobbyChatting.Instance.DisplaySystemMessage(roleRevealMessage);
     }
 
-    private string GetRoleRevealMessage()
-    {
-        string roleRevealMessage = "[시스템]직업:\n";
+    //private string GetRoleRevealMessage()
+    //{
+    //    string roleRevealMessage = "[시스템]직업:\n";
 
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            if (player.CustomProperties.ContainsKey("Job"))
-            {
-                string Job = (string)player.CustomProperties["Job"];
-                string nickname = player.NickName;
+    //    foreach (Player player in PhotonNetwork.PlayerList)
+    //    {
+    //        if (player.CustomProperties.ContainsKey("Job"))
+    //        {
+    //            string Job = (string)player.CustomProperties["Job"];
+    //            string nickname = player.NickName;
 
-                roleRevealMessage += $"{nickname} : {Job}\n";
-            }
-        }
+    //            roleRevealMessage += $"{nickname} : {Job}\n";
+    //        }
+    //    }
 
-        return roleRevealMessage;
-    }
+    //    return roleRevealMessage;
+    //}
 
     public void ResetRoleActions()
     {

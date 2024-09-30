@@ -21,6 +21,19 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
 
     private Dictionary<Player, Player> policeVotes = new Dictionary<Player, Player>();
 
+    public void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void Start()
     {
         UpdatePlayerList();
@@ -29,14 +42,6 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
         {
             voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
-        }
-    }
-
-    public virtual void Update()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
         }
     }
 
@@ -95,9 +100,6 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
             string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
 
             PoliceChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
-
-            PoliceAction(selectedPlayer);
-
             if (Time.time >= voteEnd)
             {
                 selectButton.gameObject.SetActive(false);

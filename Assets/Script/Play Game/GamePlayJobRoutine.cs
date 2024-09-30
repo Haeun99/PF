@@ -11,18 +11,19 @@ public class GamePlayJobRoutine : GamePlayRoutine
 
     public override IEnumerator NightPhase()
     {
+        InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 찾아왔습니다...");
+
         voteButton.gameObject.SetActive(false);
         chattingInput.interactable = false;
         roleAction.gameObject.SetActive(true);
 
         TimeSlider.Instance.slider.gameObject.SetActive(true);
         TimeSlider.Instance.StartTimer("NightTime");
+        yield return new WaitForSeconds(nightTime);
 
-        while (TimeSlider.Instance.timeRemaining > 0)
-        {
-            yield return null;
-        }
-
+        JobProcess();
         ResetRoleActions();
+
+        yield return StartCoroutine(DayPhase());
     }
 }

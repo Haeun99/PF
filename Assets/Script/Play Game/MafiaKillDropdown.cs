@@ -21,6 +21,19 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 
     private Dictionary<Player, Player> mafiaVotes = new Dictionary<Player, Player>();
 
+    public void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void Start()
     {
         UpdatePlayerList();
@@ -29,14 +42,6 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
         {
             voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
-        }
-    }
-
-    public virtual void Update()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
         }
     }
 
