@@ -89,7 +89,10 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
         {
             Player selectedPlayer = GetSelectedPlayer();
 
-            doctorVotes[localPlayer] = selectedPlayer;
+            if (selectedPlayer != null)
+            {
+                doctorVotes[localPlayer] = selectedPlayer;
+            }
 
             Hashtable doctorAction = new Hashtable
             {
@@ -136,11 +139,6 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
 
         foreach (Player doctor in PhotonNetwork.PlayerList)
         {
-            if ((bool)doctor.CustomProperties["isDead"])
-            {
-                continue;
-            }
-
             if (!doctorVotes.ContainsKey(doctor))
             {
                 continue;

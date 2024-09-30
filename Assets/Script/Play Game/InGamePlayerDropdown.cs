@@ -20,6 +20,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
     private int voteEnd;
 
     public TMP_InputField[] chatting;
+    private Player[] playerIndex;
 
     public List<Player> players = new List<Player>();
     private bool isFinalAppeal;
@@ -51,6 +52,13 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
+    }
+
+    public override void OnEnable()
+    {
+        Player[] players = PhotonNetwork.PlayerList;
+
+        SetupPlayerInputFields(players);
     }
 
     public void Start()
@@ -208,6 +216,23 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         }
     }
 
+    public void SetupPlayerInputFields(Player[] players)
+    {
+        this.playerIndex = players;
+
+        for (int i = 0; i < chatting.Length; i++)
+        {
+            if (i < players.Length)
+            {
+                chatting[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                chatting[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
     public void ManageChatInputFields(Player mostVotedPlayer)
     {
         foreach (var inputField in chatting)
@@ -217,13 +242,12 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 
         if (mostVotedPlayer != null)
         {
-            for (int i = 0; i < chatting.Length; i++)
+            for (int i = 0; i < playerIndex.Length; i++)
             {
-                string inputFieldPlayerName = chatting[i].gameObject.GetComponent<Player>().NickName;
-
-                if (inputFieldPlayerName == mostVotedPlayer.NickName)
+                if (players[i] == mostVotedPlayer)
                 {
                     chatting[i].interactable = true;
+                    break;
                 }
             }
         }

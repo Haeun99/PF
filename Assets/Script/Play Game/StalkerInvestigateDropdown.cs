@@ -129,13 +129,14 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
             string action = (string)targetPlayer.CustomProperties["nightAction"];
             Player visitedPlayer = (Player)targetPlayer.CustomProperties["selectedPlayer"];
 
-            string message = $"[시스템] {targetPlayer.NickName}님은 지난 밤에 <color=green>{visitedPlayer.NickName}<color=white>님을 방문했습니다!";
+            string message = $"[시스템]{targetPlayer.NickName}님은 지난 밤에 <color=green>{visitedPlayer.NickName}<color=white>님을 방문했습니다!";
 
             StalkerChatting.Instance.DisplaySystemMessage(message);
         }
+
         else
         {
-            string message = $"[시스템] {targetPlayer.NickName}님은 지난 밤 아무런 행동을 하지 않았습니다.";
+            string message = $"[시스템]{targetPlayer.NickName}님은 지난 밤 아무런 행동을 하지 않았습니다.";
 
             StalkerChatting.Instance.DisplaySystemMessage(message);
         }

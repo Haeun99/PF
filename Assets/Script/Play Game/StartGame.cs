@@ -115,12 +115,12 @@ public class StartGame : MonoBehaviourPunCallbacks
             pair.Key.SetCustomProperties(jobProperty);
         }
 
-        string jobAnnouncement = "[시스템] 직업 배정:\n";
+        string jobAnnouncement = "[시스템]직업 배정:\n";
 
         foreach (var pair in playerJobs)
         {
             Debug.Log($"Player: {pair.Key.NickName}, Assigned Job: {pair.Value}");
-            jobAnnouncement += $"{pair.Value} : {pair.Key.NickName}\n";
+            jobAnnouncement += $"{pair.Key.NickName} : {pair.Value}\n";
         }
 
         LobbyChatting.Instance.DisplaySystemMessage(jobAnnouncement);

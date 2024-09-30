@@ -89,7 +89,10 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
         {
             Player selectedPlayer = GetSelectedPlayer();
 
-            policeVotes[localPlayer] = selectedPlayer;
+            if (selectedPlayer != null)
+            {
+                policeVotes[localPlayer] = selectedPlayer;
+            }
 
             Hashtable policeAction = new Hashtable
             {
@@ -133,11 +136,6 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
 
         foreach (Player Police in PhotonNetwork.PlayerList)
         {
-            if ((bool)Police.CustomProperties["isDead"])
-            {
-                continue;
-            }
-
             if (!policeVotes.ContainsKey(Police))
             {
                 continue;

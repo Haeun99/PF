@@ -201,29 +201,7 @@ public class GamePlayRoutine : MonoBehaviour
         }
 
         LobbyChatting.Instance.DisplaySystemMessage(message);
-
-        //string roleRevealMessage = GetRoleRevealMessage();
-
-        //LobbyChatting.Instance.DisplaySystemMessage(roleRevealMessage);
     }
-
-    //private string GetRoleRevealMessage()
-    //{
-    //    string roleRevealMessage = "[시스템]직업:\n";
-
-    //    foreach (Player player in PhotonNetwork.PlayerList)
-    //    {
-    //        if (player.CustomProperties.ContainsKey("Job"))
-    //        {
-    //            string Job = (string)player.CustomProperties["Job"];
-    //            string nickname = player.NickName;
-
-    //            roleRevealMessage += $"{nickname} : {Job}\n";
-    //        }
-    //    }
-
-    //    return roleRevealMessage;
-    //}
 
     public void ResetRoleActions()
     {

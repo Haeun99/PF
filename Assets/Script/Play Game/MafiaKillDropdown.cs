@@ -89,7 +89,10 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
         {
             Player selectedPlayer = GetSelectedPlayer();
 
-            mafiaVotes[localPlayer] = selectedPlayer;
+            if (selectedPlayer != null)
+            {
+                mafiaVotes[localPlayer] = selectedPlayer;
+            }
 
             Hashtable mafiaAction = new Hashtable
             {
@@ -116,7 +119,7 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
     public void OnNightTimeEnd()
     {
         Player killTarget = CheckVotes();
-        Player cureTarget = DoctorCureDropdown.Instance.CheckVotes();
+        Player cureTarget = DoctorCureDropdown.Instance != null ? DoctorCureDropdown.Instance.CheckVotes() : null;
 
         if (killTarget != null)
         {
@@ -143,11 +146,6 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 
         foreach (Player Mafia in PhotonNetwork.PlayerList)
         {
-            if ((bool)Mafia.CustomProperties["isDead"])
-            {
-                continue;
-            }
-
             if (!mafiaVotes.ContainsKey(Mafia))
             {
                 continue;
@@ -158,6 +156,7 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
             if (lastSelectedPlayer == null)
             {
                 lastSelectedPlayer = mafiaVotes[Mafia];
+                Debug.Log($"First selected player: {lastSelectedPlayer.NickName}");
             }
             else
             {

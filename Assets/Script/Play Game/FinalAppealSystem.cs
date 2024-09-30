@@ -124,20 +124,16 @@ public class FinalAppealSystem : MonoBehaviour
 
             InGameChatting.Instance.DisplaySystemMessage($"[시스템]{mostVotedPlayer.NickName}님이 최종 처형되었습니다.");
         }
-
-        InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 되었습니다.");
     }
 
     private void ExecuteSave()
     {
         InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 결과, 다수결로 최종 생존했습니다.");
-        InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 되었습니다.");
     }
 
     private void TieSave()
     {
         InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 결과, 동률로 최종 생존했습니다.");
-        InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 되었습니다.");
     }
 
     private void ResetFinalActions()
