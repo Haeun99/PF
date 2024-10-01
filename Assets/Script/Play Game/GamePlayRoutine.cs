@@ -235,9 +235,16 @@ public class GamePlayRoutine : MonoBehaviour
 
     public void ResetDictionary()
     {
-        GangsterInvestigateDropdown.Instance.gangsterVote.Clear();
-        PoliceInvestigateDropdown.Instance.policeVotes.Clear();
-        DoctorCureDropdown.Instance.doctorVotes.Clear();
-        MafiaKillDropdown.Instance.mafiaVotes.Clear();
+        if (GangsterInvestigateDropdown.Instance != null)
+            GangsterInvestigateDropdown.Instance.gangsterVote.Clear();
+
+        if (PoliceInvestigateDropdown.Instance != null)
+            PoliceInvestigateDropdown.Instance.policeVotes.Clear();
+
+        if (DoctorCureDropdown.Instance != null)
+            DoctorCureDropdown.Instance.doctorVotes.Clear();
+
+        if (MafiaKillDropdown.Instance != null)
+            MafiaKillDropdown.Instance.mafiaVotes.Clear();
     }
 }

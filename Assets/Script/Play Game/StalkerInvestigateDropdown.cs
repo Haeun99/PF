@@ -146,9 +146,6 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
 
             switch (nightAction)
             {
-                case "Stalker":
-                    selectedPlayerNickName = (string)targetPlayer.CustomProperties["StalkerSelectedPlayer"];
-                    break;
                 case "Gangster":
                     selectedPlayerNickName = (string)targetPlayer.CustomProperties["GangsterSelectedPlayer"];
                     break;
