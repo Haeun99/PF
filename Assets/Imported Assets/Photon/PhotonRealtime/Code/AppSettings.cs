@@ -107,7 +107,10 @@ namespace Photon.Realtime
         /// <remarks>See "Best Region" in the online docs.</remarks>
         public bool IsBestRegion
         {
-            get { return this.UseNameServer && string.IsNullOrEmpty(this.FixedRegion); }
+            get {
+                return this.UseNameServer;
+                    
+                    string.IsNullOrEmpty(this.FixedRegion); }
         }
 
         /// <summary>If true, the default nameserver address for the Photon Cloud should be used.</summary>

@@ -104,6 +104,11 @@ public class LobbyChatting : MonoBehaviour, IChatClientListener
         chatBubble.transform.Find("Chat Bubble/Chat").GetComponent<TextMeshProUGUI>().text = actualMessage;
     }
 
+    public void SendSystemMessage(string channel, string message)
+    {
+        chatClient.PublishMessage(channel, message);
+    }
+
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
         if (channelName != $"{PhotonNetwork.CurrentRoom.Name}_Lobby")

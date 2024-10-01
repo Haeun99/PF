@@ -17,9 +17,11 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
 
     private int voteEnd;
 
+    private int nightTime;
+
     public List<Player> players = new List<Player>();
 
-    private Dictionary<Player, Player> policeVotes = new Dictionary<Player, Player>();
+    public Dictionary<Player, Player> policeVotes = new Dictionary<Player, Player>();
 
     public void Awake()
     {
@@ -39,10 +41,8 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
         UpdatePlayerList();
         selectButton.onClick.AddListener(PlayerVote);
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
-        {
-            voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
-        }
+        Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        nightTime = (int)roomProperties["NightTime"];
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -59,6 +59,9 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {
+            if (player == PhotonNetwork.LocalPlayer)
+                continue;
+
             if (!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"])
             {
                 playerNames.Add(player.NickName);
@@ -97,13 +100,18 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
             Hashtable policeAction = new Hashtable
             {
                 { "nightAction", "Police" },
-                { "selectedPlayer", selectedPlayer }
+                { "PoliceSelectedPlayer", selectedPlayer.NickName }
             };
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(policeAction);
 
             string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
 
             PoliceChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
-            if (Time.time >= voteEnd)
+
+            selectButton.gameObject.SetActive(false);
+
+            if (nightTime == 0)
             {
                 selectButton.gameObject.SetActive(false);
             }

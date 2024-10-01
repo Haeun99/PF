@@ -51,9 +51,6 @@ public class GamePlayRoutine : MonoBehaviour
         TimeSlider.Instance.StartTimer("NightTime");
         yield return new WaitForSeconds(nightTime);
 
-        JobProcess();
-        ResetRoleActions();
-
         TimeSlider.Instance.slider.gameObject.SetActive(false);
 
         yield return StartCoroutine(DayPhase());
@@ -61,8 +58,12 @@ public class GamePlayRoutine : MonoBehaviour
 
     public IEnumerator DayPhase()
     {
+        ResetRoleActions();
+        ResetVoting();
+        ResetDictionary();
+
         InGameChatting.Instance.DisplaySystemMessage("[시스템]낮이 되었습니다.");
-        InGameChatting.Instance.DisplaySystemMessage("[시스템]추리와 충분한 회의를 통해 투표를 진행하세요.");
+        JobProcess();
 
         if (dayTime > 0)
         {
@@ -103,7 +104,6 @@ public class GamePlayRoutine : MonoBehaviour
         }
 
         InGamePlayerDropdown.Instance.CalculateVoteResults();
-        ResetVoting();
     }
 
     public void JobProcess()
@@ -128,8 +128,6 @@ public class GamePlayRoutine : MonoBehaviour
     {
         InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 마감. 최후 변론을 시작합니다.");
         InGameChatting.Instance.DisplaySystemMessage("[시스템]변론을 듣고 자신의 의견과 일치하는 버튼을 누르세요.");
-
-        chattingInput.interactable = false;
 
         TimeSlider.Instance.StartTimer(30);
         yield return new WaitForSeconds(30);
@@ -200,6 +198,13 @@ public class GamePlayRoutine : MonoBehaviour
             gamePanel[i].gameObject.SetActive(false);
         }
 
+        Hashtable roomProperties = new Hashtable
+        {
+            { "GameStarted", false }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(roomProperties);
+
         LobbyChatting.Instance.DisplaySystemMessage(message);
     }
 
@@ -207,7 +212,12 @@ public class GamePlayRoutine : MonoBehaviour
     {
         Hashtable porps = new Hashtable
         {
-            { "nightAction", null }
+            { "nightAction", null },
+            { "GangsterSelectedPlayer", null },
+            { "StalkerSelectedPlayer", null },
+            { "MafiaSelectedPlayer", null },
+            { "DoctorSelectedPlayer", null },
+            { "PoliceSelectedPlayer", null }
         };
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(porps);
@@ -221,5 +231,13 @@ public class GamePlayRoutine : MonoBehaviour
         };
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(votingProperties);
+    }
+
+    public void ResetDictionary()
+    {
+        GangsterInvestigateDropdown.Instance.gangsterVote.Clear();
+        PoliceInvestigateDropdown.Instance.policeVotes.Clear();
+        DoctorCureDropdown.Instance.doctorVotes.Clear();
+        MafiaKillDropdown.Instance.mafiaVotes.Clear();
     }
 }

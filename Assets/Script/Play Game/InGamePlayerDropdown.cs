@@ -20,7 +20,6 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
     private int voteEnd;
 
     public TMP_InputField[] chatting;
-    private Player[] playerIndex;
 
     public List<Player> players = new List<Player>();
     private bool isFinalAppeal;
@@ -54,22 +53,10 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnEnable()
-    {
-        Player[] players = PhotonNetwork.PlayerList;
-
-        SetupPlayerInputFields(players);
-    }
-
     public void Start()
     {
         UpdatePlayerList();
         selectButton.onClick.AddListener(PlayerVote);
-
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
-        {
-            voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
-        }
 
         Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
         isFinalAppeal = (bool)roomProperties["FinalAppeal"];
@@ -142,10 +129,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
             }
         }
 
-        if (Time.time >= voteEnd)
-        {
-            selectButton.gameObject.SetActive(false);
-        }
+        selectButton.gameObject.SetActive(false);
     }
 
     public void CalculateVoteResults()
@@ -199,57 +183,20 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 
             if (isFinalAppeal == false)
             {
-                PlayerStatus.Instance.SetDead(true);
+                PlayerStatus.Instance.SetDead(mostVotedPlayer, true);
 
                 InGameChatting.Instance.DisplaySystemMessage($"[시스템]{mostVotedPlayer.NickName}님이 처형 당했습니다.");
             }
 
             else
             {
-                ManageChatInputFields(mostVotedPlayer);
+                return;
             }
         }
 
         else
         {
             InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 결과가 동점입니다. 처형이 진행되지 않습니다.");
-        }
-    }
-
-    public void SetupPlayerInputFields(Player[] players)
-    {
-        this.playerIndex = players;
-
-        for (int i = 0; i < chatting.Length; i++)
-        {
-            if (i < players.Length)
-            {
-                chatting[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                chatting[i].gameObject.SetActive(false);
-            }
-        }
-    }
-
-    public void ManageChatInputFields(Player mostVotedPlayer)
-    {
-        foreach (var inputField in chatting)
-        {
-            inputField.interactable = false;
-        }
-
-        if (mostVotedPlayer != null)
-        {
-            for (int i = 0; i < playerIndex.Length; i++)
-            {
-                if (players[i] == mostVotedPlayer)
-                {
-                    chatting[i].interactable = true;
-                    break;
-                }
-            }
         }
     }
 }

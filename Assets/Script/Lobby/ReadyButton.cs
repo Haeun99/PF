@@ -42,7 +42,7 @@ public class ReadyButton : MonoBehaviourPunCallbacks
         ResetReadyState();
     }
 
-    private void ReadyState()
+    public void ReadyState()
     {
         isReady = !isReady;
 

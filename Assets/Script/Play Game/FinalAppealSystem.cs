@@ -72,6 +72,7 @@ public class FinalAppealSystem : MonoBehaviour
     {
         int killVotes = 0;
         int saveVotes = 0;
+        mostVotedPlayer = null;
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {
@@ -87,7 +88,9 @@ public class FinalAppealSystem : MonoBehaviour
                 if (action == "Kill")
                 {
                     killVotes++;
+                    mostVotedPlayer = player;
                 }
+
                 else if (action == "Save")
                 {
                     saveVotes++;
@@ -103,10 +106,12 @@ public class FinalAppealSystem : MonoBehaviour
         {
             ExecuteKill();
         }
+
         else if (killVotes == saveVotes)
         {
             TieSave();
         }
+
         else
         {
             ExecuteSave();
@@ -119,8 +124,7 @@ public class FinalAppealSystem : MonoBehaviour
     {
         if (mostVotedPlayer != null)
         {
-            PlayerStatus.Instance.SetDead(true);
-            mostVotedPlayer.SetCustomProperties(new Hashtable { { "isDead", true } });
+            PlayerStatus.Instance.SetDead(mostVotedPlayer, true);
 
             InGameChatting.Instance.DisplaySystemMessage($"[시스템]{mostVotedPlayer.NickName}님이 최종 처형되었습니다.");
         }

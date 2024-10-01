@@ -17,9 +17,11 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
 
     private int voteEnd;
 
+    private int nightTime;
+
     public List<Player> players = new List<Player>();
 
-    private Dictionary<Player, Player> doctorVotes = new Dictionary<Player, Player>();
+    public Dictionary<Player, Player> doctorVotes = new Dictionary<Player, Player>();
 
     public void Awake()
     {
@@ -39,10 +41,8 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
         UpdatePlayerList();
         selectButton.onClick.AddListener(PlayerVote);
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
-        {
-            voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
-        }
+        Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        nightTime = (int)roomProperties["NightTime"];
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -97,8 +97,10 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
             Hashtable doctorAction = new Hashtable
             {
                 { "nightAction", "Doctor" },
-                { "selectedPlayer", selectedPlayer }
+                { "DoctorSelectedPlayer", selectedPlayer.NickName }
             };
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(doctorAction);
 
             DoctorAction(selectedPlayer);
 
@@ -106,7 +108,9 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
 
             DoctorChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Doctor", message);
 
-            if (Time.time >= voteEnd)
+            selectButton.gameObject.SetActive(false);
+
+            if (nightTime == 0)
             {
                 selectButton.gameObject.SetActive(false);
             }
@@ -170,6 +174,6 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
 
     public void DoctorAction(Player targetPlayer)
     {
-        PlayerStatus.Instance.SetDead(false);
+        PlayerStatus.Instance.SetDead(targetPlayer, false);
     }
 }

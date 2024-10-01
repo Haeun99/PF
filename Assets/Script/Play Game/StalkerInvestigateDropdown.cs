@@ -15,6 +15,8 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
     public TMP_Dropdown playerDropdown;
     public Button selectButton;
 
+    private int nightTime;
+
     public List<Player> players = new List<Player>();
 
     public void Awake()
@@ -34,6 +36,9 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
     {
         UpdatePlayerList();
         selectButton.onClick.AddListener(PlayerVote);
+
+        Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        nightTime = (int)roomProperties["NightTime"];
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -50,6 +55,9 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {
+            if (player == PhotonNetwork.LocalPlayer)
+                continue;
+
             if (!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"])
             {
                 playerNames.Add(player.NickName);
@@ -79,14 +87,21 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
         Hashtable stalkerAction = new Hashtable
         {
             { "nightAction", "Stalker" },
-            { "selectedPlayer", selectedPlayer }
+            { "StalkerSelectedPlayer", selectedPlayer.NickName }
         };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(stalkerAction);
 
         string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
 
         StalkerChatting.Instance.DisplaySystemMessage(message);
 
         selectButton.gameObject.SetActive(false);
+
+        if (nightTime == 0)
+        {
+            selectButton.gameObject.SetActive(false);
+        }
     }
 
     public void OnNightTimeEnd()
@@ -114,7 +129,7 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
 
         Player selectedPlayer = GetSelectedPlayer();
 
-        if (selectedPlayer != null && !((bool)selectedPlayer.CustomProperties["isDead"]))
+        if (selectedPlayer != null && !selectedPlayer.CustomProperties.ContainsKey("isDead") || !((bool)selectedPlayer.CustomProperties["isDead"]))
         {
             return selectedPlayer;
         }
@@ -126,12 +141,36 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
     {
         if (targetPlayer.CustomProperties.ContainsKey("nightAction"))
         {
-            string action = (string)targetPlayer.CustomProperties["nightAction"];
-            Player visitedPlayer = (Player)targetPlayer.CustomProperties["selectedPlayer"];
+            string nightAction = (string)targetPlayer.CustomProperties["nightAction"];
+            string selectedPlayerNickName = null;
 
-            string message = $"[시스템]{targetPlayer.NickName}님은 지난 밤에 <color=green>{visitedPlayer.NickName}<color=white>님을 방문했습니다!";
+            switch (nightAction)
+            {
+                case "Stalker":
+                    selectedPlayerNickName = (string)targetPlayer.CustomProperties["StalkerSelectedPlayer"];
+                    break;
+                case "Gangster":
+                    selectedPlayerNickName = (string)targetPlayer.CustomProperties["GangsterSelectedPlayer"];
+                    break;
+                case "Police":
+                    selectedPlayerNickName = (string)targetPlayer.CustomProperties["PoliceSelectedPlayer"];
+                    break;
+                case "Doctor":
+                    selectedPlayerNickName = (string)targetPlayer.CustomProperties["DoctorSelectedPlayer"];
+                    break;
+                case "Mafia":
+                    selectedPlayerNickName = (string)targetPlayer.CustomProperties["MafiaSelectedPlayer"];
+                    break;
+                default:
+                    Debug.LogWarning("Unknown night action: " + nightAction);
+                    break;
+            }
 
-            StalkerChatting.Instance.DisplaySystemMessage(message);
+            if (selectedPlayerNickName != null)
+            {
+                string message = $"[시스템]{targetPlayer.NickName}님은 지난 밤에 <color=green>{selectedPlayerNickName}<color=white>님을 방문했습니다!";
+                StalkerChatting.Instance.DisplaySystemMessage(message);
+            }
         }
 
         else

@@ -7,6 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Linq;
 
 public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 {
@@ -17,9 +18,11 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 
     private int voteEnd;
 
+    private int nightTime;
+
     public List<Player> players = new List<Player>();
 
-    private Dictionary<Player, Player> mafiaVotes = new Dictionary<Player, Player>();
+    public Dictionary<Player, Player> mafiaVotes = new Dictionary<Player, Player>();
 
     public void Awake()
     {
@@ -39,10 +42,8 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
         UpdatePlayerList();
         selectButton.onClick.AddListener(PlayerVote);
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
-        {
-            voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
-        }
+        Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        nightTime = (int)roomProperties["NightTime"];
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -59,6 +60,9 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {
+            if (player == PhotonNetwork.LocalPlayer)
+                continue;
+
             if (!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"])
             {
                 playerNames.Add(player.NickName);
@@ -97,14 +101,18 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
             Hashtable mafiaAction = new Hashtable
             {
                 { "nightAction", "Mafia" },
-                { "selectedPlayer", selectedPlayer }
+                { "MafiaSelectedPlayer", selectedPlayer.NickName }
             };
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(mafiaAction);
 
             string message = $"[시스템]{localPlayer.NickName}님이 살해 대상으로 <color=green>{selectedPlayer.NickName}<color=white>님을 선택했습니다.";
 
             MafiaTeamChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
 
-            if (Time.time >= voteEnd)
+            selectButton.gameObject.SetActive(false);
+
+            if (nightTime == 0)
             {
                 selectButton.gameObject.SetActive(false);
             }
@@ -119,22 +127,37 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
     public void OnNightTimeEnd()
     {
         Player killTarget = CheckVotes();
-        Player cureTarget = DoctorCureDropdown.Instance != null ? DoctorCureDropdown.Instance.CheckVotes() : null;
+        string cureTarget = (string)PhotonNetwork.LocalPlayer.CustomProperties["DoctorSelectedPlayer"];
 
         if (killTarget != null)
         {
-            if (cureTarget != null && killTarget == cureTarget)
+            Debug.Log($"Cure Target: {cureTarget}, Kill Target: {killTarget.NickName}");
+
+            if (!string.IsNullOrEmpty(cureTarget) && killTarget.NickName == cureTarget)
             {
-                InGameChatting.Instance.DisplaySystemMessage($"[시스템]<color=yellow>지난 밤, 마피아에게 죽을 뻔한 사람을 의사가 살렸습니다!");
+                PlayerStatus.Instance.SetDead(killTarget, false);
+
+                InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", $"[시스템]<color=yellow>지난 밤, 마피아에게 죽을 뻔한 사람을 의사가 살렸습니다!");
             }
+
             else
             {
-                MafiaAction(killTarget);
+                bool allVotesMatch = mafiaVotes.Values.All(player => player == killTarget);
+
+                if (allVotesMatch)
+                {
+                    MafiaAction(killTarget);
+                }
+                else
+                {
+                    InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", "[시스템]지난 밤은 아무 일도 일어나지 않았습니다.");
+                }
             }
         }
+
         else
         {
-            InGameChatting.Instance.DisplaySystemMessage("[시스템]지난 밤은 아무 일도 일어나지 않았습니다.");
+            InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", "[시스템]지난 밤은 아무 일도 일어나지 않았습니다.");
         }
     }
 
@@ -156,7 +179,6 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
             if (lastSelectedPlayer == null)
             {
                 lastSelectedPlayer = mafiaVotes[Mafia];
-                Debug.Log($"First selected player: {lastSelectedPlayer.NickName}");
             }
             else
             {
@@ -178,8 +200,8 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 
     public void MafiaAction(Player targetPlayer)
     {
-        PlayerStatus.Instance.SetDead(true);
+        PlayerStatus.Instance.SetDead(targetPlayer, true);
 
-        InGameChatting.Instance.DisplaySystemMessage($"[시스템]지난 밤, 마피아에 의해 {targetPlayer.NickName}님이 살해당했습니다.");
+        InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", $"[시스템]지난 밤, 마피아에 의해 <color=red>{targetPlayer.NickName}<color=white>님이 살해당했습니다.");
     }
 }

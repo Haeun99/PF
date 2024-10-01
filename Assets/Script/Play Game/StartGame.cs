@@ -123,7 +123,7 @@ public class StartGame : MonoBehaviourPunCallbacks
             jobAnnouncement += $"{pair.Key.NickName} : {pair.Value}\n";
         }
 
-        LobbyChatting.Instance.DisplaySystemMessage(jobAnnouncement);
+        LobbyChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Lobby",jobAnnouncement);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -172,7 +172,7 @@ public class StartGame : MonoBehaviourPunCallbacks
     IEnumerator JobTextCoroutine(RectTransform panel)
     {
         panel.gameObject.SetActive(true);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         panel.gameObject.SetActive(false);
     }
 

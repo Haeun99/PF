@@ -16,10 +16,11 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
     public Button selectButton;
 
     private int voteEnd;
+    private int nightTime;
 
     public List<Player> players = new List<Player>();
 
-    private Dictionary<Player, Player> gangsterVote = new Dictionary<Player, Player>();
+    public Dictionary<Player, Player> gangsterVote = new Dictionary<Player, Player>();
 
     public void Awake()
     {
@@ -39,10 +40,8 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
         UpdatePlayerList();
         selectButton.onClick.AddListener(PlayerVote);
 
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("NightTime"))
-        {
-            voteEnd = (int)PhotonNetwork.CurrentRoom.CustomProperties["NightTime"];
-        }
+        Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        nightTime = (int)roomProperties["NightTime"];
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
@@ -59,6 +58,9 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {
+            if (player == PhotonNetwork.LocalPlayer)
+                continue;
+
             if (!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"])
             {
                 playerNames.Add(player.NickName);
@@ -94,14 +96,18 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
             Hashtable gangsterAction = new Hashtable
             {
                 { "nightAction", "Gangster" },
-                { "selectedPlayer", selectedPlayer }
+                { "GangsterSelectedPlayer", selectedPlayer.NickName }
             };
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(gangsterAction);
 
             string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
 
             MafiaTeamChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
 
-            if (Time.time >= voteEnd)
+            selectButton.gameObject.SetActive(false);
+
+            if (nightTime == 0)
             {
                 selectButton.gameObject.SetActive(false);
             }
@@ -130,7 +136,7 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
     {
         Player selectedPlayer = GetSelectedPlayer();
 
-        if (selectedPlayer != null && !((bool)selectedPlayer.CustomProperties["isDead"]))
+        if (selectedPlayer != null && !selectedPlayer.CustomProperties.ContainsKey("isDead") || !((bool)selectedPlayer.CustomProperties["isDead"]))
         {
             return selectedPlayer;
         }

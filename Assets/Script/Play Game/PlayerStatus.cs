@@ -14,7 +14,6 @@ public class PlayerStatus : MonoBehaviour
 
     public static PlayerStatus Instance { get; private set; }
 
-    private bool isDead;
 
     public void Awake()
     {
@@ -24,37 +23,30 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
-    public void SetDead(bool dead)
+    public void SetDead(Player player, bool dead)
     {
-        isDead = dead;
-        UpdatePlayerStatus();
+        Hashtable playerProperties = new Hashtable { { "isDead", dead } };
+        player.SetCustomProperties(playerProperties);
 
         SetUIActive(!dead);
-
-        InGameChatting.Instance.SubscribeToChannels(true);
+        InGameChatting.Instance.SubscribeToChannels(dead);
     }
 
-    public void UpdatePlayerStatus()
-    {
-        Hashtable playerProperties = new Hashtable { { "isDead", isDead } };
-        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
-    }
-
-    private void SetUIActive(bool isActive)
+    private void SetUIActive(bool isInteractable)
     {
         foreach (Button button in playerVote)
         {
-            button.gameObject.SetActive(isActive);
+            button.interactable = isInteractable;
         }
 
         foreach (Button button in jobVote)
         {
-            button.gameObject.SetActive(isActive);
+            button.interactable = isInteractable;
         }
 
         foreach (TMP_InputField inputField in jobChatting)
         {
-            inputField.gameObject.SetActive(isActive);
+            inputField.interactable = isInteractable;
         }
     }
 }

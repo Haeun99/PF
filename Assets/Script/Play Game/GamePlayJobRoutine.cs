@@ -21,8 +21,7 @@ public class GamePlayJobRoutine : GamePlayRoutine
         TimeSlider.Instance.StartTimer("NightTime");
         yield return new WaitForSeconds(nightTime);
 
-        JobProcess();
-        ResetRoleActions();
+        TimeSlider.Instance.slider.gameObject.SetActive(false);
 
         yield return StartCoroutine(DayPhase());
     }
