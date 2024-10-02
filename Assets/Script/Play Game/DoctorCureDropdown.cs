@@ -115,7 +115,7 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnNightTimeEnd()
+    public IEnumerator OnNightTimeEnd()
     {
         Player selectedTarget = CheckVotes();
         if (selectedTarget != null)
@@ -124,7 +124,7 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
         }
         else
         {
-            return;
+            yield return null;
         }
     }
 

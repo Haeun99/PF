@@ -56,13 +56,12 @@ public class GamePlayRoutine : MonoBehaviour
 
         TimeSlider.Instance.slider.gameObject.SetActive(false);
 
-        yield return StartCoroutine(DayPhase());
+        yield return StartCoroutine(JobProcess());
     }
 
     public IEnumerator DayPhase()
     {
         InGameChatting.Instance.DisplaySystemMessage("[시스템]낮이 되었습니다.");
-        JobProcess();
 
         if (dayTime > 0)
         {
@@ -105,24 +104,31 @@ public class GamePlayRoutine : MonoBehaviour
         InGamePlayerDropdown.Instance.CalculateVoteResults();
     }
 
-    public void JobProcess()
+    public IEnumerator JobProcess()
     {
-        // 순차적으로 변경
-
-        if (DoctorCureDropdown.Instance != null)
-            DoctorCureDropdown.Instance.OnNightTimeEnd();
+        List<IEnumerator> jobCoroutines = new List<IEnumerator>();
 
         if (MafiaKillDropdown.Instance != null)
-            MafiaKillDropdown.Instance.OnNightTimeEnd();
+            jobCoroutines.Add(MafiaKillDropdown.Instance.OnNightTimeEnd());
 
         if (GangsterInvestigateDropdown.Instance != null)
-            GangsterInvestigateDropdown.Instance.OnNightTimeEnd();
+            jobCoroutines.Add(GangsterInvestigateDropdown.Instance.OnNightTimeEnd());
+
+        if (DoctorCureDropdown.Instance != null)
+            jobCoroutines.Add(DoctorCureDropdown.Instance.OnNightTimeEnd());
 
         if (PoliceInvestigateDropdown.Instance != null)
-            PoliceInvestigateDropdown.Instance.OnNightTimeEnd();
+            jobCoroutines.Add(PoliceInvestigateDropdown.Instance.OnNightTimeEnd());
 
         if (StalkerInvestigateDropdown.Instance != null)
-            StalkerInvestigateDropdown.Instance.OnNightTimeEnd();
+            jobCoroutines.Add(StalkerInvestigateDropdown.Instance.OnNightTimeEnd());
+
+        foreach (var jobCoroutine in jobCoroutines)
+        {
+            yield return StartCoroutine(jobCoroutine);
+        }
+
+        yield return StartCoroutine(DayPhase());
     }
 
     public IEnumerator FinalAppealPhase()
@@ -145,10 +151,15 @@ public class GamePlayRoutine : MonoBehaviour
     public bool CheckGameEndConditions()
     {
         int aliveMafiaTeamCount = 0;
-        int alivePlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        int alivePlayerCount = 0;
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {
+            if (player.CustomProperties.ContainsKey("isDead") && (bool)player.CustomProperties["isDead"])
+            {
+                continue;
+            }
+
             if (player.CustomProperties.ContainsKey("Job"))
             {
                 string job = (string)player.CustomProperties["Job"];
@@ -157,20 +168,9 @@ public class GamePlayRoutine : MonoBehaviour
                 {
                     aliveMafiaTeamCount++;
                 }
-            }
-
-            if (player.CustomProperties.ContainsKey("isDead") && (bool)player.CustomProperties["isDead"])
-            {
-                string job = (string)player.CustomProperties["Job"];
-
-                if (job == "마피아" || job == "건달")
-                {
-                    aliveMafiaTeamCount--;
-                }
-
                 else
                 {
-                    alivePlayerCount--;
+                    alivePlayerCount++;
                 }
             }
         }
@@ -180,8 +180,7 @@ public class GamePlayRoutine : MonoBehaviour
             EndGame("[시스템]<color=blue>시민팀 <color=white>승리!");
             return true;
         }
-
-        else if (aliveMafiaTeamCount >= alivePlayerCount - aliveMafiaTeamCount)
+        else if (aliveMafiaTeamCount >= alivePlayerCount)
         {
             EndGame("[시스템]<color=red>마피아팀 <color=white>승리!");
             return true;

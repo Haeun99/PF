@@ -117,7 +117,7 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnNightTimeEnd()
+    public IEnumerator OnNightTimeEnd()
     {
         Player killTarget = CheckVotes();
         string cureTarget = (string)PhotonNetwork.LocalPlayer.CustomProperties["DoctorSelectedPlayer"];
@@ -140,6 +140,8 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
         {
             InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", "[시스템]지난 밤은 아무 일도 일어나지 않았습니다.");
         }
+
+        yield return null;
     }
 
     public Player CheckVotes()

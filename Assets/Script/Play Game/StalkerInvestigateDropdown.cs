@@ -96,7 +96,7 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnNightTimeEnd()
+    public IEnumerator OnNightTimeEnd()
     {
         Player investigateTarget = CheckVotes();
 
@@ -106,7 +106,7 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
         }
         else
         {
-            return;
+            yield return null;
         }
     }
 

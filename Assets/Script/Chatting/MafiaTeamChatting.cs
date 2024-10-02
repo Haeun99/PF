@@ -71,7 +71,7 @@ public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
 
     private void DisplayMyChat(string message)
     {
-        string job = StartGame.Instance.GetPlayerJob(PhotonNetwork.LocalPlayer);
+        string job = (string)PhotonNetwork.LocalPlayer.CustomProperties["Job"];
 
         var chatBubble = Instantiate(myChat, chatContent);
 
@@ -89,9 +89,14 @@ public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
             nicknameText.color = new Color(1.0f, 0.1686f, 0.0627f);
         }
 
-        else
+        else if (job == "°Ç´Þ")
         {
             nicknameText.color = new Color(0.1647f, 0.3529f, 1.0f);
+        }
+
+        else
+        {
+            return;
         }
     }
 

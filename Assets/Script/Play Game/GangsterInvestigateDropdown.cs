@@ -114,7 +114,7 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnNightTimeEnd()
+    public IEnumerator OnNightTimeEnd()
     {
         Player selectedTarget = CheckVotes();
         if (selectedTarget != null)
@@ -123,17 +123,24 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
         }
         else
         {
-            return;
+            yield return null;
         }
     }
 
     public Player CheckVotes()
     {
-        Player selectedPlayer = GetSelectedPlayer();
-
-        if (selectedPlayer != null && !selectedPlayer.CustomProperties.ContainsKey("isDead") || !((bool)selectedPlayer.CustomProperties["isDead"]))
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("GangsterSelectedPlayer"))
         {
-            return selectedPlayer;
+            string selectedPlayerName = (string)PhotonNetwork.LocalPlayer.CustomProperties["GangsterSelectedPlayer"];
+
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                if (player.NickName == selectedPlayerName &&
+                    (!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"]))
+                {
+                    return player;
+                }
+            }
         }
 
         return null;
