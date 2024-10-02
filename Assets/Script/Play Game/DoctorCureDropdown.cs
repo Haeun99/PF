@@ -7,6 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Linq;
 
 public class DoctorCureDropdown : MonoBehaviourPunCallbacks
 {
@@ -91,34 +92,26 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
 
             if (selectedPlayer != null)
             {
-                doctorVotes[localPlayer] = selectedPlayer;
-            }
+                Hashtable doctorAction = new Hashtable
+                {
+                    { "nightAction", "Doctor" },
+                    { "DoctorSelectedPlayer", selectedPlayer.NickName }
+                };
 
-            Hashtable doctorAction = new Hashtable
-            {
-                { "nightAction", "Doctor" },
-                { "DoctorSelectedPlayer", selectedPlayer.NickName }
-            };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(doctorAction);
 
-            PhotonNetwork.LocalPlayer.SetCustomProperties(doctorAction);
+                DoctorAction(selectedPlayer);
 
-            DoctorAction(selectedPlayer);
+                string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 치료합니다...";
+                DoctorChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Doctor", message);
 
-            string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 치료합니다...";
-
-            DoctorChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Doctor", message);
-
-            selectButton.gameObject.SetActive(false);
-
-            if (nightTime == 0)
-            {
                 selectButton.gameObject.SetActive(false);
-            }
-        }
 
-        else
-        {
-            return;
+                if (nightTime == 0)
+                {
+                    selectButton.gameObject.SetActive(false);
+                }
+            }
         }
     }
 
@@ -143,20 +136,22 @@ public class DoctorCureDropdown : MonoBehaviourPunCallbacks
 
         foreach (Player doctor in PhotonNetwork.PlayerList)
         {
-            if (!doctorVotes.ContainsKey(doctor))
+            if (!doctor.CustomProperties.ContainsKey("DoctorSelectedPlayer"))
             {
                 continue;
             }
 
             hasVotes = true;
+            string selectedPlayerName = (string)doctor.CustomProperties["DoctorSelectedPlayer"];
+            Player selectedPlayer = PhotonNetwork.PlayerListOthers.FirstOrDefault(p => p.NickName == selectedPlayerName);
 
             if (lastSelectedPlayer == null)
             {
-                lastSelectedPlayer = doctorVotes[doctor];
+                lastSelectedPlayer = selectedPlayer;
             }
             else
             {
-                if (lastSelectedPlayer != doctorVotes[doctor])
+                if (lastSelectedPlayer != selectedPlayer)
                 {
                     allVotesMatch = false;
                     break;

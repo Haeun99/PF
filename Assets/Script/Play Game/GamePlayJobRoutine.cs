@@ -11,6 +11,9 @@ public class GamePlayJobRoutine : GamePlayRoutine
 
     public override IEnumerator NightPhase()
     {
+        ResetRoleActions();
+        ResetVoting();
+
         InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 찾아왔습니다...");
 
         voteButton.gameObject.SetActive(false);

@@ -31,6 +31,7 @@ public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
     private void OnEnable()
     {
         DisplaySystemMessage("[시스템]<color=red>마피아<color=white>팀 전용 채팅방입니다.");
+        DisplaySystemMessage("[시스템]건달은 매일 밤 한 명의 시민을 조사해 직업을 알아낼 수 있습니다.");
         DisplaySystemMessage("[시스템]마피아는 매일 밤 단 한 명의 시민을 죽일 수 있습니다. 충분한 회의를 통해 의견을 통일하세요.");
     }
 

@@ -84,14 +84,6 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
     {
         Player selectedPlayer = GetSelectedPlayer();
 
-        Hashtable stalkerAction = new Hashtable
-        {
-            { "nightAction", "Stalker" },
-            { "StalkerSelectedPlayer", selectedPlayer.NickName }
-        };
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(stalkerAction);
-
         string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
 
         StalkerChatting.Instance.DisplaySystemMessage(message);

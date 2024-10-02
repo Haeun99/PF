@@ -15,12 +15,9 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
     public TMP_Dropdown playerDropdown;
     public Button selectButton;
 
-    private int voteEnd;
     private int nightTime;
 
     public List<Player> players = new List<Player>();
-
-    public Dictionary<Player, Player> gangsterVote = new Dictionary<Player, Player>();
 
     public void Awake()
     {
@@ -90,8 +87,6 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
         if (localPlayer.CustomProperties.ContainsKey("Job") && localPlayer.CustomProperties["Job"].Equals("°Ç´Þ"))
         {
             Player selectedPlayer = GetSelectedPlayer();
-
-            gangsterVote[localPlayer] = selectedPlayer;
 
             Hashtable gangsterAction = new Hashtable
             {

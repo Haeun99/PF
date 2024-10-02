@@ -7,6 +7,7 @@ using Photon.Pun;
 using Photon.Realtime;
 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Linq;
 
 public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
 {
@@ -20,8 +21,6 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
     private int nightTime;
 
     public List<Player> players = new List<Player>();
-
-    public Dictionary<Player, Player> policeVotes = new Dictionary<Player, Player>();
 
     public void Awake()
     {
@@ -94,22 +93,20 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
 
             if (selectedPlayer != null)
             {
-                policeVotes[localPlayer] = selectedPlayer;
-            }
-
-            Hashtable policeAction = new Hashtable
+                Hashtable policeAction = new Hashtable
             {
                 { "nightAction", "Police" },
                 { "PoliceSelectedPlayer", selectedPlayer.NickName }
             };
 
-            PhotonNetwork.LocalPlayer.SetCustomProperties(policeAction);
+                PhotonNetwork.LocalPlayer.SetCustomProperties(policeAction);
 
-            string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
+                string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
 
-            PoliceChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
+                PoliceChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
 
-            selectButton.gameObject.SetActive(false);
+                selectButton.gameObject.SetActive(false);
+            }
 
             if (nightTime == 0)
             {
@@ -140,34 +137,41 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
     {
         Player lastSelectedPlayer = null;
         bool allVotesMatch = true;
-        bool hasVotes = false;
 
-        foreach (Player Police in PhotonNetwork.PlayerList)
+        foreach (Player police in PhotonNetwork.PlayerList)
         {
-            if (!policeVotes.ContainsKey(Police))
+            if (police.CustomProperties.ContainsKey("PoliceSelectedPlayer"))
             {
-                continue;
-            }
+                string selectedPlayerName = (string)police.CustomProperties["PoliceSelectedPlayer"];
+                Player selectedPlayer = PhotonNetwork.PlayerListOthers.FirstOrDefault(p => p.NickName == selectedPlayerName);
 
-            hasVotes = true;
-
-            if (lastSelectedPlayer == null)
-            {
-                lastSelectedPlayer = policeVotes[Police];
-            }
-            else
-            {
-                if (lastSelectedPlayer != policeVotes[Police])
+                if (selectedPlayer == null)
                 {
-                    allVotesMatch = false;
-                    break;
+                    string message = ($"[시스템]지난 밤은 아무도 조사하지 않았습니다.");
+
+                    PoliceChatting.Instance.DisplaySystemMessage(message);
+
+                    continue;
+                }
+
+                if (lastSelectedPlayer == null)
+                {
+                    lastSelectedPlayer = selectedPlayer;
+                }
+                else
+                {
+                    if (lastSelectedPlayer != selectedPlayer)
+                    {
+                        allVotesMatch = false;
+
+                        string message = ($"[시스템]지난 밤은 아무도 조사하지 않았습니다.");
+
+                        PoliceChatting.Instance.DisplaySystemMessage(message);
+
+                        break;
+                    }
                 }
             }
-        }
-
-        if (!hasVotes || lastSelectedPlayer == null)
-        {
-            return null;
         }
 
         return allVotesMatch ? lastSelectedPlayer : null;

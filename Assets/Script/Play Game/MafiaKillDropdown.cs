@@ -22,8 +22,6 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 
     public List<Player> players = new List<Player>();
 
-    public Dictionary<Player, Player> mafiaVotes = new Dictionary<Player, Player>();
-
     public void Awake()
     {
         if (Instance == null)
@@ -93,11 +91,6 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
         {
             Player selectedPlayer = GetSelectedPlayer();
 
-            if (selectedPlayer != null)
-            {
-                mafiaVotes[localPlayer] = selectedPlayer;
-            }
-
             Hashtable mafiaAction = new Hashtable
             {
                 { "nightAction", "Mafia" },
@@ -136,25 +129,13 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
             if (!string.IsNullOrEmpty(cureTarget) && killTarget.NickName == cureTarget)
             {
                 PlayerStatus.Instance.SetDead(killTarget, false);
-
                 InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", $"[시스템]<color=yellow>지난 밤, 마피아에게 죽을 뻔한 사람을 의사가 살렸습니다!");
             }
-
             else
             {
-                bool allVotesMatch = mafiaVotes.Values.All(player => player == killTarget);
-
-                if (allVotesMatch)
-                {
-                    MafiaAction(killTarget);
-                }
-                else
-                {
-                    InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", "[시스템]지난 밤은 아무 일도 일어나지 않았습니다.");
-                }
+                MafiaAction(killTarget);
             }
         }
-
         else
         {
             InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", "[시스템]지난 밤은 아무 일도 일어나지 않았습니다.");
@@ -163,39 +144,28 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
 
     public Player CheckVotes()
     {
-        Player lastSelectedPlayer = null;
-        bool allVotesMatch = true;
-        bool hasVotes = false;
+        Dictionary<string, int> voteCounts = new Dictionary<string, int>();
 
-        foreach (Player Mafia in PhotonNetwork.PlayerList)
+        foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if (!mafiaVotes.ContainsKey(Mafia))
+            if (player.CustomProperties.ContainsKey("nightAction") && player.CustomProperties["nightAction"].Equals("Mafia"))
             {
-                continue;
-            }
-
-            hasVotes = true;
-
-            if (lastSelectedPlayer == null)
-            {
-                lastSelectedPlayer = mafiaVotes[Mafia];
-            }
-            else
-            {
-                if (lastSelectedPlayer != mafiaVotes[Mafia])
+                string selectedPlayerName = (string)player.CustomProperties["MafiaSelectedPlayer"];
+                if (!voteCounts.ContainsKey(selectedPlayerName))
                 {
-                    allVotesMatch = false;
-                    break;
+                    voteCounts[selectedPlayerName] = 0;
                 }
+                voteCounts[selectedPlayerName]++;
             }
         }
 
-        if (!hasVotes || lastSelectedPlayer == null)
+        if (voteCounts.Count == 1)
         {
-            return null;
+            string targetPlayerName = voteCounts.Keys.First();
+            return PhotonNetwork.PlayerList.FirstOrDefault(p => p.NickName == targetPlayerName);
         }
 
-        return allVotesMatch ? lastSelectedPlayer : null;
+        return null;
     }
 
     public void MafiaAction(Player targetPlayer)

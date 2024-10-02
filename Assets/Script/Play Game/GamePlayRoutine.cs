@@ -41,6 +41,9 @@ public class GamePlayRoutine : MonoBehaviour
 
     public virtual IEnumerator NightPhase()
     {
+        ResetRoleActions();
+        ResetVoting();
+
         InGameChatting.Instance.DisplaySystemMessage("[시스템]밤이 찾아왔습니다...");
 
         voteButton.gameObject.SetActive(false);
@@ -58,10 +61,6 @@ public class GamePlayRoutine : MonoBehaviour
 
     public IEnumerator DayPhase()
     {
-        ResetRoleActions();
-        ResetVoting();
-        ResetDictionary();
-
         InGameChatting.Instance.DisplaySystemMessage("[시스템]낮이 되었습니다.");
         JobProcess();
 
@@ -108,14 +107,16 @@ public class GamePlayRoutine : MonoBehaviour
 
     public void JobProcess()
     {
+        // 순차적으로 변경
+
+        if (DoctorCureDropdown.Instance != null)
+            DoctorCureDropdown.Instance.OnNightTimeEnd();
+
         if (MafiaKillDropdown.Instance != null)
             MafiaKillDropdown.Instance.OnNightTimeEnd();
 
         if (GangsterInvestigateDropdown.Instance != null)
             GangsterInvestigateDropdown.Instance.OnNightTimeEnd();
-
-        if (DoctorCureDropdown.Instance != null)
-            DoctorCureDropdown.Instance.OnNightTimeEnd();
 
         if (PoliceInvestigateDropdown.Instance != null)
             PoliceInvestigateDropdown.Instance.OnNightTimeEnd();
@@ -231,20 +232,5 @@ public class GamePlayRoutine : MonoBehaviour
         };
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(votingProperties);
-    }
-
-    public void ResetDictionary()
-    {
-        if (GangsterInvestigateDropdown.Instance != null)
-            GangsterInvestigateDropdown.Instance.gangsterVote.Clear();
-
-        if (PoliceInvestigateDropdown.Instance != null)
-            PoliceInvestigateDropdown.Instance.policeVotes.Clear();
-
-        if (DoctorCureDropdown.Instance != null)
-            DoctorCureDropdown.Instance.doctorVotes.Clear();
-
-        if (MafiaKillDropdown.Instance != null)
-            MafiaKillDropdown.Instance.mafiaVotes.Clear();
     }
 }
