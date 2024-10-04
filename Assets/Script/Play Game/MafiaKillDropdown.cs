@@ -120,13 +120,17 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
     public IEnumerator OnNightTimeEnd()
     {
         Player killTarget = CheckVotes();
-        string cureTarget = (string)PhotonNetwork.LocalPlayer.CustomProperties["DoctorSelectedPlayer"];
+
+        string cureTarget = null;
+
+        if (killTarget != null && killTarget.CustomProperties.ContainsKey("DoctorSelectedPlayer"))
+        {
+            cureTarget = (string)killTarget.CustomProperties["DoctorSelectedPlayer"];
+        }
 
         if (killTarget != null)
         {
-            Debug.Log($"Cure Target: {cureTarget}, Kill Target: {killTarget.NickName}");
-
-            if (!string.IsNullOrEmpty(cureTarget) && killTarget.NickName == cureTarget)
+            if (killTarget.NickName == cureTarget)
             {
                 PlayerStatus.Instance.SetDead(killTarget, false);
                 InGameChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_InGame", $"[시스템]<color=yellow>지난 밤, 마피아에게 죽을 뻔한 사람을 의사가 살렸습니다!");

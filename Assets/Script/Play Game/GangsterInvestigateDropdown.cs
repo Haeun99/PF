@@ -150,7 +150,7 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
     {
         string job = StartGame.Instance.GetPlayerJob(targetPlayer);
 
-        string message = $"[시스템]<color=green>{targetPlayer.NickName}<color=white>님은 <color=blue>{job}<color=white>입니다!";
+        string message = $"[시스템]<color=green>{targetPlayer.NickName}<color=white>님은 <color=yellow>{job}<color=white>입니다!";
 
         MafiaTeamChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
     }

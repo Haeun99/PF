@@ -68,7 +68,6 @@ public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
         }
     }
 
-
     private void DisplayMyChat(string message)
     {
         string job = (string)PhotonNetwork.LocalPlayer.CustomProperties["Job"];
@@ -84,19 +83,14 @@ public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
             messageText.text = message;
         }
 
-        if (job == "마피아")
-        {
-            nicknameText.color = new Color(1.0f, 0.1686f, 0.0627f);
-        }
-
-        else if (job == "건달")
+        if (job == "건달")
         {
             nicknameText.color = new Color(0.1647f, 0.3529f, 1.0f);
         }
 
         else
         {
-            return;
+            nicknameText.color = new Color(1.0f, 0.1686f, 0.0627f);
         }
     }
 

@@ -28,11 +28,11 @@ public class PlayerStatus : MonoBehaviour
         Hashtable playerProperties = new Hashtable { { "isDead", dead } };
         player.SetCustomProperties(playerProperties);
 
-        SetUIActive(!dead);
+        SetUIActive(player, !dead);
         InGameChatting.Instance.SubscribeToChannels(dead);
     }
 
-    private void SetUIActive(bool isInteractable)
+    private void SetUIActive(Player player, bool isInteractable)
     {
         foreach (Button button in playerVote)
         {

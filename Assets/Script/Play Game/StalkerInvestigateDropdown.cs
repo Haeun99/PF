@@ -84,6 +84,14 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
     {
         Player selectedPlayer = GetSelectedPlayer();
 
+        Hashtable stalkerAction = new Hashtable
+        {
+            { "nightAction", "Stalker" },
+            { "StalkerSelectedPlayer", selectedPlayer.NickName }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(stalkerAction);
+
         string message = $"[시스템]{PhotonNetwork.LocalPlayer.NickName}님이 <color=green>{selectedPlayer.NickName}<color=white>님을 조사합니다...";
 
         StalkerChatting.Instance.DisplaySystemMessage(message);
@@ -112,18 +120,18 @@ public class StalkerInvestigateDropdown : MonoBehaviourPunCallbacks
 
     private Player CheckVotes()
     {
-        Player localPlayer = PhotonNetwork.LocalPlayer;
-
-        if (!localPlayer.CustomProperties.ContainsKey("Job") || !localPlayer.CustomProperties["Job"].Equals("스토커"))
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StalkerSelectedPlayer"))
         {
-            return null;
-        }
+            string selectedPlayerName = (string)PhotonNetwork.LocalPlayer.CustomProperties["StalkerSelectedPlayer"];
 
-        Player selectedPlayer = GetSelectedPlayer();
-
-        if (selectedPlayer != null && !selectedPlayer.CustomProperties.ContainsKey("isDead") || !((bool)selectedPlayer.CustomProperties["isDead"]))
-        {
-            return selectedPlayer;
+            foreach (Player player in PhotonNetwork.PlayerList)
+            {
+                if (player.NickName == selectedPlayerName &&
+                    (!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"]))
+                {
+                    return player;
+                }
+            }
         }
 
         return null;

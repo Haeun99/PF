@@ -30,7 +30,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         {
             foreach (Player player in PhotonNetwork.PlayerList)
             {
-                if (!player.CustomProperties.ContainsKey("votedPlayer"))
+                if (!player.CustomProperties.ContainsKey("votedPlayer") || player.CustomProperties["votedPlayer"] == null)
                 {
                     return false;
                 }
