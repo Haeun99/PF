@@ -96,15 +96,27 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         return players[selectedIndex];
     }
 
-    public virtual void PlayerVote()
+    public void PlayerVote()
     {
         Player selectedPlayer = GetSelectedPlayer();
 
         Hashtable props = new Hashtable
         {
-            { "votedPlayer", selectedPlayer }
+            { "votedPlayer", selectedPlayer.ActorNumber }
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+        Hashtable currentRoomProps = PhotonNetwork.CurrentRoom.CustomProperties;
+
+        if (currentRoomProps.ContainsKey("VoteDictionary"))
+        {
+            Hashtable voteDictionary = (Hashtable)currentRoomProps["VoteDictionary"];
+
+            voteDictionary[PhotonNetwork.LocalPlayer.ActorNumber] = selectedPlayer.ActorNumber;
+
+            currentRoomProps["VoteDictionary"] = voteDictionary;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(currentRoomProps);
+        }
 
         string message;
 
@@ -138,7 +150,8 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         {
             if (player.CustomProperties.ContainsKey("votedPlayer"))
             {
-                Player votedPlayer = (Player)player.CustomProperties["votedPlayer"];
+                int votedPlayerActorNumber = (int)player.CustomProperties["votedPlayer"];
+                Player votedPlayer = PhotonNetwork.PlayerList.FirstOrDefault(p => p.ActorNumber == votedPlayerActorNumber);
 
                 if (votedPlayer != null)
                 {
@@ -174,22 +187,32 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
             VoteManager.Instance.SetMostVotedPlayer(mostVotedPlayer);
 
             bool isFinalAppeal = (bool)PhotonNetwork.CurrentRoom.CustomProperties["FinalAppeal"];
-
             if (!isFinalAppeal)
             {
                 PlayerStatus.Instance.SetDead(mostVotedPlayer, true);
-                InGameChatting.Instance.DisplaySystemMessage($"[시스템]<color=red>{mostVotedPlayer.NickName}<color=white>님이 처형 당했습니다.");
+                InGameChatting.Instance.DisplaySystemMessage($"[시스템]<color=red>{mostVotedPlayer.NickName}</color>님이 처형 당했습니다.");
             }
-
             else
             {
-                InGameChatting.Instance.DisplaySystemMessage($"[시스템]최다 득표자 <color=red>{mostVotedPlayer.NickName}<color=white>님의 최후 변론을 시작합니다.");
-                InGameChatting.Instance.DisplaySystemMessage("[시스템]변론을 듣고 자신의 의견과 일치하는 버튼을 누르세요.");
+                InGameChatting.Instance.DisplaySystemMessage($"[시스템]최다 득표자 <color=red>{mostVotedPlayer.NickName}</color>님의 최후 변론을 시작합니다.");
             }
         }
+
         else
         {
             InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 결과가 동점입니다. 처형이 진행되지 않습니다.");
         }
+    }
+
+    public void InitVoteDictionary()
+    {
+        Hashtable voteDictionary = new Hashtable();
+
+        Hashtable props = new Hashtable
+        {
+            { "VoteDictionary", voteDictionary }
+        };
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
     }
 }

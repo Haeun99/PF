@@ -128,33 +128,6 @@ public class GamePlayRoutine : MonoBehaviour
         InGamePlayerDropdown.Instance.CalculateVoteResults();
     }
 
-    //public IEnumerator JobProcess()
-    //{
-    //    List<IEnumerator> jobCoroutines = new List<IEnumerator>();
-
-    //    if (MafiaKillDropdown.Instance != null)
-    //        jobCoroutines.Add(MafiaKillDropdown.Instance.OnNightTimeEnd());
-
-    //    if (GangsterInvestigateDropdown.Instance != null)
-    //        jobCoroutines.Add(GangsterInvestigateDropdown.Instance.OnNightTimeEnd());
-
-    //    if (DoctorCureDropdown.Instance != null)
-    //        jobCoroutines.Add(DoctorCureDropdown.Instance.OnNightTimeEnd());
-
-    //    if (PoliceInvestigateDropdown.Instance != null)
-    //        jobCoroutines.Add(PoliceInvestigateDropdown.Instance.OnNightTimeEnd());
-
-    //    if (StalkerInvestigateDropdown.Instance != null)
-    //        jobCoroutines.Add(StalkerInvestigateDropdown.Instance.OnNightTimeEnd());
-
-    //    foreach (var jobCoroutine in jobCoroutines)
-    //    {
-    //        yield return StartCoroutine(jobCoroutine);
-    //    }
-
-    //    yield return null;
-    //}
-
     public IEnumerator FinalAppealPhase()
     {
         TimeSlider.Instance.StartTimer(30);
@@ -231,6 +204,8 @@ public class GamePlayRoutine : MonoBehaviour
 
     public void ResetRoleActions()
     {
+        InGamePlayerDropdown.Instance.InitVoteDictionary();
+
         Hashtable porps = new Hashtable
         {
             { "nightAction", null },
