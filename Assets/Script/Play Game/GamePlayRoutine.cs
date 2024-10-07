@@ -75,17 +75,17 @@ public class GamePlayRoutine : MonoBehaviour
 
         List<IEnumerator> jobCoroutines = new List<IEnumerator>();
 
-        if (MafiaKillDropdown.Instance != null)
-            jobCoroutines.Add(MafiaKillDropdown.Instance.OnNightTimeEnd());
+        if (DoctorCureDropdown.Instance != null)
+            jobCoroutines.Add(DoctorCureDropdown.Instance.OnNightTimeEnd());
 
         if (GangsterInvestigateDropdown.Instance != null)
             jobCoroutines.Add(GangsterInvestigateDropdown.Instance.OnNightTimeEnd());
 
-        if (DoctorCureDropdown.Instance != null)
-            jobCoroutines.Add(DoctorCureDropdown.Instance.OnNightTimeEnd());
-
         if (PoliceInvestigateDropdown.Instance != null)
             jobCoroutines.Add(PoliceInvestigateDropdown.Instance.OnNightTimeEnd());
+
+        if (MafiaKillDropdown.Instance != null)
+            jobCoroutines.Add(MafiaKillDropdown.Instance.OnNightTimeEnd());
 
         if (StalkerInvestigateDropdown.Instance != null)
             jobCoroutines.Add(StalkerInvestigateDropdown.Instance.OnNightTimeEnd());
@@ -157,9 +157,6 @@ public class GamePlayRoutine : MonoBehaviour
 
     public IEnumerator FinalAppealPhase()
     {
-        InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 마감. 최다 득표자의 최후 변론을 시작합니다.");
-        InGameChatting.Instance.DisplaySystemMessage("[시스템]변론을 듣고 자신의 의견과 일치하는 버튼을 누르세요.");
-
         TimeSlider.Instance.StartTimer(30);
         yield return new WaitForSeconds(30);
 

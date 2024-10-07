@@ -17,8 +17,6 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
     public TMP_Dropdown playerDropdown;
     public Button selectButton;
 
-    private int voteEnd;
-
     public TMP_InputField[] chatting;
 
     public List<Player> players = new List<Player>();
@@ -30,7 +28,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         {
             foreach (Player player in PhotonNetwork.PlayerList)
             {
-                if (!player.CustomProperties.ContainsKey("votedPlayer") || player.CustomProperties["votedPlayer"] == null)
+                if ((!player.CustomProperties.ContainsKey("isDead") || !(bool)player.CustomProperties["isDead"]) && !player.CustomProperties.ContainsKey("votedPlayer") || player.CustomProperties["votedPlayer"] == null)
                 {
                     return false;
                 }
@@ -155,45 +153,40 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
 
         Player mostVotedPlayer = null;
         int maxVotes = 0;
-        int secondMaxVotes = 0;
+        List<Player> tiedPlayers = new List<Player>();
 
         foreach (var entry in voteCount)
         {
             if (entry.Value > maxVotes)
             {
-                secondMaxVotes = maxVotes;
                 mostVotedPlayer = entry.Key;
                 maxVotes = entry.Value;
+                tiedPlayers.Clear();
             }
-            else if (entry.Value > secondMaxVotes && entry.Value < maxVotes)
+            else if (entry.Value == maxVotes)
             {
-                secondMaxVotes = entry.Value;
+                tiedPlayers.Add(entry.Key);
             }
         }
 
-
-        if (mostVotedPlayer != null)
+        if (tiedPlayers.Count == 0 && mostVotedPlayer != null)
         {
             VoteManager.Instance.SetMostVotedPlayer(mostVotedPlayer);
-        }
 
-        if (maxVotes > secondMaxVotes)
-        {
             bool isFinalAppeal = (bool)PhotonNetwork.CurrentRoom.CustomProperties["FinalAppeal"];
 
-            if (isFinalAppeal == false)
+            if (!isFinalAppeal)
             {
                 PlayerStatus.Instance.SetDead(mostVotedPlayer, true);
-
-                InGameChatting.Instance.DisplaySystemMessage($"[시스템]{mostVotedPlayer.NickName}님이 처형 당했습니다.");
+                InGameChatting.Instance.DisplaySystemMessage($"[시스템]<color=red>{mostVotedPlayer.NickName}<color=white>님이 처형 당했습니다.");
             }
 
             else
             {
-                return;
+                InGameChatting.Instance.DisplaySystemMessage($"[시스템]최다 득표자 <color=red>{mostVotedPlayer.NickName}<color=white>님의 최후 변론을 시작합니다.");
+                InGameChatting.Instance.DisplaySystemMessage("[시스템]변론을 듣고 자신의 의견과 일치하는 버튼을 누르세요.");
             }
         }
-
         else
         {
             InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 결과가 동점입니다. 처형이 진행되지 않습니다.");

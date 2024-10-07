@@ -121,11 +121,21 @@ public class MafiaKillDropdown : MonoBehaviourPunCallbacks
     {
         Player killTarget = CheckVotes();
 
+        Player doctorPlayer = null;
         string cureTarget = null;
 
-        if (killTarget != null && killTarget.CustomProperties.ContainsKey("DoctorSelectedPlayer"))
+        foreach (Player player in PhotonNetwork.PlayerList)
         {
-            cureTarget = (string)killTarget.CustomProperties["DoctorSelectedPlayer"];
+            if (player.CustomProperties.ContainsKey("Job") && player.CustomProperties["Job"].Equals("ÀÇ»ç"))
+            {
+                doctorPlayer = player;
+                break;
+            }
+        }
+
+        if (doctorPlayer != null && doctorPlayer.CustomProperties.ContainsKey("DoctorSelectedPlayer"))
+        {
+            cureTarget = (string)doctorPlayer.CustomProperties["DoctorSelectedPlayer"];
         }
 
         if (killTarget != null)
