@@ -112,7 +112,7 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
         }
     }
 
-    private void DisplaOtherDeadChat(string message, string sender)
+    private void DisplayOtherDeadChat(string message, string sender)
     {
         var chatBubble = Instantiate(deadChat, chatContent);
 
@@ -173,7 +173,7 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
                 }
                 else
                 {
-                    DisplaOtherDeadChat(message, sender);
+                    DisplayOtherDeadChat(message, sender);
                 }
             }
         }
@@ -190,9 +190,10 @@ public class InGameChatting : MonoBehaviour, IChatClientListener
         {
             chatClient.Subscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Dead" });
         }
+
         else
         {
-            return;
+            chatClient.Unsubscribe(new string[] { $"{PhotonNetwork.CurrentRoom.Name}_Dead" });
         }
     }
 

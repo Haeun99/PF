@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -104,10 +105,29 @@ public class MafiaSceneUIManager : MonoBehaviour
             if (PhotonNetwork.InRoom)
             {
                 PhotonNetwork.LeaveRoom();
-                return;
             }
+
+            StartCoroutine(WaitForPhotonAndLoadScene());
         }
 
+        else
+        {
+            StartCoroutine(WaitForPhotonAndLoadScene());
+        }
+    }
+
+    private IEnumerator WaitForPhotonAndLoadScene()
+    {
+        while (PhotonNetwork.NetworkClientState == ClientState.Leaving || PhotonNetwork.NetworkClientState == ClientState.Disconnecting)
+        {
+            yield return null;
+        }
+
+        LoadVillageScene();
+    }
+
+    private void LoadVillageScene()
+    {
         backToVillageButton.gameObject.SetActive(false);
         createRoomButton.gameObject.SetActive(false);
         findRoomButton.gameObject.SetActive(false);

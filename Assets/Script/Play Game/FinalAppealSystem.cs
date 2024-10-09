@@ -72,7 +72,6 @@ public class FinalAppealSystem : MonoBehaviour
     {
         int killVotes = 0;
         int saveVotes = 0;
-        mostVotedPlayer = null;
 
         foreach (Player player in PhotonNetwork.PlayerList)
         {

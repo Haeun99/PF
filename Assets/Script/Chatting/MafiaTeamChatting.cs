@@ -132,7 +132,7 @@ public class MafiaTeamChatting : MonoBehaviour, IChatClientListener
         {
             string job = StartGame.Instance.GetPlayerJob(targetPlayer);
 
-            if (job == "Mafia")
+            if (job == "¸¶ÇÇ¾Æ")
             {
                 nicknameText.color = new Color(1.0f, 0.1686f, 0.0627f);
             }

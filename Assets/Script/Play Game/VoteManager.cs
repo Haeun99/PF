@@ -6,7 +6,7 @@ using UnityEngine;
 public class VoteManager : MonoBehaviour
 {
     public static VoteManager Instance { get; private set; }
-    private Player mostVotedPlayer;
+    public Player mostVotedPlayer { get; private set; }
 
     private void Awake()
     {

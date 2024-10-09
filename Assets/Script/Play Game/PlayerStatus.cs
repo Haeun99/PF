@@ -34,19 +34,22 @@ public class PlayerStatus : MonoBehaviour
 
     private void SetUIActive(Player player, bool isInteractable)
     {
-        foreach (Button button in playerVote)
+        if (player.CustomProperties.ContainsKey("isDead") && (bool)player.CustomProperties["isDead"])
         {
-            button.interactable = isInteractable;
-        }
+            foreach (Button button in playerVote)
+            {
+                button.interactable = isInteractable;
+            }
 
-        foreach (Button button in jobVote)
-        {
-            button.interactable = isInteractable;
-        }
+            foreach (Button button in jobVote)
+            {
+                button.interactable = isInteractable;
+            }
 
-        foreach (TMP_InputField inputField in jobChatting)
-        {
-            inputField.interactable = isInteractable;
+            foreach (TMP_InputField inputField in jobChatting)
+            {
+                inputField.interactable = isInteractable;
+            }
         }
     }
 }

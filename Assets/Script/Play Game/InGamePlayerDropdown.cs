@@ -65,7 +65,7 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
         UpdatePlayerList();
     }
 
-    public virtual void UpdatePlayerList()
+    public void UpdatePlayerList()
     {
         playerDropdown.ClearOptions();
         players.Clear();
@@ -190,18 +190,24 @@ public class InGamePlayerDropdown : MonoBehaviourPunCallbacks
             if (!isFinalAppeal)
             {
                 PlayerStatus.Instance.SetDead(mostVotedPlayer, true);
-                InGameChatting.Instance.DisplaySystemMessage($"[시스템]<color=red>{mostVotedPlayer.NickName}</color>님이 처형 당했습니다.");
+                StartCoroutine(MessageWithDelay($"[시스템]<color=red>{mostVotedPlayer.NickName}</color>님이 처형 당했습니다.", 1f));
             }
             else
             {
-                InGameChatting.Instance.DisplaySystemMessage($"[시스템]최다 득표자 <color=red>{mostVotedPlayer.NickName}</color>님의 최후 변론을 시작합니다.");
+                StartCoroutine(MessageWithDelay($"[시스템]최다 득표자 <color=red>{mostVotedPlayer.NickName}</color>님의 최후 변론을 시작합니다.", 1f));
             }
         }
 
         else
         {
-            InGameChatting.Instance.DisplaySystemMessage("[시스템]투표 결과가 동점입니다. 처형이 진행되지 않습니다.");
+            StartCoroutine(MessageWithDelay("[시스템]투표 결과가 동점입니다. 처형이 진행되지 않습니다.", 1f));
         }
+    }
+
+    private IEnumerator MessageWithDelay(string message, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        InGameChatting.Instance.DisplaySystemMessage(message);
     }
 
     public void InitVoteDictionary()

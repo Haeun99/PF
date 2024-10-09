@@ -41,6 +41,14 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
         nightTime = (int)roomProperties["NightTime"];
     }
 
+    private void Update()
+    {
+        if (nightTime == 0)
+        {
+            selectButton.gameObject.SetActive(false);
+        }
+    }
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         UpdatePlayerList();
@@ -101,11 +109,6 @@ public class GangsterInvestigateDropdown : MonoBehaviourPunCallbacks
             MafiaTeamChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_MafiaTeam", message);
 
             selectButton.gameObject.SetActive(false);
-
-            if (nightTime == 0)
-            {
-                selectButton.gameObject.SetActive(false);
-            }
         }
 
         else

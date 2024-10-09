@@ -44,6 +44,14 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
         nightTime = (int)roomProperties["NightTime"];
     }
 
+    private void Update()
+    {
+        if (nightTime == 0)
+        {
+            selectButton.gameObject.SetActive(false);
+        }
+    }
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
     {
         UpdatePlayerList();
@@ -105,11 +113,6 @@ public class PoliceInvestigateDropdown : MonoBehaviourPunCallbacks
 
                 PoliceChatting.Instance.SendSystemMessage($"{PhotonNetwork.CurrentRoom.Name}_Police", message);
 
-                selectButton.gameObject.SetActive(false);
-            }
-
-            if (nightTime == 0)
-            {
                 selectButton.gameObject.SetActive(false);
             }
         }

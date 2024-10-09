@@ -126,6 +126,16 @@ public class GamePlayRoutine : MonoBehaviour
         }
 
         InGamePlayerDropdown.Instance.CalculateVoteResults();
+
+        if (isFinalAppeal)
+        {
+            yield return StartCoroutine(FinalAppealPhase());
+        }
+
+        else
+        {
+            yield return StartCoroutine(NightPhase());
+        }
     }
 
     public IEnumerator FinalAppealPhase()
