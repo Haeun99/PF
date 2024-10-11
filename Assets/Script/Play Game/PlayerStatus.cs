@@ -34,7 +34,7 @@ public class PlayerStatus : MonoBehaviour
 
     private void SetUIActive(Player player, bool isInteractable)
     {
-        if (player.CustomProperties.ContainsKey("isDead") && (bool)player.CustomProperties["isDead"])
+        if (player.NickName == PhotonNetwork.LocalPlayer.NickName)
         {
             foreach (Button button in playerVote)
             {
